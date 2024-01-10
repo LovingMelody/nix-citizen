@@ -1,0 +1,19 @@
+{
+  "pins": {
+    "lug-helper": {
+      "type": "GitRelease",
+      "repository": {
+        "type": "GitHub",
+        "owner": "starcitizen-lug",
+        "repo": "lug-helper"
+      },
+      "pre_releases": false,
+      "version_upper_bound": null,
+      "version": "v2.14",
+      "revision": "d25eb444c7b107815e6b0354f470b3235d678f1a",
+      "url": "https://api.github.com/repos/starcitizen-lug/lug-helper/tarball/v2.14",
+      "hash": "1jd7izf345zjq9g8w62dfvx2ah0akw316sqlvy5hax164zaa81iy"
+    }
+  },
+  "version": 3
+}
