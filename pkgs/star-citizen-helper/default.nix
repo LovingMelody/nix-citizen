@@ -1,16 +1,16 @@
 { lib, makeDesktopItem, writeShellScriptBin, symlinkJoin, location ? ""
 , pname ? "star-citizen-helper", gnome, zenity ? gnome.zenity, pkgs, curl }:
 let
-  version = "0.1a";
+  version = "0.1.1a";
   script = writeShellScriptBin pname ''
     zenity_prompt() {
       ${zenity}/bin/zenity --question --text="$1" --title="$2" --width=500 --height=100
     }
     KNOWN_PATH=${location};
     if [ -z "$KNOWN_PATH" ]; then
-       MANIFEST_PATH="$WINEPREFIX/drive_c/Program Files/Roberts Space Industries/StarCitizen/LIVE/build_manifest.id"
+       MANIFEST_PATH="$WINEPREFIX/drive_c/Program Files/Roberts Space Industries/StarCitizen/LIVE/f_win_game_client_release.id"
     else
-       MANIFEST_PATH="$KNOWN_PATH/drive_c/Program Files/Roberts Space Industries/StarCitizen/LIVE/build_manifest.id"
+       MANIFEST_PATH="$KNOWN_PATH/drive_c/Program Files/Roberts Space Industries/StarCitizen/LIVE/f_win_game_client_release.id"
     fi
     P4VER=$( cat "$MANIFEST_PATH" | grep -Po '"RequestedP4ChangeNum": "\K[^"]*')
     APPDATA_DIR="$WINEPREFIX/drive_c/users/$USER/AppData/Local/Star Citizen"
