@@ -56,7 +56,7 @@ Add these packages to your `home.packages` or `environment.systemPackages` after
             };
 
             extraSpecialArgs = {inherit inputs;};
-            modules = [ 
+            modules = [
                 ./home.nix
                 # ...
              ]
@@ -71,8 +71,23 @@ Then to add packages....
 {pkgs, inputs, ....}: {
     environment.systemPackages = with pkgs; [ #`home.packages` if using home manager
         # replace or repeat for any included package
-        inputs.nix-gaming.packages.${system}.star-citizen 
+        inputs.nix-gaming.packages.${system}.star-citizen
     ];
 
 };
 ```
+
+## Tips
+
+To access the wine control panel please run the following:
+
+```bash
+# Adjust WINEPREFIX to your location
+# this is the default path
+WINEPREFIX=$HOME/Games/star-citizen nix run github:fufexan/nix-gaming#wine-ge -- control
+```
+
+## Credits
+
+- [starcitizen-lug/lug-helper](https://github.com/starcitizen-lug/lug-helper) - Layed the ground work for the star-citizen package
+- [fufexan/nix-gaming](https://github.com/fufexan/nix-gaming) - Maintaining Wine-GE & DXVK packages
