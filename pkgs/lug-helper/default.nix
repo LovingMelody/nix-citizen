@@ -1,5 +1,5 @@
-{ stdenv, lib, pins, makeDesktopItem, makeWrapper, copyDesktopItems, bash, coreutils
-, findutils, gnome, zenity ? gnome.zenity, symlinkJoin, pkgs, }:
+{ stdenv, lib, pins, makeDesktopItem, makeWrapper, copyDesktopItems, bash
+, coreutils, findutils, gnome, zenity ? gnome.zenity, symlinkJoin, pkgs, }:
 let
   inherit (pins) lug-helper;
   version = "2.14";
