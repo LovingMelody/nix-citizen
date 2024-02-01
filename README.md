@@ -40,7 +40,7 @@ Add these packages to your `home.packages` or `environment.systemPackages` after
     outputs = {self, nixpkgs, ...}@inputs: {
         # NixOS Setup
         nixosConfigurations.HOST = nixpkgs.lib.nixosSystem {
-            specialArgs = {inherit inputs};
+            specialArgs = {inherit inputs;};
 
             modules = [
                 ./configuration.nix
