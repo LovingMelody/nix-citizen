@@ -71,7 +71,7 @@ Then to add packages....
 {pkgs, inputs, ....}: {
     environment.systemPackages = with pkgs; [ #`home.packages` if using home manager
         # replace or repeat for any included package
-        inputs.nix-gaming.packages.${system}.star-citizen
+        inputs.nix-citizen.packages.${system}.star-citizen
     ];
 
 };
