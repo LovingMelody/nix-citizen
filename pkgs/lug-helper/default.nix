@@ -1,14 +1,6 @@
 { stdenv, lib, pins, makeDesktopItem, makeWrapper, copyDesktopItems, bash
 , coreutils, findutils, gnome, zenity ? gnome.zenity, symlinkJoin, pkgs, }:
-let
-  inherit (pins) lug-helper;
-  version = "2.14";
-  src = pkgs.fetchFromGitHub {
-    owner = "starcitizen-lug";
-    repo = "lug-helper";
-    rev = "v${version}";
-    hash = "sha256-Pgak1CcmdAWL3xRrEwafCkAl+nZNGI5ewvIXMtyPp8k=";
-  };
+let inherit (pins) lug-helper;
 in stdenv.mkDerivation rec {
   name = "lug-helper";
   inherit (lug-helper) version;
