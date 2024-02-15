@@ -4,7 +4,7 @@
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
     nixpkgs_dxvk.url =
-      "github:NixOS/nixpkgs/eabe8d3eface69f5bb16c18f8662a702f50c20d5";
+      "github:NixOS/nixpkgs/b01852a162216ff5521c43254986fe3048a35f56";
     flake-utils.url = "github:numtide/flake-utils";
     nix-gaming.url = "github:fufexan/nix-gaming";
     nix-gaming.inputs.nixpkgs.follows = "nixpkgs";
