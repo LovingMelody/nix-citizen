@@ -79,12 +79,17 @@ Then to add packages....
 
 ## Tips
 
-To access the wine control panel please run the following:
+To access the [Wine Control Panel](https://wiki.winehq.org/Control) (ex. editing Joystick overrides) run the following:
 
 ```bash
-# Adjust WINEPREFIX to your location
-# this is the default path
+# Adjust WINEPREFIX to your installation directory, otherwise use this default path
 WINEPREFIX=$HOME/Games/star-citizen nix run github:fufexan/nix-gaming#wine-ge -- control
+```
+
+Likewise for [winecfg](https://wiki.winehq.org/Winecfg) (ex. registry edits, some graphics settings):
+
+```bash
+WINEPREFIX=$HOME/Games/star-citizen nix run github:fufexan/nix-gaming#wine-ge -- winecfg
 ```
 
 ## Credits
