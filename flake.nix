@@ -15,7 +15,7 @@
     let forAllSystems = nixpkgs.lib.genAttrs flake-utils.lib.defaultSystems;
     in {
       overlays.default = (import ./overlays.nix) inputs;
-      nixosModules.StarCitizen = (import ./module.nix) self;
+      nixosModules.StarCitizen = (import ./modules/nixos/star-citizen) self;
       formatter =
         forAllSystems (system: nixpkgs.legacyPackages.${system}.nixfmt);
       packages = forAllSystems (system:
