@@ -1,7 +1,6 @@
 { lib, makeDesktopItem, writeShellScriptBin, symlinkJoin, location ? ""
 , pname ? "star-citizen-helper", gnome, zenity ? gnome.zenity, pkgs, curl }:
 let
-  version = "0.1.1a";
   script = writeShellScriptBin pname ''
     zenity_prompt() {
       ${zenity}/bin/zenity --question --text="$1" --title="$2" --width=500 --height=100

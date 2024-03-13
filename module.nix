@@ -2,9 +2,7 @@ flake-self:
 { lib, config, pkgs,
 
 ... }:
-with lib;
-let cfg = config.programs.star-citizen;
-in {
+with lib; {
   options.programs.star-citizen = {
     enable = mkEnable "Enable the star-citizen program";
     package = mkOption {
