@@ -26,6 +26,9 @@ flakes please see the
 Add these packages to your `home.packages` or `environment.systemPackages` after
 adding nix-citizen as an input
 
+Optionally, you are able to use the
+[nix-citizen module](./modules/nixos/star-citizen)
+
 ```nix
 # flake.nix
 {
