@@ -1,3 +1,4 @@
+use std::fmt::{self, Display, Formatter};
 #[derive(Debug, PartialEq, PartialOrd)]
 pub(crate) struct Version {
     major: u32,
@@ -7,12 +8,6 @@ pub(crate) struct Version {
 }
 
 impl Version {
-    pub(crate) fn to_string(&self) -> String {
-        format!(
-            "{}.{}.{}.{}",
-            self.major, self.minor, self.patch, self.build
-        )
-    }
     pub(crate) fn from_string(version_string: &str) -> Option<Version> {
         let parts: Vec<&str> = version_string.split('.').collect();
         if parts.len() != 4 {
@@ -30,5 +25,15 @@ impl Version {
             patch,
             build,
         })
+    }
+}
+
+impl Display for Version {
+    fn fmt(&self, f: &mut Formatter) -> fmt::Result {
+        write!(
+            f,
+            "{}.{}.{}.{}",
+            self.major, self.minor, self.patch, self.build
+        )
     }
 }

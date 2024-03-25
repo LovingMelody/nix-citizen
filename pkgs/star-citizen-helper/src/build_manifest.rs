@@ -62,12 +62,11 @@ impl BuildManifest {
         let feed = rss::Channel::read_from(&xml[..])?;
         let latest_release = feed
             .items()
-            .into_iter()
-            .filter(|i| {
+            .iter()
+            .find(|i| {
                 i.title().unwrap_or("") == "[Resolved] Live Deployment" && i.description().is_some()
             })
-            .next()
-            .unwrap();
+            .expect("Failed to find latest release from RSS feed");
         if let Some(desc) = latest_release.description() {
             let re = regex::Regex::new(r"(\d+\.\d+\.\d+)-live\.(\d+)").unwrap();
             let matches = re.captures_iter(desc).next().unwrap();
@@ -76,8 +75,7 @@ impl BuildManifest {
             let current_version = self.get_version();
             println!(
                 "HELPER: Detected latest version is {} and manifest is {}",
-                current_version.to_string(),
-                latest_version.to_string()
+                current_version, latest_version
             );
             return Ok(latest_version > self.get_version());
         }
