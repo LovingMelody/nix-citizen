@@ -9,6 +9,10 @@
       url = "github:fufexan/nix-gaming";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    nix-github-actions = {
+      url = "github:nix-community/nix-github-actions";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     treefmt-nix = {
       url = "github:numtide/treefmt-nix";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -33,5 +37,9 @@
       });
       packages = eachSystem
         (pkgs: { inherit (pkgs) star-citizen-helper lug-helper star-citizen; });
+      githubActions = nix-github-actions.lib.mkGithubMatrix {
+        checks =
+          nixpkgs.lib.getAttrs [ "x86_64-linux" "x86_64-darwin" ] self.checks;
+      };
     };
 }
