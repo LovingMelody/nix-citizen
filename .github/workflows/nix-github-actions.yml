@@ -1,7 +1,11 @@
 name: Nix Flake actions
 
 on:
+  workflow_dispatch:
   pull_request:
+    branches:
+      - master
+      - main
   push:
     branches:
       - master

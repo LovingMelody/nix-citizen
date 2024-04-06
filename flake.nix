@@ -38,10 +38,8 @@
       packages = eachSystem
         (pkgs: { inherit (pkgs) star-citizen-helper lug-helper star-citizen; });
       githubActions = nix-github-actions.lib.mkGithubMatrix {
-        checks =
-          (nixpkgs.lib.getAttrs [ "x86_64-linux" ] self.checks)
-          // (nixpkgs.lib.getAttrs [ "x86_64-linux" ]
-            self.packages);
+        checks = (nixpkgs.lib.getAttrs [ "x86_64-linux" ] self.checks)
+          // (nixpkgs.lib.getAttrs [ "x86_64-linux" ] self.packages);
       };
     };
 }
