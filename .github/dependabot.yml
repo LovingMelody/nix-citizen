@@ -4,8 +4,6 @@ updates:
     directory: "/pkgs/star-citizen-helper"
     schedule:
       interval: "weekly"
-    time: '00:00'
-    timezone: UTC
     open-pull-requests-limit: 10
     commit-message:
       prefix: "chore"
@@ -15,8 +13,6 @@ updates:
     directory: "/"
     schedule:
       interval: daily
-      time: '00:00'
-      timezone: UTC
     open-pull-requests-limit: 10
     commit-message:
       prefix: "chore"
