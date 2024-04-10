@@ -13,7 +13,7 @@ jobs:
       - name: Install Nix
         uses: DeterminateSystems/nix-installer-action@main
       - name: Update Packages
-        run: nix run github:Mic92/nix-update -- --flake;
+        run: nix run github:Mic92/nix-update -- --flake lug-helper;
       - name: Update flake.lock
         uses: DeterminateSystems/update-flake-lock@main
         with:
