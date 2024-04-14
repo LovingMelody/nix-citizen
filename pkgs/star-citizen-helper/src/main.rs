@@ -12,8 +12,18 @@ use version::Version;
 async fn main() -> Res<()> {
     let wine_prefix = std::path::PathBuf::from(std::env::var("WINEPREFIX")?);
     let user = std::env::var("USER")?;
-    let build_manifest = wine_prefix
-        .join("drive_c/Program Files/Roberts Space Industries/StarCitizen/LIVE/build_manifest.id");
+    let build_manifest = {
+        let build = wine_prefix.join(
+            "drive_c/Program Files/Roberts Space Industries/StarCitizen/LIVE/build_manifest.id",
+        );
+        let platform = wine_prefix.join("drive_c/Program Files/Roberts Space Industries/StarCitizen/LIVE/f_win_game_client_release.id");
+
+        if platform.exists() {
+            platform
+        } else {
+            build
+        }
+    };
     let appdata_dir = wine_prefix
         .join("drive_c/users")
         .join(user)
