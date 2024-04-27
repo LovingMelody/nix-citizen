@@ -11,7 +11,7 @@ NameSpace: nix-citizen.starCitizen
   inputs = {
        nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
        nix-citizen.url = "github:LovingMelody/nix-citizen";
-       # Optional
+       # Optional - (Invalidates build cache if you use the cachix section)
        nix-gaming.url = "github:fufexan/nix-gaming";
        nix-citizen.inputs.nix-gaming.follows = "nix-gaming";
   };
@@ -23,6 +23,11 @@ NameSpace: nix-citizen.starCitizen
                ./configuration.nix
                nix-citizen.nixosModules.StarCitizen
                {
+                   # Cachix setup
+                    nix.settings = {
+                        substituters = ["https://nix-citizen.cachix.org"];
+                        trusted-public-keys = ["nix-citizen.cachix.org-1:lPMkWc2X8XD4/7YPEEwXKKBg+SVbYTVrAaLA2wQTKCo="];
+                    };
                    nix-citizen.starCitizen = {
                        # Enables the star citizen module
                        enable = true;

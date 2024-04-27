@@ -21,6 +21,20 @@ flakes please see the
 | [star-citizen-helper](./pkgs/star-citizen-helper)                                   | Star Citizen helper utility, clears shaders if an update is detected                                                                   |
 | [lug-helper](./pkgs/lug-helper)                                                     | Star Citizen's Linux Users Group Helper Script. Includes a setup script if you wish to use lutris instead of the star-citizen package. |
 
+### Cachix
+
+Build caches are available
+
+```nix
+# configuration.nix
+{
+    nix.settings = {
+        substituters = ["https://nix-citizen.cachix.org"];
+        trusted-public-keys = ["nix-citizen.cachix.org-1:lPMkWc2X8XD4/7YPEEwXKKBg+SVbYTVrAaLA2wQTKCo="];
+    };
+}
+```
+
 ### Flakes
 
 Add these packages to your `home.packages` or `environment.systemPackages` after
