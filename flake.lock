@@ -93,28 +93,11 @@
         "type": "github"
       }
     },
-    "nixpkgs_dxvk": {
-      "locked": {
-        "lastModified": 1714023361,
-        "narHash": "sha256-YaUh93BfVulsL+0J0CCs2SjbyL+zxKeAhy3pVKu/CXI=",
-        "owner": "NixOS",
-        "repo": "nixpkgs",
-        "rev": "59d5307caed77c8a924a8a85f7972390df1f84c0",
-        "type": "github"
-      },
-      "original": {
-        "owner": "NixOS",
-        "repo": "nixpkgs",
-        "rev": "59d5307caed77c8a924a8a85f7972390df1f84c0",
-        "type": "github"
-      }
-    },
     "root": {
       "inputs": {
         "nix-gaming": "nix-gaming",
         "nix-github-actions": "nix-github-actions",
         "nixpkgs": "nixpkgs",
-        "nixpkgs_dxvk": "nixpkgs_dxvk",
         "systems": "systems",
         "treefmt-nix": "treefmt-nix"
       }
