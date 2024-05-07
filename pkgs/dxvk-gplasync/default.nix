@@ -2,8 +2,7 @@
 let
   inherit (pins) dxvk-gplasync;
   inherit (dxvk-gplasync) version;
-in
-dxvk.overrideAttrs (old: {
+in dxvk.overrideAttrs (old: {
   name = "dxvk-gplasync";
   patches = [
     "${dxvk-gplasync}/patches/dxvk-gplasync-${version}.patch"
