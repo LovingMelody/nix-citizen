@@ -33,8 +33,10 @@
       checks = eachSystem (pkgs: {
         formatting = treefmtEval.${pkgs.system}.config.build.check self;
       });
-      packages = eachSystem
-        (pkgs: { inherit (pkgs) star-citizen-helper lug-helper star-citizen; });
+      packages = eachSystem (pkgs: {
+        inherit (pkgs)
+          star-citizen-helper lug-helper star-citizen dxvk-gplasync;
+      });
       githubActions = nix-github-actions.lib.mkGithubMatrix {
         checks = (nixpkgs.lib.getAttrs [ "x86_64-linux" ] self.checks)
           // (nixpkgs.lib.getAttrs [ "x86_64-linux" ] self.packages);
