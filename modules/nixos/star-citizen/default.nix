@@ -3,30 +3,41 @@ flake-self:
 let
   flake-packages = flake-self.packages.${pkgs.system};
   cfg = config.nix-citizen.starCitizen;
+  smartPackage = pname:
+    if (builtins.hasAttr pname pkgs) then
+      pkgs.${pname}
+    else
+      builtins.trace
+      "Warning: pkgs does not include ${pname} (missing overlay?) using nix-citizen's package"
+      flake-packages.${pname};
 in with lib; {
   options.nix-citizen.starCitizen = {
     enable = mkEnableOption "Enable star-citizen";
     package = mkOption {
       description = "Package to use for star-citizen";
       type = types.package;
-      default = if (builtins.hasAttr "star-citizen" pkgs) then
-        pkgs.star-citizen
-      else
-        builtins.trace
-        "warning: pkgs does not include star-citizen, (missing overlay?) using nix-citizen's package"
-        flake-packages.star-citizen;
+      default = smartPackage "star-citizen";
       apply = star-citizen:
-        star-citizen.override {
+        star-citizen.override (old: {
           preCommands = ''
             ${cfg.preCommands}
             ${if cfg.helperScript.enable then
               "${cfg.helperScript.package}/bin/star-citizen-helper"
             else
               ""}
+            ${if cfg.gplAsync.enable then "DXVK_ASYNC=1" else ""}
           '';
           inherit (cfg) postCommands location;
-
-        };
+          dxvk = if cfg.gplAsync.enable then cfg.gplAsync.package else old.dxvk;
+        });
+    };
+    gplAsync = {
+      enable = mkEnableOption "Enable dxvk-gplasync configs";
+      package = mkOption {
+        description = "Package for DXVK GPL Async";
+        default = smartPackage "dxvk-gplasync";
+        type = types.package;
+      };
     };
     location = mkOption {
       default = "$HOME/Games/star-citizen";
@@ -55,12 +66,7 @@ in with lib; {
       package = mkOption {
         description = "Package to use for star-citizen-helper";
         type = types.package;
-        default = if (builtins.hasAttr "star-citizen-helper" pkgs) then
-          pkgs.star-citizen-helper
-        else
-          builtins.trace
-          "warning: pkgs does not include star-citizen-helper, (missing overlay?) using nix-citizen's package"
-          flake-packages.star-citizen-helper;
+        default = smartPackage "star-citizen-helper";
       };
     };
     setLimits = mkOption {
@@ -78,6 +84,15 @@ in with lib; {
     };
   };
   config = mkIf cfg.enable {
+    assertions = [
+      (mkIf cfg.gplAsync.enable {
+
+        assertion = lib.strings.versionAtLeast (smartPackage "dxvk").version
+          (smartPackage "dxvk-gplasync").version;
+        message =
+          "The version of dxvk-gplasync is less than the current version of DXVK, needed patches are missing";
+      })
+    ];
     boot.kernel.sysctl = mkIf cfg.setLimits {
       "vm.max_map_count" = mkOverride 999 16777216;
       "fs.file-max" = mkOverride 999 524288;
