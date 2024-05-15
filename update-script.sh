@@ -8,6 +8,6 @@ update-gplasync () {
     npins add gitlab Ph42oN dxvk-gplasync --at "$latest"
   fi
 }
-#nix-update --flake lug-helper
+nix-update --flake lug-helper
 update-gplasync
 nix fmt
