@@ -9,10 +9,11 @@
       },
       "pre_releases": false,
       "version_upper_bound": null,
+      "release_prefix": null,
       "version": "v2.3.1-1",
       "revision": "831cec94c1752ee1d7c700aba6e719cd9ebbb982",
       "url": "https://gitlab.com/api/v4/projects/Ph42oN%2Fdxvk-gplasync/repository/archive.tar.gz?ref=v2.3.1-1",
-      "hash": "1f077bz112kbvwvjwpqikix9cqiq91fi9c4rzi2q9p24fxyn211s"
+      "hash": "16igrm9i38y563vj95mrvb40i3ndq8s51zlyib5r2dk6vxshvpw3"
     }
   },
   "version": 3
