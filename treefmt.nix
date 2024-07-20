@@ -4,7 +4,7 @@ _: {
   # Terraform formatter
   programs = {
     yamlfmt.enable = true;
-    nixfmt-rfc-style.enable = true;
+    nixfmt.enable = true;
     deno.enable = true;
     deadnix = {
       enable = true;
@@ -17,7 +17,7 @@ _: {
   };
   settings.formatter = {
     deadnix.excludes = [ "npins/default.nix" ];
-    nixfmt-rfc-style.excludes = [ "npins/default.nix" ];
+    nixfmt.excludes = [ "npins/default.nix" ];
     deno.excludes = [ "npins/default.nix" ];
     statix.excludes = [ "npins/default.nix" ];
     yamlfmt.excludes = [ "npins/sources.json" ];

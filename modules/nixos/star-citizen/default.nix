@@ -1,36 +1,30 @@
 flake-self:
-{
-  config,
-  lib,
-  pkgs,
-  ...
-}:
+{ config, lib, pkgs, ... }:
 let
   flake-packages = flake-self.packages.${pkgs.system};
   cfg = config.nix-citizen.starCitizen;
-  smartPackage =
-    pname:
+  smartPackage = pname:
     if (builtins.hasAttr pname pkgs) then
       pkgs.${pname}
     else
       builtins.trace
-        "Warning: pkgs does not include ${pname} (missing overlay?) using nix-citizen's package"
-        flake-packages.${pname};
-in
-with lib;
-{
+      "Warning: pkgs does not include ${pname} (missing overlay?) using nix-citizen's package"
+      flake-packages.${pname};
+in with lib; {
   options.nix-citizen.starCitizen = {
     enable = mkEnableOption "Enable star-citizen";
     package = mkOption {
       description = "Package to use for star-citizen";
       type = types.package;
       default = smartPackage "star-citizen";
-      apply =
-        star-citizen:
+      apply = star-citizen:
         star-citizen.override (old: {
           preCommands = ''
             ${cfg.preCommands}
-            ${if cfg.helperScript.enable then "${cfg.helperScript.package}/bin/star-citizen-helper" else ""}
+            ${if cfg.helperScript.enable then
+              "${cfg.helperScript.package}/bin/star-citizen-helper"
+            else
+              ""}
             ${if cfg.gplAsync.enable then "DXVK_ASYNC=1" else ""}
           '';
           inherit (cfg) postCommands location;
@@ -93,9 +87,10 @@ with lib;
     assertions = [
       (mkIf cfg.gplAsync.enable {
 
-        assertion = lib.strings.versionAtLeast (smartPackage "dxvk").version (smartPackage "dxvk-gplasync")
-        .version;
-        message = "The version of dxvk-gplasync is less than the current version of DXVK, needed patches are missing";
+        assertion = lib.strings.versionAtLeast (smartPackage "dxvk").version
+          (smartPackage "dxvk-gplasync").version;
+        message =
+          "The version of dxvk-gplasync is less than the current version of DXVK, needed patches are missing";
       })
     ];
     boot.kernel.sysctl = mkIf cfg.setLimits {
@@ -103,14 +98,12 @@ with lib;
       "fs.file-max" = mkOverride 999 524288;
     };
     security.pam = mkIf cfg.setLimits {
-      loginLimits = [
-        {
-          domain = "*";
-          type = "soft";
-          item = "nofile";
-          value = "16777216";
-        }
-      ];
+      loginLimits = [{
+        domain = "*";
+        type = "soft";
+        item = "nofile";
+        value = "16777216";
+      }];
     };
     environment.systemPackages = [ cfg.package ];
   };

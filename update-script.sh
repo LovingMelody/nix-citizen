@@ -9,7 +9,7 @@ update-gplasync () {
   echo "[dxvk-gplasync] Upstream: $latest"
   if [ "$latest" != "$current" ]; then
     echo "[dxvk-gplasync] Update found: $current -> $latest"
-    npins add gitlab Ph42oN dxvk-gplasync --at "$latest"
+    npins add gitlab Ph42oN dxvk-gplasync --at "v$latest"
   fi
 }
 nix-update --flake lug-helper

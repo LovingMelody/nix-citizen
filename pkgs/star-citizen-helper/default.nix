@@ -1,29 +1,15 @@
-{
-  lib,
-  makeDesktopItem,
-  rustPlatform,
-  pname ? "star-citizen-helper",
-  gnome,
-  zenity ? gnome.zenity,
-  pkg-config,
-  openssl,
-  makeWrapper,
-  ...
-}:
+{ lib, makeDesktopItem, rustPlatform, pname ? "star-citizen-helper", gnome
+, zenity ? gnome.zenity, pkg-config, openssl, makeWrapper, ... }:
 let
   tomlConfig = builtins.fromTOML (builtins.readFile ./Cargo.toml);
   inherit (tomlConfig.package) name version;
   binPath = lib.makeBinPath [ zenity ];
-in
-rustPlatform.buildRustPackage {
+in rustPlatform.buildRustPackage {
   inherit name version;
   src = ./.;
 
   cargoLock.lockFile = ./Cargo.lock;
-  nativeBuildInputs = [
-    pkg-config
-    makeWrapper
-  ];
+  nativeBuildInputs = [ pkg-config makeWrapper ];
   buildInputs = [ openssl ];
 
   postInstall = ''

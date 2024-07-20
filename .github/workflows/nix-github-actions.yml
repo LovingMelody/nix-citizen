@@ -1,5 +1,4 @@
 name: Nix Flake actions
-
 on:
   workflow_dispatch:
   pull_request:
@@ -10,7 +9,6 @@ on:
     branches:
       - master
       - main
-
 jobs:
   nix-matrix:
     runs-on: ubuntu-latest
@@ -25,7 +23,6 @@ jobs:
           set -Eeu
           matrix="$(nix eval --json '.#githubActions.matrix')"
           echo "matrix=$matrix" >> "$GITHUB_OUTPUT"
-
   nix-build:
     needs: nix-matrix
     runs-on: ${{ matrix.os }}
