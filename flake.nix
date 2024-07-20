@@ -41,6 +41,7 @@
           star-citizen-helper
           lug-helper
           star-citizen
+          star-citizen-umu
           dxvk-gplasync
           ;
       });

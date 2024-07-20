@@ -20,4 +20,5 @@ in
     });
   lug-helper = prev.callPackage ./pkgs/lug-helper { inherit pins; };
   inherit (nix-gaming) star-citizen;
+  star-citizen-umu = nix-gaming.star-citizen.override { useUmu = true; };
 }
