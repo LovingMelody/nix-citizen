@@ -1,7 +1,21 @@
-{ stdenv, lib, makeDesktopItem, makeWrapper, copyDesktopItems, bash, coreutils
-, findutils, gnome, zenity ? gnome.zenity, fetchFromGitHub, ... }:
-let version = "2.17";
-in stdenv.mkDerivation rec {
+{
+  stdenv,
+  lib,
+  makeDesktopItem,
+  makeWrapper,
+  copyDesktopItems,
+  bash,
+  coreutils,
+  findutils,
+  gnome,
+  zenity ? gnome.zenity,
+  fetchFromGitHub,
+  ...
+}:
+let
+  version = "2.17";
+in
+stdenv.mkDerivation rec {
   name = "lug-helper";
   inherit version;
   src = fetchFromGitHub {
@@ -11,8 +25,16 @@ in stdenv.mkDerivation rec {
     hash = "sha256-iJMyhjCzHsS8Kgukt+j8avF+WIzh4am7rtJmy0j4Tjk=";
   };
 
-  buildInputs = [ bash coreutils findutils zenity ];
-  nativeBuildInputs = [ copyDesktopItems makeWrapper ];
+  buildInputs = [
+    bash
+    coreutils
+    findutils
+    zenity
+  ];
+  nativeBuildInputs = [
+    copyDesktopItems
+    makeWrapper
+  ];
   desktopItems = [
     (makeDesktopItem {
       name = "lug-helper";
@@ -34,7 +56,14 @@ in stdenv.mkDerivation rec {
     cp -r lib/* $out/share/lug-helper/
     cp lug-logo.png $out/share/pixmaps/lug-helper.png
     wrapProgram $out/bin/lug-helper \
-      --prefix PATH : ${lib.makeBinPath [ bash coreutils findutils zenity ]}
+      --prefix PATH : ${
+        lib.makeBinPath [
+          bash
+          coreutils
+          findutils
+          zenity
+        ]
+      }
 
   '';
   meta = with lib; {

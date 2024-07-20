@@ -18,28 +18,35 @@
     systems.url = "github:nix-systems/default";
   };
 
-  outputs = { self, systems, ... }@inputs:
+  outputs =
+    { self, systems, ... }@inputs:
     with inputs;
     let
-      eachSystem = f:
-        nixpkgs.lib.genAttrs (import systems) (system:
-          f (nixpkgs.legacyPackages.${system}.extend self.overlays.default));
-      treefmtEval =
-        eachSystem (pkgs: treefmt-nix.lib.evalModule pkgs ./treefmt.nix);
-    in {
+      eachSystem =
+        f:
+        nixpkgs.lib.genAttrs (import systems) (
+          system: f (nixpkgs.legacyPackages.${system}.extend self.overlays.default)
+        );
+      treefmtEval = eachSystem (pkgs: treefmt-nix.lib.evalModule pkgs ./treefmt.nix);
+    in
+    {
       overlays.default = (import ./overlays.nix) inputs;
       nixosModules.StarCitizen = (import ./modules/nixos/star-citizen) self;
-      formatter =
-        eachSystem (pkgs: treefmtEval.${pkgs.system}.config.build.wrapper);
+      formatter = eachSystem (pkgs: treefmtEval.${pkgs.system}.config.build.wrapper);
       checks = eachSystem (pkgs: {
         formatting = treefmtEval.${pkgs.system}.config.build.check self;
       });
       packages = eachSystem (pkgs: {
         inherit (pkgs)
-          star-citizen-helper lug-helper star-citizen dxvk-gplasync;
+          star-citizen-helper
+          lug-helper
+          star-citizen
+          dxvk-gplasync
+          ;
       });
       githubActions = nix-github-actions.lib.mkGithubMatrix {
-        checks = (nixpkgs.lib.getAttrs [ "x86_64-linux" ] self.checks)
+        checks =
+          (nixpkgs.lib.getAttrs [ "x86_64-linux" ] self.checks)
           // (nixpkgs.lib.getAttrs [ "x86_64-linux" ] self.packages);
       };
     };
