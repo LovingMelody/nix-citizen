@@ -43,6 +43,7 @@
           star-citizen
           star-citizen-umu
           dxvk-gplasync
+          umu
           ;
       });
       githubActions = nix-github-actions.lib.mkGithubMatrix {

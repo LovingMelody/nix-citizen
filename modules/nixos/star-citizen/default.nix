@@ -28,6 +28,7 @@ with lib;
       apply =
         star-citizen:
         star-citizen.override (old: {
+          useUmu = cfg.umu.enable;
           preCommands = ''
             ${cfg.preCommands}
             ${if cfg.helperScript.enable then "${cfg.helperScript.package}/bin/star-citizen-helper" else ""}
@@ -36,6 +37,14 @@ with lib;
           inherit (cfg) postCommands location;
           dxvk = if cfg.gplAsync.enable then cfg.gplAsync.package else old.dxvk;
         });
+    };
+    umu = {
+      enable = mkEnableOption "Enable umu launcher";
+      proton = mkOption {
+        type = types.str;
+        default = "GE-Proton";
+        description = "Proton Version";
+      };
     };
     gplAsync = {
       enable = mkEnableOption "Enable dxvk-gplasync configs";
