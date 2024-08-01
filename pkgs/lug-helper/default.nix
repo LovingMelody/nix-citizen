@@ -10,6 +10,7 @@
   gnome,
   zenity ? gnome.zenity,
   fetchFromGitHub,
+  nix-update-script,
   ...
 }:
 let
@@ -66,11 +67,15 @@ stdenv.mkDerivation rec {
       }
 
   '';
+  passthru.updateScript = nix-update-script { };
   meta = with lib; {
-    description = "Star Citizen LUG Helper";
+    description = "script to manage and optimize star citizen on linux";
+    longDescription = ''
+      lug-helper is a script designed to help you manage and optimize star citizen on linux.
+    '';
     homepage = "https://github.com/starcitizen-lug/lug-helper";
     license = licenses.gpl3;
     maintainers = with maintainers; [ fuzen ];
-    platforms = platforms.all;
+    platforms = platforms.linux;
   };
 }
