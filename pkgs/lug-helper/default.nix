@@ -14,7 +14,7 @@
   ...
 }:
 let
-  version = "2.17";
+  version = "2.18";
 in
 stdenv.mkDerivation rec {
   name = "lug-helper";
@@ -23,7 +23,7 @@ stdenv.mkDerivation rec {
     owner = "starcitizen-lug";
     repo = "lug-helper";
     rev = "v${version}";
-    hash = "sha256-iJMyhjCzHsS8Kgukt+j8avF+WIzh4am7rtJmy0j4Tjk=";
+    hash = "sha256-x6o9hNXadlZrww5+a9xZtNfRwxKuTO/O9M9iYvhMIYc=";
   };
 
   buildInputs = [
