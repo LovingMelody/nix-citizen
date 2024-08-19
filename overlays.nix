@@ -18,7 +18,7 @@ in
         "${dxvk-gplasync}/patches/global-dxvk.conf.patch"
       ] ++ old.patches or [ ];
     });
-  lug-helper = prev.callPackage ./pkgs/lug-helper { inherit pins; };
+  lug-helper = prev.callPackage ./pkgs/lug-helper { };
   inherit (nix-gaming) star-citizen umu;
   star-citizen-umu = nix-gaming.star-citizen.override { useUmu = true; };
 }

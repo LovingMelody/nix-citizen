@@ -1,46 +1,41 @@
 {
-  stdenv,
+  stdenvNoCC,
   lib,
   makeDesktopItem,
   makeWrapper,
   copyDesktopItems,
-  bash,
   coreutils,
   findutils,
-  gnome,
-  zenity ? gnome.zenity,
+  zenity,
   fetchFromGitHub,
   nix-update-script,
-  ...
 }:
-let
-  version = "2.18";
-in
-stdenv.mkDerivation rec {
+stdenvNoCC.mkDerivation (finalAttrs: {
   name = "lug-helper";
-  inherit version;
+  version = "2.18";
   src = fetchFromGitHub {
     owner = "starcitizen-lug";
     repo = "lug-helper";
-    rev = "v${version}";
+    rev = "refs/tags/v${finalAttrs.version}";
     hash = "sha256-x6o9hNXadlZrww5+a9xZtNfRwxKuTO/O9M9iYvhMIYc=";
   };
 
   buildInputs = [
-    bash
     coreutils
     findutils
     zenity
   ];
+
   nativeBuildInputs = [
     copyDesktopItems
     makeWrapper
   ];
+
   desktopItems = [
     (makeDesktopItem {
       name = "lug-helper";
       exec = "lug-helper";
-      icon = "${src}/lug-logo.png";
+      icon = "lug-logo";
       comment = "Star Citizen LUG Helper";
       desktopName = "LUG Helper";
       categories = [ "Utility" ];
@@ -49,17 +44,13 @@ stdenv.mkDerivation rec {
   ];
 
   postInstall = ''
-    mkdir -p $out/bin
-    mkdir -p $out/share/lug-helper
-    mkdir -p $out/share/pixmaps
+    install -Dm755 lug-helper.sh $out/bin/lug-helper
+    install -Dm644 lug-logo.png $out/share/pixmaps/lug-logo.png
+    install -Dm644 lib/* -t $out/share/lug-helper
 
-    cp lug-helper.sh $out/bin/lug-helper
-    cp -r lib/* $out/share/lug-helper/
-    cp lug-logo.png $out/share/pixmaps/lug-helper.png
     wrapProgram $out/bin/lug-helper \
       --prefix PATH : ${
         lib.makeBinPath [
-          bash
           coreutils
           findutils
           zenity
@@ -68,14 +59,11 @@ stdenv.mkDerivation rec {
 
   '';
   passthru.updateScript = nix-update-script { };
-  meta = with lib; {
-    description = "script to manage and optimize star citizen on linux";
-    longDescription = ''
-      lug-helper is a script designed to help you manage and optimize star citizen on linux.
-    '';
+  meta = {
+    description = "Script to manage and optimize Star Citizen on Linux";
     homepage = "https://github.com/starcitizen-lug/lug-helper";
-    license = licenses.gpl3;
-    maintainers = with maintainers; [ fuzen ];
-    platforms = platforms.linux;
+    license = lib.licenses.gpl3Only;
+    maintainers = with lib.maintainers; [ fuzen ];
+    platforms = lib.platforms.linux;
   };
-}
+})
