@@ -2,6 +2,7 @@ inputs: final: prev:
 let
   pins = import ./npins;
   nix-gaming = inputs.nix-gaming.packages.${final.system};
+  inherit (inputs.nixpkgs.lib.strings) versionOlder;
 in
 {
   star-citizen-helper = prev.callPackage ./pkgs/star-citizen-helper { };
@@ -18,7 +19,16 @@ in
         "${dxvk-gplasync}/patches/global-dxvk.conf.patch"
       ] ++ old.patches or [ ];
     });
-  lug-helper = prev.callPackage ./pkgs/lug-helper { };
+  lug-helper =
+    let
+      pkg = prev.callPackage ./pkgs/lug-helper { };
+    in
+    # We only use the local lug-helper if nixpkgs doesn't have it
+    # And if the nixpkgs version isnt older than local
+    if (builtins.hasAttr "lug-helper" prev) then
+      if versionOlder prev.lug-helper.version pkg.version then pkg else prev.lug-helper
+    else
+      pkg;
   inherit (nix-gaming) star-citizen umu;
   star-citizen-umu = nix-gaming.star-citizen.override { useUmu = true; };
 }
