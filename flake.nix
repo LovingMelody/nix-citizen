@@ -44,6 +44,7 @@
           star-citizen-umu
           dxvk-gplasync
           umu
+          winetricks-git
           ;
       });
       githubActions = nix-github-actions.lib.mkGithubMatrix {

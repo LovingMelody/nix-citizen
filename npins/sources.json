@@ -14,6 +14,21 @@
       "revision": "6e6c120e99086c7c56b0c99624bf64dd4c74d560",
       "url": "https://gitlab.com/api/v4/projects/Ph42oN%2Fdxvk-gplasync/repository/archive.tar.gz?ref=v2.4-1",
       "hash": "1bw1j52y96j42imdqs4k5mvgya1cr9jzqbw8lli1gfj6y0fs10kl"
+    },
+    "winetricks": {
+      "type": "GitRelease",
+      "repository": {
+        "type": "GitHub",
+        "owner": "winetricks",
+        "repo": "winetricks"
+      },
+      "pre_releases": false,
+      "version_upper_bound": null,
+      "release_prefix": null,
+      "version": "20240105",
+      "revision": "19d22d277295ef15e80f9f6d47f0215823e0dab0",
+      "url": "https://api.github.com/repos/winetricks/winetricks/tarball/20240105",
+      "hash": "0v77abxabwal1qnl406nb76s3056xhx24gxg51wcx82sbxpj0cb1"
     }
   },
   "version": 3

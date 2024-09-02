@@ -6,6 +6,11 @@ let
 in
 {
   star-citizen-helper = prev.callPackage ./pkgs/star-citizen-helper { };
+  winetricks-git = let
+    inherit (pins) winetricks;
+    version =  "git+${builtins.substring 0 8 winetricks.revision}";
+  in
+  final.winetricks.overrideAttrs (old: { inherit version; src = winetricks; });
   dxvk-gplasync =
     let
       inherit (pins) dxvk-gplasync;
