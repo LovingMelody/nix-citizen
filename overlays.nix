@@ -6,11 +6,6 @@ let
 in
 {
   star-citizen-helper = prev.callPackage ./pkgs/star-citizen-helper { };
-  winetricks-git = let
-    inherit (pins) winetricks;
-    version =  "git+${builtins.substring 0 8 winetricks.revision}";
-  in
-  final.winetricks.overrideAttrs (old: { inherit version; src = winetricks; });
   dxvk-gplasync =
     let
       inherit (pins) dxvk-gplasync;
@@ -34,6 +29,10 @@ in
       if versionOlder prev.lug-helper.version pkg.version then pkg else prev.lug-helper
     else
       pkg;
-  inherit (nix-gaming) star-citizen umu;
-  star-citizen-umu = nix-gaming.star-citizen.override { useUmu = true; };
+  inherit (nix-gaming)
+    star-citizen
+    star-citizen-umu
+    umu
+    winetricks-git
+    ;
 }
