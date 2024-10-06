@@ -10,10 +10,10 @@
       "pre_releases": false,
       "version_upper_bound": null,
       "release_prefix": null,
-      "version": "v2.4-1",
-      "revision": "6e6c120e99086c7c56b0c99624bf64dd4c74d560",
-      "url": "https://gitlab.com/api/v4/projects/Ph42oN%2Fdxvk-gplasync/repository/archive.tar.gz?ref=v2.4-1",
-      "hash": "1bw1j52y96j42imdqs4k5mvgya1cr9jzqbw8lli1gfj6y0fs10kl"
+      "version": "v2.4.1-1",
+      "revision": "5bcdb805a895c9dfa5d21877cc038de19fb8b737",
+      "url": "https://gitlab.com/api/v4/projects/Ph42oN%2Fdxvk-gplasync/repository/archive.tar.gz?ref=v2.4.1-1",
+      "hash": "1c6v9ywbpnjxkayx6f0z6275v9ckbw39bs9llypbncq4bs9b5j46"
     }
   },
   "version": 3
