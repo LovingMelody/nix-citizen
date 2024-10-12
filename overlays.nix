@@ -26,7 +26,7 @@ in
     # We only use the local lug-helper if nixpkgs doesn't have it
     # And if the nixpkgs version isnt older than local
     if (builtins.hasAttr "lug-helper" prev) then
-      if versionOlder prev.lug-helper.version pkg.version then pkg else prev.lug-helper
+      if (versionOlder prev.lug-helper.version pkg.version) then pkg else prev.lug-helper
     else
       pkg;
   inherit (nix-gaming)
