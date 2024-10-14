@@ -27,11 +27,11 @@
         "umu": "umu"
       },
       "locked": {
-        "lastModified": 1728796520,
-        "narHash": "sha256-I7cVxenU4fObk3xchhFQvz2AUqYXx94qChusgDPCavU=",
+        "lastModified": 1728902024,
+        "narHash": "sha256-pjYeBH3eGhjIYyaHJbSOsPZZkbfJ07dO55NAxv7FUNY=",
         "owner": "LovingMelody",
         "repo": "nix-gaming",
-        "rev": "19106ff9d93c256408630260a8c9444e76349529",
+        "rev": "84d5122065fdfb38268ee9b2d02be390974a5a25",
         "type": "github"
       },
       "original": {
