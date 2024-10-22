@@ -3,6 +3,7 @@
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
+    nixpkgs-wine.url = "github:NixOS/nixpkgs/03ddbd42cbdfbca5ce5583a8c1b526f36c0d46f3";
     nix-gaming = {
       url = "github:fufexan/nix-gaming";
       inputs.nixpkgs.follows = "nixpkgs";

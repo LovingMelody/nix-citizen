@@ -88,11 +88,28 @@
         "url": "https://github.com/NixOS/nixpkgs/archive/fb192fec7cc7a4c26d51779e9bab07ce6fa5597a.tar.gz"
       }
     },
+    "nixpkgs-wine": {
+      "locked": {
+        "lastModified": 1729519156,
+        "narHash": "sha256-/T/nMj4oOfiyhiBol4Bzh2EYdJunNo8zXzBoR8vVChY=",
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "03ddbd42cbdfbca5ce5583a8c1b526f36c0d46f3",
+        "type": "github"
+      },
+      "original": {
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "03ddbd42cbdfbca5ce5583a8c1b526f36c0d46f3",
+        "type": "github"
+      }
+    },
     "root": {
       "inputs": {
         "nix-gaming": "nix-gaming",
         "nix-github-actions": "nix-github-actions",
         "nixpkgs": "nixpkgs",
+        "nixpkgs-wine": "nixpkgs-wine",
         "systems": "systems",
         "treefmt-nix": "treefmt-nix"
       }
