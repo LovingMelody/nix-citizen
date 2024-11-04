@@ -34,6 +34,6 @@ jobs:
       - uses: cachix/cachix-action@v15
         with:
           name: nix-citizen
-          authToken: '${{ secrets.CACHIX_AUTH_TOKEN }}'
+          authToken: "${{ secrets.CACHIX_AUTH_TOKEN }}"
           extraPullNames: nix-gaming
       - run: nix build -L ".#${{ matrix.attr }}"
