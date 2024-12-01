@@ -24,7 +24,9 @@
         "nixpkgs": [
           "nixpkgs"
         ],
-        "umu": "umu"
+        "umu": [
+          "umu"
+        ]
       },
       "locked": {
         "lastModified": 1733027084,
@@ -62,16 +64,16 @@
     },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1732937961,
-        "narHash": "sha256-B5pYT+IVaqcrfOekkwKvx/iToDnuQWzc2oyDxzzBDc4=",
+        "lastModified": 1732951447,
+        "narHash": "sha256-ndq0dD5E6FkqwmNYFS1wUAHa/5HixS3jLjulogM+7/E=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "4703b8d2c708e13a8cab03d865f90973536dcdf5",
+        "rev": "57feb2a16f705eeffb075888d92a986e66473012",
         "type": "github"
       },
       "original": {
         "owner": "NixOS",
-        "ref": "nixpkgs-unstable",
+        "ref": "nixos-unstable-small",
         "repo": "nixpkgs",
         "type": "github"
       }
@@ -111,7 +113,8 @@
         "nixpkgs": "nixpkgs",
         "nixpkgs-wine": "nixpkgs-wine",
         "systems": "systems",
-        "treefmt-nix": "treefmt-nix"
+        "treefmt-nix": "treefmt-nix",
+        "umu": "umu"
       }
     },
     "systems": {
@@ -152,26 +155,25 @@
     "umu": {
       "inputs": {
         "nixpkgs": [
-          "nix-gaming",
           "nixpkgs"
         ]
       },
       "locked": {
         "dir": "packaging/nix",
-        "lastModified": 1732922421,
-        "narHash": "sha256-TX6B/mw1Trq1sPq86DFER59iECAaNaI2BykhldaBwDs=",
-        "ref": "refs/heads/main",
-        "rev": "3277b47c9f87ecf736e1df7ed65cc0e25466f9b2",
-        "revCount": 862,
+        "lastModified": 1733030804,
+        "narHash": "sha256-HkS24indfMaQbVZ+9GY5BHc+rqPvh8htF0rWYhvgPKI=",
+        "ref": "refs/heads/update-nix-package",
+        "rev": "a4b61acc2f81df8328ebc2bd4843a5acd42bf321",
+        "revCount": 863,
         "submodules": true,
         "type": "git",
-        "url": "https://github.com/Open-Wine-Components/umu-launcher/?dir=packaging/nix"
+        "url": "https://github.com/LovingMelody/umu-launcher/?dir=packaging/nix"
       },
       "original": {
         "dir": "packaging/nix",
         "submodules": true,
         "type": "git",
-        "url": "https://github.com/Open-Wine-Components/umu-launcher/?dir=packaging/nix"
+        "url": "https://github.com/LovingMelody/umu-launcher/?dir=packaging/nix"
       }
     }
   },
