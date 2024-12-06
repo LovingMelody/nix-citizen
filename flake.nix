@@ -6,10 +6,7 @@
     nixpkgs-wine.url = "github:NixOS/nixpkgs/03ddbd42cbdfbca5ce5583a8c1b526f36c0d46f3";
     nix-gaming = {
       url = "github:fufexan/nix-gaming";
-      inputs = {
-        nixpkgs.follows = "nixpkgs";
-        umu.follows = "umu";
-      };
+      inputs.nixpkgs.follows = "nixpkgs";
     };
     nix-github-actions = {
       url = "github:nix-community/nix-github-actions";
@@ -20,10 +17,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     systems.url = "github:nix-systems/default";
-    umu = {
-      url = "git+https://github.com/LovingMelody/umu-launcher/?dir=packaging\/nix&submodules=1";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
   };
 
   outputs =
