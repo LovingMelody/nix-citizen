@@ -3,7 +3,6 @@ let
   pins = import ./npins;
   nix-gaming = inputs.nix-gaming.packages.${final.system};
   inherit (inputs.nixpkgs.lib.strings) versionOlder;
-  wine = inputs.nixpkgs-wine.legacyPackages.${prev.system}.wineWowPackages.staging;
 in
 {
   star-citizen-helper = prev.callPackage ./pkgs/star-citizen-helper { };
@@ -30,8 +29,8 @@ in
       if (versionOlder prev.lug-helper.version pkg.version) then pkg else prev.lug-helper
     else
       pkg;
-  star-citizen = nix-gaming.star-citizen.override { inherit wine; };
   inherit (nix-gaming)
+    star-citizen
     star-citizen-umu
     umu
     winetricks-git

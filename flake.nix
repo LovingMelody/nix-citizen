@@ -2,8 +2,7 @@
   description = "Nix Flake to simplify running Star Citizen";
 
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable-small";
-    nixpkgs-wine.url = "github:NixOS/nixpkgs/03ddbd42cbdfbca5ce5583a8c1b526f36c0d46f3";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     nix-gaming = {
       url = "github:fufexan/nix-gaming";
       inputs.nixpkgs.follows = "nixpkgs";
