@@ -1,12 +1,12 @@
-flake-self:
 {
+  self,
   config,
   lib,
   pkgs,
   ...
 }:
 let
-  flake-packages = flake-self.packages.${pkgs.system};
+  flake-packages = self.packages.${pkgs.system};
   cfg = config.nix-citizen.starCitizen;
   smartPackage =
     pname:
@@ -21,6 +21,8 @@ with lib;
 {
   options.nix-citizen.starCitizen = {
     enable = mkEnableOption "Enable star-citizen";
+    # If you manually define  your nixpkgs set, this wont work but it wont error
+    includeOverlay = mkEnableOption "Enable nix-citizen overlay" // { default = true; };
     package = mkOption {
       description = "Package to use for star-citizen";
       type = types.package;
@@ -122,5 +124,6 @@ with lib;
       ];
     };
     environment.systemPackages = [ cfg.package ];
+    nixpkgs.overlays = lib.optional cfg.includeOverlay self.overlays.default;
   };
 }
