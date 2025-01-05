@@ -15,42 +15,115 @@
       url = "github:numtide/treefmt-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    flake-parts = {
+      url = "github:hercules-ci/flake-parts";
+      inputs.nixpkgs-lib.follows = "nixpkgs";
+    };
     systems.url = "github:nix-systems/default";
   };
 
   outputs =
-    { self, systems, ... }@inputs:
-    with inputs;
-    let
-      eachSystem =
-        f:
-        nixpkgs.lib.genAttrs (import systems) (
-          system: f (nixpkgs.legacyPackages.${system}.extend self.overlays.default)
-        );
-      treefmtEval = eachSystem (pkgs: treefmt-nix.lib.evalModule pkgs ./treefmt.nix);
-    in
-    {
-      overlays.default = (import ./overlays.nix) inputs;
-      nixosModules.StarCitizen = (import ./modules/nixos/star-citizen) self;
-      formatter = eachSystem (pkgs: treefmtEval.${pkgs.system}.config.build.wrapper);
-      checks = eachSystem (pkgs: {
-        formatting = treefmtEval.${pkgs.system}.config.build.check self;
-      });
-      packages = eachSystem (pkgs: {
-        inherit (pkgs)
-          star-citizen-helper
-          lug-helper
-          star-citizen
-          star-citizen-umu
-          dxvk-gplasync
-          umu
-          winetricks-git
-          ;
-      });
-      githubActions = nix-github-actions.lib.mkGithubMatrix {
-        checks =
-          (nixpkgs.lib.getAttrs [ "x86_64-linux" ] self.checks)
-          // (nixpkgs.lib.getAttrs [ "x86_64-linux" ] self.packages);
+    inputs@{ flake-parts, self, ... }:
+    flake-parts.lib.mkFlake { inherit inputs; } {
+      imports = [
+        inputs.flake-parts.flakeModules.easyOverlay
+        inputs.flake-parts.flakeModules.modules
+        inputs.treefmt-nix.flakeModule
+      ];
+      systems = [ "x86_64-linux" ];
+      flake = {
+
+        githubActions = inputs.nix-github-actions.lib.mkGithubMatrix {
+          checks =
+            (inputs.nixpkgs.lib.getAttrs [ "x86_64-linux" ] self.checks)
+            // (inputs.nixpkgs.lib.getAttrs [ "x86_64-linux" ] self.packages);
+        };
+        modules = {
+          nixos = {
+            StarCitizen = import ./modules/nixos/star-citizen;
+          };
+        };
       };
+      perSystem =
+        {
+          config,
+          system,
+          pkgs,
+          ...
+        }:
+        {
+          _module.args.pkgs = import inputs.nixpkgs {
+            inherit system;
+            config.allowUnfree = true;
+          };
+          overlayAttrs = config.packages;
+          packages =
+            let
+              pins = import ./npins;
+            in
+            {
+              star-citizen-helper = pkgs.callPackage ./pkgs/star-citizen-helper { };
+
+              dxvk-gplasync =
+                let
+                  inherit (pins) dxvk-gplasync;
+                  inherit (dxvk-gplasync) version;
+                in
+                pkgs.dxvk.overrideAttrs (old: {
+                  name = "dxvk-gplasync";
+                  inherit version;
+                  patches = [
+                    "${dxvk-gplasync}/patches/dxvk-gplasync-${version}.patch"
+                    "${dxvk-gplasync}/patches/global-dxvk.conf.patch"
+                  ] ++ old.patches or [ ];
+                });
+
+              lug-helper =
+                let
+                  pkg = pkgs.callPackage ./pkgs/lug-helper { };
+                in
+                # We only use the local lug-helper if nixpkgs doesn't have it
+                # And if the nixpkgs version isnt older than local
+                if (builtins.hasAttr "lug-helper" pkgs) then
+                  if (inputs.nixpkgs.lib.strings.versionOlder pkgs.lug-helper.version pkg.version) then
+                    pkg
+                  else
+                    pkgs.lug-helper
+                else
+                  pkg;
+              inherit (inputs.nix-gaming.packages.${system})
+                star-citizen
+                star-citizen-umu
+                umu
+                winetricks-git
+                ;
+
+            };
+          treefmt = {
+            # Project root
+            projectRootFile = "flake.nix";
+            # Terraform formatter
+            programs = {
+              yamlfmt.enable = true;
+              nixfmt.enable = true;
+              deno.enable = true;
+              deadnix = {
+                enable = true;
+                # Can break callPackage if this is set to false
+                no-lambda-pattern-names = true;
+              };
+              statix.enable = true;
+              rustfmt.enable = true;
+              beautysh.enable = true;
+            };
+            settings.formatter = {
+              deadnix.excludes = [ "npins/default.nix" ];
+              nixfmt.excludes = [ "npins/default.nix" ];
+              deno.excludes = [ "npins/default.nix" ];
+              statix.excludes = [ "npins/default.nix" ];
+              yamlfmt.excludes = [ "npins/sources.json" ];
+            };
+          };
+        };
     };
 }
