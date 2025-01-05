@@ -62,6 +62,9 @@
               pins = import ./npins;
             in
             {
+              xwayland = pkgs.xwayland.overrideAttrs (p: {
+                patches = (p.patches or [ ]) ++ [ ./patches/ge-xwayland-pointer-warp-fix.patch ];
+              });
               star-citizen-helper = pkgs.callPackage ./pkgs/star-citizen-helper { };
 
               dxvk-gplasync =
