@@ -26,22 +26,17 @@
     inputs@{ flake-parts, self, ... }:
     flake-parts.lib.mkFlake { inherit inputs; } {
       imports = [
+        ./modules
         inputs.flake-parts.flakeModules.easyOverlay
         inputs.flake-parts.flakeModules.modules
         inputs.treefmt-nix.flakeModule
       ];
       systems = [ "x86_64-linux" ];
       flake = {
-
         githubActions = inputs.nix-github-actions.lib.mkGithubMatrix {
           checks =
             (inputs.nixpkgs.lib.getAttrs [ "x86_64-linux" ] self.checks)
             // (inputs.nixpkgs.lib.getAttrs [ "x86_64-linux" ] self.packages);
-        };
-        modules = {
-          nixos = {
-            StarCitizen = import ./modules/nixos/star-citizen;
-          };
         };
       };
       perSystem =
@@ -62,8 +57,8 @@
               pins = import ./npins;
             in
             {
-              xwayland = pkgs.xwayland.overrideAttrs (p: {
-                patches = (p.patches or [ ]) ++ [ ./patches/ge-xwayland-pointer-warp-fix.patch ];
+              xwayland = pkgs.xwayland.overrideAttrs (_p: {
+                patches = [ ./patches/ge-xwayland-pointer-warp-fix.patch ];
               });
               star-citizen-helper = pkgs.callPackage ./pkgs/star-citizen-helper { };
 
