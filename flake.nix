@@ -61,9 +61,9 @@
               xwayland-patched = pkgs.xwayland.overrideAttrs (p: {
                 patches =
                   (p.patches or [ ])
-                  ++ optional (builtins.elem ./patches/ge-xwayland-pointer-warp-fix.patch (
-                    p.patches or [ ]
-                  )) ./patches/ge-xwayland-pointer-warp-fix.patch;
+                  ++ optional (
+                    !builtins.elem ./patches/ge-xwayland-pointer-warp-fix.patch (p.patches or [ ])
+                  ) ./patches/ge-xwayland-pointer-warp-fix.patch;
               });
               star-citizen-helper = pkgs.callPackage ./pkgs/star-citizen-helper { };
 
