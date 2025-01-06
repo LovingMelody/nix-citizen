@@ -27,8 +27,8 @@
     flake-parts.lib.mkFlake { inherit inputs; } {
       imports = [
         ./modules
+        ./overlays.nix
         inputs.flake-parts.flakeModules.easyOverlay
-        inputs.flake-parts.flakeModules.modules
         inputs.treefmt-nix.flakeModule
       ];
       systems = [ "x86_64-linux" ];
@@ -55,10 +55,15 @@
           packages =
             let
               pins = import ./npins;
+              inherit (inputs.nixpkgs.lib) optional;
             in
             {
-              xwayland = pkgs.xwayland.overrideAttrs (_p: {
-                patches = [ ./patches/ge-xwayland-pointer-warp-fix.patch ];
+              xwayland-patched = pkgs.xwayland.overrideAttrs (p: {
+                patches =
+                  (p.patches or [ ])
+                  ++ optional (builtins.elem ./patches/ge-xwayland-pointer-warp-fix.patch (
+                    p.patches or [ ]
+                  )) ./patches/ge-xwayland-pointer-warp-fix.patch;
               });
               star-citizen-helper = pkgs.callPackage ./pkgs/star-citizen-helper { };
 

@@ -27,6 +27,9 @@
         includeOverlay = mkEnableOption "Enable nix-citizen overlay" // {
           default = true;
         };
+        patchXwayland = mkEnableOption ''
+          Enable xwayland overlay with a patch intended to help fix cursor issues
+        '';
         package = mkOption {
           description = "Package to use for star-citizen";
           type = types.package;
@@ -128,7 +131,9 @@
           ];
         };
         environment.systemPackages = [ cfg.package ];
-        nixpkgs.overlays = lib.optional cfg.includeOverlay self.overlays.default;
+        nixpkgs.overlays =
+          lib.optional cfg.includeOverlay self.overlays.default
+          ++ lib.optional cfg.patchXwayland self.overlays.patchedXwayland;
       };
     };
 }
