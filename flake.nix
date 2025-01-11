@@ -54,8 +54,7 @@
           overlayAttrs = config.packages;
           packages =
             let
-              pins = import ./npins;
-              inherit (inputs.nixpkgs.lib) optional;
+              inherit (inputs.nixpkgs.lib) optional warn;
             in
             {
               xwayland-patched = pkgs.xwayland.overrideAttrs (p: {
@@ -67,19 +66,7 @@
               });
               star-citizen-helper = pkgs.callPackage ./pkgs/star-citizen-helper { };
 
-              dxvk-gplasync =
-                let
-                  inherit (pins) dxvk-gplasync;
-                  inherit (dxvk-gplasync) version;
-                in
-                pkgs.dxvk.overrideAttrs (old: {
-                  name = "dxvk-gplasync";
-                  inherit version;
-                  patches = [
-                    "${dxvk-gplasync}/patches/dxvk-gplasync-${version}.patch"
-                    "${dxvk-gplasync}/patches/global-dxvk.conf.patch"
-                  ] ++ old.patches or [ ];
-                });
+              dxvk-gplasync = warn "This package will be removed in a future update and is now just an alias for dxvk" pkgs.dxvk;
 
               lug-helper =
                 let
