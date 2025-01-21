@@ -38,6 +38,20 @@
             star-citizen:
             star-citizen.override (old: {
               useUmu = cfg.umu.enable;
+              umu = pkgs.umu-launcher.override (prev: {
+                extraLibraries =
+                  pkgs:
+                  let
+                    prevLibs = if prev ? extraLibraries then prev.extraLibraries pkgs else [ ];
+                    additionalLibs =
+                      with config.hardware.graphics;
+                      if pkgs.stdenv.hostPlatform.is64bit then
+                        [ package ] ++ extraPackages
+                      else
+                        [ package32 ] ++ extraPackages32;
+                  in
+                  prevLibs ++ additionalLibs;
+              });
               preCommands = ''
                 ${cfg.preCommands}
                 ${if cfg.helperScript.enable then "${cfg.helperScript.package}/bin/star-citizen-helper" else ""}
