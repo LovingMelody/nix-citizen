@@ -8,7 +8,7 @@
       ...
     }:
     let
-      flake-packages = self.packages.${pkgs.system};
+      flake-packages = self.packages.${pkgs.stdenv.hostPlatform};
       cfg = config.nix-citizen.starCitizen;
       smartPackage =
         pname:
