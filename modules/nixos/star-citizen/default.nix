@@ -38,7 +38,7 @@
             star-citizen:
             star-citizen.override (old: {
               useUmu = cfg.umu.enable;
-              umu = pkgs.umu-launcher.override (prev: {
+              umu-launcher = pkgs.umu-launcher.override (prev: {
                 extraLibraries =
                   pkgs:
                   let
