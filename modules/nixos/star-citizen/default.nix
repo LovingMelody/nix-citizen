@@ -38,6 +38,7 @@
             star-citizen:
             star-citizen.override (old: {
               useUmu = cfg.umu.enable;
+              disableEac = cfg.disableEAC;
               umu-launcher = pkgs.umu-launcher.override (prev: {
                 extraLibraries =
                   pkgs:
@@ -68,6 +69,9 @@
             default = "GE-Proton";
             description = "Proton Version";
           };
+        };
+        disableEAC = mkEnableOption "Disable EasyAntiCheat" // {
+          default = true;
         };
         gplAsync = {
           enable = mkEnableOption "Enable dxvk-gplasync configs";
@@ -122,14 +126,7 @@
         };
       };
       config = mkIf cfg.enable {
-        assertions = [
-          (mkIf cfg.gplAsync.enable {
-
-            assertion = lib.strings.versionAtLeast (smartPackage "dxvk").version (smartPackage "dxvk-gplasync")
-            .version;
-            message = "The version of dxvk-gplasync is less than the current version of DXVK, needed patches are missing";
-          })
-        ];
+        assertions = [ ];
         boot.kernel.sysctl = mkIf cfg.setLimits {
           "vm.max_map_count" = mkOverride 999 16777216;
           "fs.file-max" = mkOverride 999 524288;
