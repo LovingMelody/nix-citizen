@@ -1,32 +1,29 @@
-{ self, ... }:
-{
-  flake.nixosModules.StarCitizen =
-    {
-      config,
-      lib,
-      pkgs,
-      ...
-    }:
-    let
-      flake-packages = self.packages.${pkgs.stdenv.hostPlatform};
-      cfg = config.nix-citizen.starCitizen;
-      smartPackage =
-        pname:
-        if (builtins.hasAttr pname pkgs) then
-          pkgs.${pname}
-        else
-          builtins.trace
-            "Warning: pkgs does not include ${pname} (missing overlay?) using nix-citizen's package"
-            flake-packages.${pname};
-    in
-    with lib;
-    {
+{self, ...}: {
+  flake.nixosModules.StarCitizen = {
+    config,
+    lib,
+    pkgs,
+    ...
+  }: let
+    flake-packages = self.packages.${pkgs.stdenv.hostPlatform};
+    cfg = config.nix-citizen.starCitizen;
+    smartPackage = pname:
+      if (builtins.hasAttr pname pkgs)
+      then pkgs.${pname}
+      else
+        builtins.trace
+        "Warning: pkgs does not include ${pname} (missing overlay?) using nix-citizen's package"
+        flake-packages.${pname};
+  in
+    with lib; {
       options.nix-citizen.starCitizen = {
         enable = mkEnableOption "Enable star-citizen";
         # If you manually define  your nixpkgs set, this wont work but it wont error
-        includeOverlay = mkEnableOption "Enable nix-citizen overlay" // {
-          default = true;
-        };
+        includeOverlay =
+          mkEnableOption "Enable nix-citizen overlay"
+          // {
+            default = true;
+          };
         patchXwayland = mkEnableOption ''
           Enable xwayland overlay with a patch intended to help fix cursor issues
         '';
@@ -34,32 +31,43 @@
           description = "Package to use for star-citizen";
           type = types.package;
           default = smartPackage "star-citizen";
-          apply =
-            star-citizen:
+          apply = star-citizen:
             star-citizen.override (old: {
               useUmu = cfg.umu.enable;
               disableEac = cfg.disableEAC;
               umu-launcher = pkgs.umu-launcher.override (prev: {
-                extraLibraries =
-                  pkgs:
-                  let
-                    prevLibs = if prev ? extraLibraries then prev.extraLibraries pkgs else [ ];
-                    additionalLibs =
-                      with config.hardware.graphics;
-                      if pkgs.stdenv.hostPlatform.is64bit then
-                        [ package ] ++ extraPackages
-                      else
-                        [ package32 ] ++ extraPackages32;
-                  in
+                extraLibraries = pkgs: let
+                  prevLibs =
+                    if prev ? extraLibraries
+                    then prev.extraLibraries pkgs
+                    else [];
+                  graphicsLibs = with config.hardware.graphics;
+                    if pkgs.stdenv.hostPlatform.is64bit
+                    then [package] ++ extraPackages
+                    else [package32] ++ extraPackages32;
+                  gamemodeLibs = lib.optional config.programs.gamemode.enable pkgs.gamemode.lib;
+                  additionalLibs = graphicsLibs ++ gamemodeLibs;
+                in
                   prevLibs ++ additionalLibs;
               });
               preCommands = ''
                 ${cfg.preCommands}
-                ${if cfg.helperScript.enable then "${cfg.helperScript.package}/bin/star-citizen-helper" else ""}
-                ${if cfg.gplAsync.enable then "DXVK_ASYNC=1" else ""}
+                ${
+                  if cfg.helperScript.enable
+                  then "${cfg.helperScript.package}/bin/star-citizen-helper"
+                  else ""
+                }
+                ${
+                  if cfg.gplAsync.enable
+                  then "DXVK_ASYNC=1"
+                  else ""
+                }
               '';
               inherit (cfg) postCommands location;
-              dxvk = if cfg.gplAsync.enable then cfg.gplAsync.package else old.dxvk;
+              dxvk =
+                if cfg.gplAsync.enable
+                then cfg.gplAsync.package
+                else old.dxvk;
             });
         };
         umu = {
@@ -70,9 +78,11 @@
             description = "Proton Version";
           };
         };
-        disableEAC = mkEnableOption "Disable EasyAntiCheat" // {
-          default = true;
-        };
+        disableEAC =
+          mkEnableOption "Disable EasyAntiCheat"
+          // {
+            default = true;
+          };
         gplAsync = {
           enable = mkEnableOption "Enable dxvk-gplasync configs";
           package = mkOption {
@@ -126,7 +136,7 @@
         };
       };
       config = mkIf cfg.enable {
-        assertions = [ ];
+        assertions = [];
         boot.kernel.sysctl = mkIf cfg.setLimits {
           "vm.max_map_count" = mkOverride 999 16777216;
           "fs.file-max" = mkOverride 999 524288;
@@ -141,7 +151,7 @@
             }
           ];
         };
-        environment.systemPackages = [ cfg.package ];
+        environment.systemPackages = [cfg.package];
         nixpkgs.overlays =
           lib.optional cfg.includeOverlay self.overlays.default
           ++ lib.optional cfg.patchXwayland self.overlays.patchedXwayland;
