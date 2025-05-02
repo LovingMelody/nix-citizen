@@ -56,6 +56,7 @@
         packages = let
           inherit (inputs.nixpkgs.lib) optional warn;
         in {
+          gameglass = pkgs.callPackage ./pkgs/gameglass {};
           xwayland-patched = pkgs.xwayland.overrideAttrs (p: {
             patches =
               (p.patches or [])
