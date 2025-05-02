@@ -18,11 +18,7 @@ async fn main() -> Res<()> {
         );
         let platform = wine_prefix.join("drive_c/Program Files/Roberts Space Industries/StarCitizen/LIVE/f_win_game_client_release.id");
 
-        if platform.exists() {
-            platform
-        } else {
-            build
-        }
+        if platform.exists() { platform } else { build }
     };
     let appdata_dir = wine_prefix
         .join("drive_c/users")

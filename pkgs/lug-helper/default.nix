@@ -41,8 +41,8 @@ stdenvNoCC.mkDerivation (finalAttrs: {
       icon = "lug-logo";
       comment = "Star Citizen LUG Helper";
       desktopName = "LUG Helper";
-      categories = [ "Utility" ];
-      mimeTypes = [ "application/x-lug-helper" ];
+      categories = ["Utility"];
+      mimeTypes = ["application/x-lug-helper"];
     })
   ];
 
@@ -54,25 +54,25 @@ stdenvNoCC.mkDerivation (finalAttrs: {
 
     wrapProgram $out/bin/lug-helper \
       --prefix PATH : ${
-        lib.makeBinPath [
-          coreutils
-          findutils
-          zenity
-          cabextract
-          unzip
-          libnotify
-        ]
-      } \
+      lib.makeBinPath [
+        coreutils
+        findutils
+        zenity
+        cabextract
+        unzip
+        libnotify
+      ]
+    } \
       --prefix XDG_DATA_DIRS : "$out"
 
   '';
-  passthru.updateScript = nix-update-script { };
+  passthru.updateScript = nix-update-script {};
   meta = {
     description = "Script to manage and optimize Star Citizen on Linux";
     homepage = "https://github.com/starcitizen-lug/lug-helper";
     changelog = "https://github.com/starcitizen-lug/lug-helper/releases/tag/v${finalAttrs.version}";
     license = lib.licenses.gpl3Only;
-    maintainers = with lib.maintainers; [ fuzen ];
+    maintainers = with lib.maintainers; [fuzen];
     platforms = lib.platforms.linux;
     mainProgram = "lug-helper";
   };

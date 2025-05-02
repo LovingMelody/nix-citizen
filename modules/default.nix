@@ -1,4 +1,3 @@
-{ ... }:
-{
-  imports = [ ./nixos/star-citizen/default.nix ];
+{...}: {
+  imports = [./nixos/star-citizen/default.nix];
 }
