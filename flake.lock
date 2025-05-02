@@ -46,11 +46,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1746150788,
-        "narHash": "sha256-Qm1EB+wOEjEKak4i1N+A9m/UyKZEjn8QLZcPvYmTV8s=",
-        "owner": "fufexan",
+        "lastModified": 1746158129,
+        "narHash": "sha256-bYh6xGnlbradTSMNOqPlBkrd80i0nuHfg6PP0uNEZaA=",
+        "owner": "LovingMelody",
         "repo": "nix-gaming",
-        "rev": "549ba3a2d141b8160fa129e3cc4fad5769dc2a8a",
+        "rev": "63c41219651aafc094ac1c10407985b2f8d724f2",
         "type": "github"
       },
       "original": {
