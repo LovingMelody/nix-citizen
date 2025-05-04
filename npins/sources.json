@@ -1,0 +1,18 @@
+{
+  "pins": {
+    "lug-patches": {
+      "type": "Git",
+      "repository": {
+        "type": "GitHub",
+        "owner": "starcitizen-lug",
+        "repo": "patches"
+      },
+      "branch": "main",
+      "submodules": false,
+      "revision": "30a462c79516fd19f15e7fd9121b2d3eda9f7840",
+      "url": "https://github.com/starcitizen-lug/patches/archive/30a462c79516fd19f15e7fd9121b2d3eda9f7840.tar.gz",
+      "hash": "1vfcadar8ydjpdh8ssx7yp74kp7jglmvr535cr6yhzlsa4jgzxsp"
+    }
+  },
+  "version": 5
+}

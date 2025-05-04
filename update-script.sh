@@ -11,4 +11,6 @@ SRI_HASH="$(nix hash to-sri --type sha256 "$HASH")"
 
 echo "{\"version\": \"$VERSION\", \"hash\": \"$SRI_HASH\" }" | jq >./pkgs/gameglass/sources.json
 
+npins update
+
 nix fmt
