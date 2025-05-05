@@ -1,6 +1,7 @@
 {
   fetchurl,
   appimageTools,
+  lib,
 }:
 # Latest Version can be found here: https://download.gameglass.gg/hub/latest-linux.yml
 let
@@ -26,6 +27,10 @@ in
         dbus.lib
         xorg.xcbutilwm
       ];
-
-    passthru.updateScript = ./update.sh;
+    meta = {
+      homepage = "https://gameglass.gg/";
+      description = "GameGlass is a remote control app for PC games.";
+      license = lib.licenses.unfree;
+      insecure = true; # This package uses an insecure version of electron
+    };
   }
