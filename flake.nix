@@ -82,7 +82,8 @@
               ++ optional (!builtins.elem ./patches/ge-xwayland-pointer-warp-fix.patch (p.patches or [])) ./patches/ge-xwayland-pointer-warp-fix.patch;
           });
           star-citizen-helper = pkgs.callPackage ./pkgs/star-citizen-helper {};
-          inherit (inputs.nix-gaming.packages.${system}) umu-launcher star-citizen star-citizen-umu;
+          star-citizen = inputs.nix-gaming.packages.x86_64-linux.star-citizen.override {wine = self.packages.${system}.wine-astral;};
+          inherit (inputs.nix-gaming.packages.${system}) umu-launcher star-citizen-umu;
           dxvk-gplasync = warn "This package will be removed in a future update and is now just an alias for dxvk" pkgs.dxvk;
           lug-helper = let
             pkg = pkgs.callPackage ./pkgs/lug-helper {};
