@@ -72,7 +72,7 @@
               patches = map (f: "${cleanedPatches}/${f}") lug-patches;
             in
               (o.patches or [])
-              ++ patches;
+              ++ patches ++ [./patches/silence-sc-unsupported-os.patch];
           });
 
           gameglass = pkgs.callPackage ./pkgs/gameglass {};
