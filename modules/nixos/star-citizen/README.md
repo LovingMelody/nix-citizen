@@ -36,9 +36,6 @@ NameSpace: nix-citizen.starCitizen
                            export DXVK_HUD=compiler;
                            export MANGO_HUD=1;
                        '';
-                       # Experimental script
-                       helperScript.enable = true;
-                       
                        # # This option is enabled by default
                        # #  Configures your system to meet some of the requirements to run star-citizen
                        # # Set `vm.max_map_count` default to `16777216` (sysctl(8))

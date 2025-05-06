@@ -17,9 +17,10 @@ flakes please see the
 
 | Package                                                                             | Description                                                                                                                            |
 | ----------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------- |
-| [star-citizen](https://github.com/fufexan/nix-gaming/tree/master/pkgs/star-citizen) | Star Citizen game (standalone) This package is repackaged from nix-gaming                                                              |
-| [star-citizen-helper](./pkgs/star-citizen-helper)                                   | Star Citizen helper utility, clears shaders if an update is detected                                                                   |
+| [star-citizen](https://github.com/fufexan/nix-gaming/tree/master/pkgs/star-citizen) | Star Citizen game (standalone) This package is repackaged from nix-gaming. This has been modified to use wine-astral                   |
+| [star-citizen-helper](./pkgs/star-citizen-helper)                                   | Star Citizen helper utility, clears shaders if an update is detected -- Dropped Launcher does this now                                 |
 | [lug-helper](./pkgs/lug-helper)                                                     | Star Citizen's Linux Users Group Helper Script. Includes a setup script if you wish to use lutris instead of the star-citizen package. |
+| [wine-astral](./flake.nix)                                                          | My Wine build, TKG + Some other patches                                                                                                |
 
 ### Cachix
 
