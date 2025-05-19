@@ -58,22 +58,26 @@
         packages = let
           inherit (inputs.nixpkgs.lib) optional warn;
         in {
-          wine-astral = inputs.nix-gaming.packages.x86_64-linux.wine-tkg.override (o: {
-            pname = "wine-astral-full";
-            patches = let
-              blacklist = [
-                "10.2+_eac_fix.patch"
-                "real_path.patch"
-                "winewayland-no-enter-move-if-relative.patch"
-              ];
-              filter = name: _type: ! (builtins.elem (builtins.baseNameOf name) blacklist);
-              cleanedPatches = builtins.filterSource filter "${pins.lug-patches}/wine";
-              lug-patches = builtins.attrNames (builtins.readDir cleanedPatches);
-              patches = map (f: "${cleanedPatches}/${f}") lug-patches;
-            in
-              (o.patches or [])
-              ++ patches;
-          });
+          wine-astral = pkgs.callPackage ./pkgs/wine-astral {
+            inherit (pkgs) lib;
+            inherit pins inputs;
+          };
+          # wine-astral = inputs.nix-gaming.packages.x86_64-linux.wine-tkg.override (o: {
+          #   pname = "wine-astral-full";
+          #   patches = let
+          #     blacklist = [
+          #       "10.2+_eac_fix.patch"
+          #       "real_path.patch"
+          #       "winewayland-no-enter-move-if-relative.patch"
+          #     ];
+          #     filter = name: _type: ! (builtins.elem (builtins.baseNameOf name) blacklist);
+          #     cleanedPatches = builtins.filterSource filter "${pins.lug-patches}/wine";
+          #     lug-patches = builtins.attrNames (builtins.readDir cleanedPatches);
+          #     patches = map (f: "${cleanedPatches}/${f}") lug-patches;
+          #   in
+          #     (o.patches or [])
+          #     ++ patches;
+          # });
 
           gameglass = pkgs.callPackage ./pkgs/gameglass {};
           xwayland-patched = pkgs.xwayland.overrideAttrs (p: {
