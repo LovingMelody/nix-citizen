@@ -56,7 +56,7 @@
         };
         overlayAttrs = config.packages;
         packages = let
-          inherit (inputs.nixpkgs.lib) optional warn;
+          inherit (inputs.nixpkgs.lib) optional;
         in {
           wine-astral = pkgs.callPackage ./pkgs/wine-astral {
             inherit (pkgs) lib;

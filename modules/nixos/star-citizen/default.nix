@@ -32,7 +32,7 @@
           type = types.package;
           default = smartPackage "star-citizen";
           apply = star-citizen:
-            star-citizen.override (old: {
+            star-citizen.override (_old: {
               useUmu = cfg.umu.enable;
               disableEac = cfg.disableEAC;
               umu-launcher = pkgs.umu-launcher.override (prev: {
