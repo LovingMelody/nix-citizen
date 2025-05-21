@@ -14,6 +14,11 @@
   inherit (tomlConfig.package) name version;
   binPath = lib.makeBinPath [zenity];
 in
+  lib.warn ''
+    star-citizen-helper:
+      This package is no longer needed and will be removed in a future update.
+      The buggy features that this package offered is now a part of the RSI launcher
+  ''
   rustPlatform.buildRustPackage {
     inherit name version;
     src = ./.;
