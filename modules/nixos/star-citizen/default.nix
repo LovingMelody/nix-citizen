@@ -57,17 +57,8 @@
                   then "${cfg.helperScript.package}/bin/star-citizen-helper"
                   else ""
                 }
-                ${
-                  if cfg.gplAsync.enable
-                  then "DXVK_ASYNC=1"
-                  else ""
-                }
               '';
               inherit (cfg) postCommands location;
-              dxvk =
-                if cfg.gplAsync.enable
-                then cfg.gplAsync.package
-                else old.dxvk;
             });
         };
         umu = {
@@ -83,14 +74,6 @@
           // {
             default = true;
           };
-        gplAsync = {
-          enable = mkEnableOption "Enable dxvk-gplasync configs";
-          package = mkOption {
-            description = "Package for DXVK GPL Async";
-            default = smartPackage "dxvk-gplasync";
-            type = types.package;
-          };
-        };
         location = mkOption {
           default = "$HOME/Games/star-citizen";
           type = types.str;

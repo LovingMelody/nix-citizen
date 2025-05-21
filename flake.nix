@@ -71,7 +71,6 @@
           star-citizen-helper = pkgs.callPackage ./pkgs/star-citizen-helper {};
           star-citizen = inputs.nix-gaming.packages.x86_64-linux.star-citizen.override {wine = self.packages.${system}.wine-astral;};
           inherit (inputs.nix-gaming.packages.${system}) umu-launcher star-citizen-umu;
-          dxvk-gplasync = warn "This package will be removed in a future update and is now just an alias for dxvk" pkgs.dxvk;
           lug-helper = let
             pkg = pkgs.callPackage ./pkgs/lug-helper {};
           in
