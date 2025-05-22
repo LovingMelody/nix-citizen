@@ -26,14 +26,11 @@
     flake-parts,
     self,
     ...
-  }: let
-    pins = import ./npins;
-  in
+  }:
     flake-parts.lib.mkFlake {inherit inputs;} {
       imports = [
         ./modules
         ./overlays.nix
-        inputs.flake-parts.flakeModules.easyOverlay
         inputs.treefmt-nix.flakeModule
       ];
       systems = ["x86_64-linux"];
@@ -53,37 +50,17 @@
         _module.args.pkgs = import inputs.nixpkgs {
           inherit system;
           config.allowUnfree = true;
+          overlays = [self.overlays.default];
         };
-        overlayAttrs = config.packages;
         packages = let
           inherit (inputs.nixpkgs.lib) optional;
         in {
-          wine-astral = pkgs.callPackage ./pkgs/wine-astral {
-            inherit (pkgs) lib;
-            inherit pins inputs;
-          };
-          gameglass = pkgs.callPackage ./pkgs/gameglass {};
+          inherit (pkgs) wine-astral gameglass umu-launcher star-citizen star-citizen-umu lug-helper winetricks-git;
           xwayland-patched = pkgs.xwayland.overrideAttrs (p: {
             patches =
               (p.patches or [])
               ++ optional (!builtins.elem ./patches/ge-xwayland-pointer-warp-fix.patch (p.patches or [])) ./patches/ge-xwayland-pointer-warp-fix.patch;
           });
-          star-citizen-helper = pkgs.callPackage ./pkgs/star-citizen-helper {};
-          star-citizen = inputs.nix-gaming.packages.x86_64-linux.star-citizen.override {wine = self.packages.${system}.wine-astral;};
-          inherit (inputs.nix-gaming.packages.${system}) umu-launcher star-citizen-umu;
-          lug-helper = let
-            pkg = pkgs.callPackage ./pkgs/lug-helper {};
-          in
-            # We only use the local lug-helper if nixpkgs doesn't have it
-            # And if the nixpkgs version isnt newer than local
-            if (builtins.hasAttr "lug-helper" pkgs)
-            then
-              if (inputs.nixpkgs.lib.strings.versionOlder pkg.version pkgs.lug-helper.version)
-              then pkgs.lug-helper
-              else pkg
-            else pkg;
-
-          inherit (inputs.nix-gaming.packages.${system}) winetricks-git;
         };
         treefmt = {
           # Project root
