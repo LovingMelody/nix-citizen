@@ -1,58 +1,88 @@
-{
-  inputs,
-  lib,
-  pins,
-  pkgs,
-  pkgsCross,
-  pkgsi686Linux,
-  callPackage,
-  moltenvk,
-  overrideCC,
-  wrapCCMulti,
-  gcc14,
-  stdenv,
-}: let
-  supportFlags = import ./supportFlags.nix;
-  nixpkgs-wine = builtins.path {
-    path = inputs.nixpkgs;
-    name = "source";
-    filter = path: type: let
-      wineDir = "${inputs.nixpkgs}/pkgs/applications/emulators/wine/";
-    in
-      (type == "directory" && (lib.hasPrefix path wineDir))
-      || (type != "directory" && (lib.hasPrefix wineDir path));
-  };
-
-  base = let
-    sources = (import "${inputs.nixpkgs}/pkgs/applications/emulators/wine/sources.nix" {inherit pkgs;}).unstable;
-  in {
-    inherit supportFlags moltenvk;
-    buildScript = "${nixpkgs-wine}/pkgs/applications/emulators/wine/builder-wow.sh";
-    configureFlags = ["--disable-tests"];
-    geckos = with sources; [gecko32 gecko64];
-    mingwGccs = with pkgsCross; [mingw32.buildPackages.gcc14 mingwW64.buildPackages.gcc14];
-    monos = with sources; [mono];
-    pkgArches = [pkgs pkgsi686Linux];
-    platforms = ["x86_64-linux"];
-    stdenv = overrideCC stdenv (wrapCCMulti gcc14);
-    wineRelease = "unstable";
-  };
+let
+  MIN_KERNEL_VERSION_NTSYNC = "6.14";
 in
-  callPackage "${nixpkgs-wine}/pkgs/applications/emulators/wine/base.nix"
-  (lib.recursiveUpdate base rec {
-    pname = "wine-astral-full";
-    version = lib.removeSuffix "\n" (lib.removePrefix "Wine version " (builtins.readFile "${src}/VERSION"));
-    src = pins.wine-tkg;
-    patches = let
-      blacklist = [
-        "10.2+_eac_fix.patch"
-        "real_path.patch"
-        "winewayland-no-enter-move-if-relative.patch"
-      ];
-      filter = name: _type: ! (builtins.elem (builtins.baseNameOf name) blacklist);
-      cleanedPatches = builtins.filterSource filter "${pins.lug-patches}/wine";
-      lug-patches = builtins.attrNames (builtins.readDir cleanedPatches);
-      patches = map (f: "${cleanedPatches}/${f}") lug-patches;
-    in
-      patches;
-  })
+  {
+    inputs,
+    lib,
+    pins,
+    pkgs,
+    pkgsCross,
+    pkgsi686Linux,
+    callPackage,
+    moltenvk,
+    overrideCC,
+    wrapCCMulti,
+    gcc14,
+    stdenv,
+    linuxHeaders,
+    linuxPackages_latest,
+    ntsync ? lib.versionAtLeast linuxHeaders.version MIN_KERNEL_VERSION_NTSYNC,
+  }: let
+    supportFlags = import ./supportFlags.nix;
+    nixpkgs-wine = builtins.path {
+      path = inputs.nixpkgs;
+      name = "source";
+      filter = path: type: let
+        wineDir = "${inputs.nixpkgs}/pkgs/applications/emulators/wine/";
+      in
+        (type == "directory" && (lib.hasPrefix path wineDir))
+        || (type != "directory" && (lib.hasPrefix wineDir path));
+    };
+    updatedHeaders =
+      if lib.versionAtLeast linuxHeaders.version "6.14" MIN_KERNEL_VERSION_NTSYNC
+      then linuxHeaders
+      else if linuxPackages_latest.versionAtLeast MIN_KERNEL_VERSION_NTSYNC
+      then pkgs.makeLinuxHeaders {inherit (linuxPackages_latest.kernel) src version;}
+      else
+        throw ''
+          Package: `wine-astral`
+          Repo: https://LovingMelody/nix-citizen
+          You are attempting to use NTSYNC but the requirements have not been met
+          NTSYNC requires a kernel version of ${MIN_KERNEL_VERSION_NTSYNC} or newer
+            Detected latest version: ${linuxPackages_latest.kernel.version}
+          To fix this error try the followwing
+            - Update your pinned nixpkgs
+            - wine-astral.override { ntsync = false; }
+        '';
+
+    base = let
+      sources = (import "${inputs.nixpkgs}/pkgs/applications/emulators/wine/sources.nix" {inherit pkgs;}).unstable;
+    in {
+      inherit supportFlags moltenvk;
+      buildScript = "${nixpkgs-wine}/pkgs/applications/emulators/wine/builder-wow.sh";
+      configureFlags = ["--disable-tests"];
+      geckos = with sources; [gecko32 gecko64];
+      mingwGccs = with pkgsCross; [mingw32.buildPackages.gcc14 mingwW64.buildPackages.gcc14];
+      monos = with sources; [mono];
+      pkgArches = [pkgs pkgsi686Linux];
+      platforms = ["x86_64-linux"];
+      stdenv = overrideCC stdenv (wrapCCMulti gcc14);
+      wineRelease = "unstable";
+    };
+  in
+    (callPackage "${nixpkgs-wine}/pkgs/applications/emulators/wine/base.nix"
+      (lib.recursiveUpdate base rec {
+        pname = "wine-astral-full";
+        passthru.ntsync-enabled = ntsync;
+        version = lib.removeSuffix "\n" (lib.removePrefix "Wine version " (builtins.readFile "${src}/VERSION"));
+        src =
+          if ntsync
+          then pins.wine-tkg-ntsync
+          else pins.wine-tkg;
+        patches = let
+          blacklist = [
+            "10.2+_eac_fix.patch"
+            "real_path.patch"
+            "winewayland-no-enter-move-if-relative.patch"
+          ];
+          filter = name: _type: ! (builtins.elem (builtins.baseNameOf name) blacklist);
+          cleanedPatches = builtins.filterSource filter "${pins.lug-patches}/wine";
+          lug-patches = builtins.attrNames (builtins.readDir cleanedPatches);
+          patches = map (f: "${cleanedPatches}/${f}") lug-patches;
+        in
+          patches;
+      })).overrideAttrs (old: {
+      buildInputs =
+        old.buildInputs
+        ++ lib.optional ntsync updatedHeaders;
+    })
