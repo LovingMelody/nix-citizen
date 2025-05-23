@@ -34,9 +34,9 @@
         "repo": "wine-tkg"
       },
       "branch": "ntsync",
-      "submodules": true,
+      "submodules": false,
       "revision": "68fba78452e7ede28b573a5f6304a0c353cd3df1",
-      "url": null,
+      "url": "https://github.com/Kron4ek/wine-tkg/archive/68fba78452e7ede28b573a5f6304a0c353cd3df1.tar.gz",
       "hash": "1s9wsf6sv1yc62jwdgj0imr2wcy57z3hvlwbw5b1ps833b8zy445"
     }
   },

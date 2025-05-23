@@ -32,6 +32,7 @@ in {
         inherit (final) lib;
         inherit pins inputs;
       };
+      wine-astral-ntsync = final.wine-astral.override {ntsync = true;};
       star-citizen = final.callPackage "${inputs.nix-gaming}/pkgs/star-citizen" {wine = final.wine-astral;};
       star-citizen-umu = final.star-citizen.override {useUmu = true;};
 

@@ -29,9 +29,9 @@ in
         || (type != "directory" && (lib.hasPrefix wineDir path));
     };
     updatedHeaders =
-      if lib.versionAtLeast linuxHeaders.version "6.14" MIN_KERNEL_VERSION_NTSYNC
+      if (lib.versionAtLeast linuxHeaders.version MIN_KERNEL_VERSION_NTSYNC)
       then linuxHeaders
-      else if linuxPackages_latest.versionAtLeast MIN_KERNEL_VERSION_NTSYNC
+      else if (linuxPackages_latest.kernelAtLeast MIN_KERNEL_VERSION_NTSYNC)
       then pkgs.makeLinuxHeaders {inherit (linuxPackages_latest.kernel) src version;}
       else
         throw ''
