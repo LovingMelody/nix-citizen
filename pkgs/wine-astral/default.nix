@@ -63,7 +63,6 @@ in
     (callPackage "${nixpkgs-wine}/pkgs/applications/emulators/wine/base.nix"
       (lib.recursiveUpdate base rec {
         pname = "wine-astral-full";
-        passthru.ntsync-enabled = ntsync;
         version = lib.removeSuffix "\n" (lib.removePrefix "Wine version " (builtins.readFile "${src}/VERSION"));
         src =
           if ntsync
@@ -82,6 +81,7 @@ in
         in
           patches;
       })).overrideAttrs (old: {
+      passthru.ntsync-enabled = ntsync;
       buildInputs =
         old.buildInputs
         ++ lib.optional ntsync updatedHeaders;
