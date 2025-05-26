@@ -35,6 +35,8 @@ in {
       wine-astral-ntsync = final.wine-astral.override {ntsync = true;};
       star-citizen = final.callPackage "${inputs.nix-gaming}/pkgs/star-citizen" {wine = final.wine-astral;};
       star-citizen-umu = final.star-citizen.override {useUmu = true;};
+      rsi-launcher = final.callPackage ./pkgs/rsi-launcher {wine = final.wine-astral;};
+      rsi-launcher-umu = final.rsi-launcher.override {useUmu = true;};
 
       gameglass = final.callPackage ./pkgs/gameglass {};
       star-citizen-helper = final.callPackage ./pkgs/star-citizen-helper {};
