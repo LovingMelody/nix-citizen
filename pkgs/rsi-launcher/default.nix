@@ -2,6 +2,7 @@
   lib,
   makeDesktopItem,
   writeScript,
+  writeScriptBin,
   gamescope,
   winetricks,
   wine,
@@ -33,17 +34,16 @@
   inherit (lib.strings) concatStringsSep optionalString toShellVars;
   inherit (lib) optional;
   # Latest version can be found: https://install.robertsspaceindustries.com/rel/2/latest.yml
-  version = "2.3.2";
 
   gameScope = lib.strings.optionalString gameScopeEnable "gamescope ${concatStringsSep " " gameScopeArgs} --";
 in
   stdenvNoCC.mkDerivation (finalAttrs: {
-    version = "2.3.2";
+    version = "2.4.0";
     pname = "rsi-launcher";
     src = fetchurl {
-      url = "https://install.robertsspaceindustries.com/rel/2/RSI%20Launcher-Setup-${version}.exe";
-      name = "RSI Launcher-Setup-${version}.exe";
-      hash = "sha256-BzsO2bHXo7axvW9enll08H5aPA1KCZSLfikE49/EUw0=";
+      url = "https://install.robertsspaceindustries.com/rel/2/RSI%20Launcher-Setup-${finalAttrs.version}.exe";
+      name = "RSI Launcher-Setup-${finalAttrs.version}.exe";
+      hash = "sha512-mRbzKq179Thg6DVDOhJwH2VO7iEXF+c+XuuXTtClMTD4I2Sq7O1euCY7Hq9WXPw9mXB/0fV8aOsnDktkMbQOXA==";
     };
     buidInputs =
       [p7zip]
@@ -221,16 +221,16 @@ in
     '';
 
     passthru = {
-      updateScript = ''
+      updateScript = writeScriptBin "rsi-launcher-update.sh" ''
         #!/usr/bin/env nix-shell
         #! nix-shell -i bash -p curl yq-go common-updater-scripts
 
-        FILE=$(mktemp)
+        export FILE=$(mktemp)
         curl -o "$FILE" 'https://install.robertsspaceindustries.com/rel/2/latest.yml'
 
-        VERSION="$(yq -r '.version' "$FILE")"
-        SHA512=$(yq -r '.files[] | select(.sha512 | test("\\.exe$")).url' "$FILE")
-        SRI_HASH="$(nix hash to-sri --type sha512 "$SHA512")"
+        export VERSION="$(yq -r '.version' "$FILE")"
+        export SHA512=$(yq -r '.files[] | select(.url | test("\\.exe$")).sha512' "$FILE")
+        export SRI_HASH="$(nix hash to-sri --type sha512 "$SHA512")"
         update-source-version rsi-launcher "$VERSION" "$SRI_HASH"
       '';
     };
