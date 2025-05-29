@@ -146,6 +146,11 @@ in
         # Anti-cheat
         export EOS_USE_ANTICHEATCLIENTNULL=1
       ''}
+      # Enforce wayland driver if not using x11
+      # Vulkan doesnt work without this
+      if [ $XDG_SESSION_TYPE != "x11" ]; then
+        export DISPLAY=
+      fi
       cd "$WINEPREFIX"
 
       if [ "${"\${1:-}"}"  = "--shell" ]; then
