@@ -30,6 +30,7 @@
   enableGlCache ? true,
   glCacheSize ? 10737418240, # 10GB
   disableEac ? true,
+  extraLibs ? [],
 }: let
   inherit (lib.strings) concatStringsSep optionalString toShellVars;
   inherit (lib) optional;
@@ -216,7 +217,7 @@ in
         )
         ++ optional gameScopeEnable gamescope
       )} \
-        --prefix LD_LIBRARY_PATH : ${lib.makeLibraryPath [freetype vulkan-loader]} \
+        --prefix LD_LIBRARY_PATH : ${lib.makeLibraryPath ([freetype vulkan-loader] ++ extraLibs)} \
         --prefix XDG_DATA_DIRS : "$out"
     '';
 
