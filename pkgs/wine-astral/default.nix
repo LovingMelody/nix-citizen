@@ -16,6 +16,7 @@ in
     stdenv,
     linuxHeaders,
     linuxPackages_latest,
+    fetchurl,
     ntsync ? lib.versionAtLeast linuxHeaders.version MIN_KERNEL_VERSION_NTSYNC,
   }: let
     supportFlags = import ./supportFlags.nix;
@@ -32,7 +33,14 @@ in
       if (lib.versionAtLeast linuxHeaders.version MIN_KERNEL_VERSION_NTSYNC)
       then linuxHeaders
       else if (linuxPackages_latest.kernelAtLeast MIN_KERNEL_VERSION_NTSYNC)
-      then pkgs.makeLinuxHeaders {inherit (linuxPackages_latest.kernel) src version;}
+      then
+        pkgs.makeLinuxHeaders {
+          version = "6.14";
+          src = fetchurl {
+            url = "mirror://kernel/linux/kernel/v6.x/linux-6.14.tar.xz";
+            hash = "sha512-cdyqN3LY2Xl8OuMMrpxYKxGnBHo7vLjf1Hmk3/tA/w2nTPPUUXX1DMmZLjOLyt1GycVw9UBUyjveZmF2jT0i6w==";
+          };
+        }
       else
         throw ''
           Package: `wine-astral`
