@@ -49,7 +49,11 @@
       }: {
         _module.args.pkgs = import inputs.nixpkgs {
           inherit system;
-          config.allowUnfree = true;
+          config = {
+            allowUnfree = true;
+            allowInsecure = true;
+            checkMeta = true;
+          };
           overlays = [self.overlays.default];
         };
         packages = let
@@ -92,4 +96,9 @@
         };
       };
     };
+  nixConfig = {
+    allowInsecure = true;
+    extra-substituters = ["https://nix-citizen.cachix.org"];
+    extra-trusted-public-keys = ["nix-citizen.cachix.org-1:lPMkWc2X8XD4/7YPEEwXKKBg+SVbYTVrAaLA2wQTKCo="];
+  };
 }

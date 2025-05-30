@@ -36,4 +36,4 @@ jobs:
           name: nix-citizen
           authToken: "${{ secrets.CACHIX_AUTH_TOKEN }}"
           extraPullNames: nix-gaming
-      - run: nix build -L ".#${{ matrix.attr }}"
+      - run: NIXPKGS_ALLOW_INSECURE=1 nix build -L ".#${{ matrix.attr }}" --accept-flake-config --impure
