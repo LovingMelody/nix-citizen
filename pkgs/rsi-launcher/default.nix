@@ -31,6 +31,7 @@
   glCacheSize ? 10737418240, # 10GB
   disableEac ? true,
   extraLibs ? [],
+  extraEnvVars ? {},
 }: let
   inherit (lib.strings) concatStringsSep optionalString toShellVars;
   inherit (lib) optional;
@@ -105,6 +106,11 @@ in
 
       USER="$(whoami)"
       RSI_LAUNCHER="$WINEPREFIX/drive_c/Program Files/Roberts Space Industries/RSI Launcher/RSI Launcher.exe"
+
+      # Begin extra vars
+      ${toShellVars extraEnvVars}
+      # End extra vars
+
       ${
         if useUmu
         then ''
