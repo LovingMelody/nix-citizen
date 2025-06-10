@@ -7,6 +7,9 @@
   inherit (inputs.nixpkgs.lib.strings) versionOlder;
   pins = import "${self}/npins";
   nix-gaming-pins = import "${inputs.nix-gaming}/npins";
+  brokenCommits = {
+    dxvkGplAsync = "8a55443c13a5c8b0a09b6859edaa54e3576518b3"; # Patch no longer applies to dxvk needs update
+  };
 in {
   flake.overlays = {
     patchedXwayland = _final: prev: {
@@ -28,14 +31,53 @@ in {
       winetricks-git = final.callPackage "${inputs.nix-gaming}/pkgs/winetricks-git" {pins = nix-gaming-pins;};
       wineprefix-preparer = final.callPackage "${inputs.nix-gaming}/pkgs/wineprefix-preparer" {};
 
+      wineprefix-preparer-git = final.wineprefix-preparer.override {
+        dxvk-w64 = final.dxvk-w64.overrideAttrs {
+          pname = "dxvk-gplasync";
+          src = pins.dxvk;
+          version = "git+${pins.dxvk.revision}";
+          patches = [
+            (
+              if brokenCommits.dxvkGplAsync != pins.dxvk-gplasync.revision
+              then (pins.dxvk-gplasync + "/patches/dxvk-gplasync-master.patch")
+              else patches/dxvk-gplasync-master.patch
+            )
+            (pins.dxvk-gplasync + "/patches/global-dxvk.conf.patch")
+          ];
+        };
+        dxvk-w32 = final.dxvk-w32.overrideAttrs {
+          pname = "dxvk-async";
+          src = pins.dxvk;
+          version = "git+${pins.dxvk.revision}";
+          patches = [
+            (
+              if brokenCommits.dxvkGplAsync != pins.dxvk-gplasync.revision
+              then (pins.dxvk-gplasync + "/patches/dxvk-gplasync-master.patch")
+              else patches/dxvk-gplasync-master.patch
+            )
+            (pins.dxvk-gplasync + "/patches/global-dxvk.conf.patch")
+          ];
+        };
+        vkd3d-proton-w64 = final.vkd3d-proton-w64.overrideAttrs {
+          src = pins.vkd3d-proton;
+          version = "git+${pins.vkd3d-proton.revision}";
+        };
+        vkd3d-proton-w32 = final.vkd3d-proton-w32.overrideAttrs {
+          src = pins.vkd3d-proton;
+          version = "git+${pins.vkd3d-proton.revision}";
+        };
+      };
+
       wine-astral = final.callPackage ./pkgs/wine-astral {
         inherit (final) lib;
         inherit pins inputs;
       };
       wine-astral-ntsync = final.wine-astral.override {ntsync = true;};
       star-citizen = final.callPackage "${inputs.nix-gaming}/pkgs/star-citizen" {wine = final.wine-astral;};
+      star-citizen-git = final.star-citizen.override {wineprefix-preparer = final.wineprefix-preparer-git;};
       star-citizen-umu = final.star-citizen.override {useUmu = true;};
       rsi-launcher = final.callPackage ./pkgs/rsi-launcher {wine = final.wine-astral;};
+      rsi-launcher-git = final.rsi-launcher.override {wineprefix-preparer = final.wineprefix-preparer-git;};
       rsi-launcher-umu = final.rsi-launcher.override {useUmu = true;};
 
       gameglass = final.callPackage ./pkgs/gameglass {};

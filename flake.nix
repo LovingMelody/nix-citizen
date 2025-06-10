@@ -59,7 +59,7 @@
         packages = let
           inherit (inputs.nixpkgs.lib) optional;
         in {
-          inherit (pkgs) wine-astral wine-astral-ntsync gameglass umu-launcher star-citizen star-citizen-umu lug-helper winetricks-git rsi-launcher rsi-launcher-umu;
+          inherit (pkgs) wine-astral wine-astral-ntsync wineprefix-preparer wineprefix-preparer-git gameglass umu-launcher star-citizen star-citizen-git star-citizen-umu lug-helper winetricks-git rsi-launcher rsi-launcher-git rsi-launcher-umu;
           xwayland-patched = pkgs.xwayland.overrideAttrs (p: {
             patches =
               (p.patches or [])
