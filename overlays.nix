@@ -11,7 +11,20 @@
     dxvkGplAsync = "8a55443c13a5c8b0a09b6859edaa54e3576518b3"; # Patch no longer applies to dxvk needs update
   };
 in {
-  flake.overlays = {
+  flake.overlays = rec {
+    unstable-sdl = final: prev: {
+      sdl3 = prev.sdl3.overrideAttrs (o: rec {
+        src = pins.sdl;
+        # Not perfect but it works
+        version = "${o.version}-${src.revision}";
+        meta.changelog = "https://github.com/libsdl-org/SDL/releases";
+      });
+      sdl2 = (prev.sdl2.override {inherit (final) sdl3;}).overrideAttrs (o: rec {
+        src = pins.sdl2-compat;
+        # Not perfect but it works
+        version = "${o.version}-${src.revision}";
+      });
+    };
     patchedXwayland = _final: prev: {
       xwayland = prev.xwayland.overrideAttrs (p: {
         patches =
@@ -68,10 +81,15 @@ in {
         };
       };
 
-      wine-astral = final.callPackage ./pkgs/wine-astral {
-        inherit (final) lib;
-        inherit pins inputs;
-      };
+      wine-astral = let
+        # Prev probably works just fine but future additions could change that.
+        # sdl not included in the overlay to stop it from affecting other builds.
+        falseFinal = final.extend unstable-sdl;
+      in
+        falseFinal.callPackage ./pkgs/wine-astral {
+          inherit (falseFinal) lib;
+          inherit pins inputs;
+        };
       wine-astral-ntsync = final.wine-astral.override {ntsync = true;};
       star-citizen = final.callPackage "${inputs.nix-gaming}/pkgs/star-citizen" {wine = final.wine-astral;};
       star-citizen-git = final.star-citizen.override {wineprefix-preparer = final.wineprefix-preparer-git;};

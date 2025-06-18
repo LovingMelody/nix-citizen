@@ -35,9 +35,9 @@
       },
       "branch": "master",
       "submodules": true,
-      "revision": "62048de8935176cb145f87945a71f255aa9b71b4",
+      "revision": "5fa4b3c7cddc3c8cd6a55b4489f12433703a208b",
       "url": null,
-      "hash": "1wf0v5cykcjf2g6c336izfmy27jrzmg5jjm8ndwp609vs4bx21i4"
+      "hash": "0gp4vfpjnkliam7njv0rdmyxicknvng68ib76rnc1xqn6swk9yv9"
     },
     "lug-patches": {
       "type": "Git",
@@ -52,6 +52,32 @@
       "url": "https://github.com/starcitizen-lug/patches/archive/98d6a9b6ce102726030bec3ee9ff63e3fad59ad5.tar.gz",
       "hash": "1xfwq55fa6khhn8g5xd3z9a1x31h1vy9ccw4vij7qqv0s90cv8ka"
     },
+    "sdl": {
+      "type": "Git",
+      "repository": {
+        "type": "GitHub",
+        "owner": "libsdl-org",
+        "repo": "sdl"
+      },
+      "branch": "main",
+      "submodules": false,
+      "revision": "c04624972ed63950ca9fb47931339a53d4416ee1",
+      "url": "https://github.com/libsdl-org/sdl/archive/c04624972ed63950ca9fb47931339a53d4416ee1.tar.gz",
+      "hash": "096c3892gcha456x9awp2z4z9h4jqsm3mxfsy3sza2j1rhvj3zwh"
+    },
+    "sdl2-compat": {
+      "type": "Git",
+      "repository": {
+        "type": "GitHub",
+        "owner": "libsdl-org",
+        "repo": "sdl2-compat"
+      },
+      "branch": "main",
+      "submodules": false,
+      "revision": "76eb981a4c376bcaf615c0af37d46512ba45cfb8",
+      "url": "https://github.com/libsdl-org/sdl2-compat/archive/76eb981a4c376bcaf615c0af37d46512ba45cfb8.tar.gz",
+      "hash": "0630n9prg088alqg7y3h12yjp32f572hx9kkzybnvsx6icd5c7ha"
+    },
     "vkd3d-proton": {
       "type": "Git",
       "repository": {
@@ -61,9 +87,9 @@
       },
       "branch": "master",
       "submodules": true,
-      "revision": "4a06883816c55481f9ad901276ce2b9851755cd2",
+      "revision": "e8ab710947844126795d235d0bbc0dc37551e6bf",
       "url": null,
-      "hash": "0xrw85ws6k5hx5516aydkdgxaylq6snhcsi5gri5ikfh30vhdc4v"
+      "hash": "13iwj0rzqrgcghq6vpdfysmk9g45hrbb3k2i6s25jnn1rdqfdziv"
     },
     "wine-tkg": {
       "type": "Git",
