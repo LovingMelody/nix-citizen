@@ -11,7 +11,8 @@
       "submodules": true,
       "revision": "d51422e0b0ca832768153ce71c1a572b25df1677",
       "url": null,
-      "hash": "1v32xgz1fjx2fif9yphb7x3anxbfbddg8hyglxxw648pdld5ac04"
+      "hash": "1v32xgz1fjx2fif9yphb7x3anxbfbddg8hyglxxw648pdld5ac04",
+      "frozen": true
     },
     "dxvk-gplasync": {
       "type": "Git",
@@ -61,9 +62,9 @@
       },
       "branch": "main",
       "submodules": false,
-      "revision": "c04624972ed63950ca9fb47931339a53d4416ee1",
-      "url": "https://github.com/libsdl-org/sdl/archive/c04624972ed63950ca9fb47931339a53d4416ee1.tar.gz",
-      "hash": "096c3892gcha456x9awp2z4z9h4jqsm3mxfsy3sza2j1rhvj3zwh"
+      "revision": "d7939abf42de34fff409f5e7c4b77ace79dff4de",
+      "url": "https://github.com/libsdl-org/sdl/archive/d7939abf42de34fff409f5e7c4b77ace79dff4de.tar.gz",
+      "hash": "0zdv2k8sljisjnlg32vyxz2gwh4mc6yf8i079np4ii8bw71bffpw"
     },
     "sdl2-compat": {
       "type": "Git",
@@ -87,9 +88,9 @@
       },
       "branch": "master",
       "submodules": true,
-      "revision": "e8ab710947844126795d235d0bbc0dc37551e6bf",
+      "revision": "59e50c873ca5c6cbcf09feb25dc52fc271e27edf",
       "url": null,
-      "hash": "13iwj0rzqrgcghq6vpdfysmk9g45hrbb3k2i6s25jnn1rdqfdziv"
+      "hash": "0zx3cxv0q2v04439n3clcp7pdxgvyfx4g1xsb124nq63g1aap7bg"
     },
     "wine-tkg": {
       "type": "Git",
