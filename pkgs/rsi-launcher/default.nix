@@ -1,4 +1,5 @@
 {
+  config,
   lib,
   makeDesktopItem,
   writeScript,
@@ -55,10 +56,7 @@ in
         else [wine winetricks wineprefix-preparer]
       )
       ++ optional gameScopeEnable gamescope;
-    nativeBuildInputs = [
-      p7zip
-      makeWrapper
-    ];
+    nativeBuildInputs = [p7zip makeWrapper];
     desktopItem = makeDesktopItem {
       name = "rsi-launcher";
       exec = "rsi-launcher %U";
@@ -175,6 +173,12 @@ in
       else
         gamemode=""
       fi
+      # dlss fixes
+      for dll in 'cryptbase.dll' 'devobj.dll' 'drvstore.dll'; do
+        if [ ! -e "$WINEPREFIX/drive_c/windows/system32/$dll" ]; then
+          ln -sv "$WINEPREFIX/drive_c/windows/system32/cryptui.dll" "$WINEPREFIX/drive_c/windows/system32/$dll"
+        fi
+      done
 
       ${preCommands}
       ${
@@ -223,7 +227,7 @@ in
         )
         ++ optional gameScopeEnable gamescope
       )} \
-        --prefix LD_LIBRARY_PATH : ${lib.makeLibraryPath ([freetype vulkan-loader] ++ extraLibs)} \
+        --prefix LD_LIBRARY_PATH : ${lib.makeLibraryPath ([freetype vulkan-loader] ++ extraLibs)}:/run/opengl-driver/lib:/run/opengl-driver-32/lib \
         --prefix XDG_DATA_DIRS : "$out"
     '';
 
