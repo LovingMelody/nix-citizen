@@ -1,5 +1,4 @@
 {
-  config,
   lib,
   makeDesktopItem,
   writeScript,
@@ -179,6 +178,11 @@ in
           ln -sv "$WINEPREFIX/drive_c/windows/system32/cryptui.dll" "$WINEPREFIX/drive_c/windows/system32/$dll"
         fi
       done
+      # Patch libcuda if it exists...
+      if [ -e /run/opengl-driver/lib/libcuda.so ]; then
+        mkdir -p "$WINEPREFIX/patchedCuda"
+        echo -ne $(od -An -tx1 -v /run/opengl-driver/lib/libcuda.so | tr -d '\n' | sed -e 's/00 00 00 f8 ff 00 00 00/00 00 00 f8 ff ff 00 00/g' -e 's/ /\\x/g') > "$WINEPREFIX/patchedCuda/libcuda.so"
+      fi
 
       ${preCommands}
       ${
@@ -227,7 +231,7 @@ in
         )
         ++ optional gameScopeEnable gamescope
       )} \
-        --prefix LD_LIBRARY_PATH : ${lib.makeLibraryPath ([freetype vulkan-loader] ++ extraLibs)}:/run/opengl-driver/lib:/run/opengl-driver-32/lib \
+        --prefix LD_LIBRARY_PATH : ${lib.makeLibraryPath ([freetype vulkan-loader] ++ extraLibs)}:"$WINEPREFIX/patchedCuda":/run/opengl-driver/lib:/run/opengl-driver-32/lib \
         --prefix XDG_DATA_DIRS : "$out"
     '';
 
