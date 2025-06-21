@@ -90,6 +90,13 @@ in
           patches;
       })).overrideAttrs (old: {
       passthru.ntsync-enabled = ntsync;
+      prePatch = ''
+        ${old.prepatch or ""}
+        echo "Disabling wine menubuilder"
+        substituteInPlace "loader/wine.inf.in" --replace-warn \
+          'HKLM,%CurrentVersion%\RunServices,"winemenubuilder",2,"%11%\winemenubuilder.exe -a -r"' \
+          'HKLM,%CurrentVersion%\RunServices,"winemenubuilder",2,"%11%\winemenubuilder.exe -r"'
+      '';
       buildInputs =
         old.buildInputs
         ++ lib.optional ntsync updatedHeaders;
