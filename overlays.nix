@@ -89,6 +89,9 @@ in {
         falseFinal.callPackage ./pkgs/wine-astral {
           inherit (falseFinal) lib;
           inherit pins inputs;
+          wine-mono = falseFinal.callPackage "${inputs.nix-gaming}/pkgs/wine-mono" {
+            pins = nix-gaming-pins;
+          };
         };
       wine-astral-ntsync = final.wine-astral.override {ntsync = true;};
       star-citizen = final.callPackage "${inputs.nix-gaming}/pkgs/star-citizen" {wine = final.wine-astral;};

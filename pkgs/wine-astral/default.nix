@@ -17,6 +17,7 @@ in
     linuxHeaders,
     linuxPackages_latest,
     fetchurl,
+    wine-mono,
     ntsync ? lib.versionAtLeast linuxHeaders.version MIN_KERNEL_VERSION_NTSYNC,
   }: let
     supportFlags = import ./supportFlags.nix;
@@ -61,7 +62,7 @@ in
       configureFlags = ["--disable-tests"];
       geckos = with sources; [gecko32 gecko64];
       mingwGccs = with pkgsCross; [mingw32.buildPackages.gcc14 mingwW64.buildPackages.gcc14];
-      monos = with sources; [mono];
+      monos = [wine-mono];
       pkgArches = [pkgs pkgsi686Linux];
       platforms = ["x86_64-linux"];
       stdenv = overrideCC stdenv (wrapCCMulti gcc14);
