@@ -36,10 +36,10 @@ in
       else if (linuxPackages_latest.kernelAtLeast MIN_KERNEL_VERSION_NTSYNC)
       then
         pkgs.makeLinuxHeaders {
-          version = "6.14";
+          version = "6.15";
           src = fetchurl {
-            url = "mirror://kernel/linux/kernel/v6.x/linux-6.14.tar.xz";
-            hash = "sha512-cdyqN3LY2Xl8OuMMrpxYKxGnBHo7vLjf1Hmk3/tA/w2nTPPUUXX1DMmZLjOLyt1GycVw9UBUyjveZmF2jT0i6w==";
+            url = "mirror://kernel/linux/kernel/v6.x/linux-6.15.tar.xz";
+            hash = "sha256-dYaWJUeAO+fsxAVu/JJ/slIUVIcivSgXEXLzWZq7l2Q=";
           };
         }
       else
