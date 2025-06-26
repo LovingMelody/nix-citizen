@@ -32,6 +32,7 @@
   disableEac ? true,
   extraLibs ? [],
   extraEnvVars ? {},
+  enforceWaylandDrv ? true, # Needed for Vulkan
 }: let
   inherit (lib.strings) concatStringsSep optionalString toShellVars;
   inherit (lib) optional;
@@ -152,9 +153,12 @@ in
       ''}
       # Enforce wayland driver if not using x11
       # Vulkan doesnt work without this
-      if [ $XDG_SESSION_TYPE != "x11" ]; then
-        export DISPLAY=
-      fi
+      ${
+        lib.optionalString enforceWaylandDrv ''
+          if [ $XDG_SESSION_TYPE != "x11" ]; then
+            export DISPLAY=
+          fi''
+      }
       cd "$WINEPREFIX"
 
       if [ "${"\${1:-}"}"  = "--shell" ]; then
