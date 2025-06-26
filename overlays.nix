@@ -84,7 +84,8 @@ in {
       wine-astral = let
         # Prev probably works just fine but future additions could change that.
         # sdl not included in the overlay to stop it from affecting other builds.
-        falseFinal = final.extend unstable-sdl;
+        # falseFinal = final.extend unstable-sdl;
+        falseFinal = final;
       in
         falseFinal.callPackage ./pkgs/wine-astral {
           inherit (falseFinal) lib;
