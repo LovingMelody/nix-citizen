@@ -3,13 +3,47 @@
   inputs,
   ...
 }: let
+  # inherit (inputs.nixpkgs.lib) assertOneOf optional optionalString warn;
   inherit (inputs.nixpkgs.lib) optional;
+
   inherit (inputs.nixpkgs.lib.strings) versionOlder;
   pins = import "${self}/npins";
   nix-gaming-pins = import "${inputs.nix-gaming}/npins";
   brokenCommits = {
     dxvkGplAsync = "8a55443c13a5c8b0a09b6859edaa54e3576518b3"; # Patch no longer applies to dxvk needs update
   };
+  # mkDeprecated = variant: return: {
+  #   target,
+  #   name,
+  #   instructions,
+  #   date ? "",
+  #   renamed ? false,
+  # }: let
+  #   optionalDate = optionalString (date != "") " as of ${date}";
+  #   type =
+  #     if renamed
+  #     then "renamed"
+  #     else "depricated";
+  #
+  #   # constructed warning message
+  #   message = assert assertOneOf "target" target ["package" "module"]; ''
+  #     The ${target} ${name} in nix-citizen has been ${type}${optionalDate}.
+  #
+  #
+  #     ${instructions}
+  #   '';
+  # in
+  #   if variant == "warn"
+  #   then warn message return
+  #   else if variant == "throw"
+  #   then throw message
+  #   else
+  #     # could this be asserted earlier?
+  #     throw ''
+  #       Unknown variant: ${variant}. Must be one of:
+  #         - warn
+  #         - throw
+  #     '';
 in {
   flake.overlays = rec {
     unstable-sdl = final: prev: {
