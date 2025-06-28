@@ -62,9 +62,9 @@
       },
       "branch": "main",
       "submodules": false,
-      "revision": "279dabfc96631965f8dad2e39d57daa4b9130d24",
-      "url": "https://github.com/libsdl-org/sdl/archive/279dabfc96631965f8dad2e39d57daa4b9130d24.tar.gz",
-      "hash": "01albbb108hx9fzvf12waya9vrs8gs7ssai70c9kcl8y9mb618pj"
+      "revision": "e960bf6904551e75eadcae80a948d2c4e83a74d6",
+      "url": "https://github.com/libsdl-org/sdl/archive/e960bf6904551e75eadcae80a948d2c4e83a74d6.tar.gz",
+      "hash": "038vhviirvdg26cskix4lv28h0x5y4yldxm5ac1q8xwlk59d5ica"
     },
     "sdl2-compat": {
       "type": "Git",
