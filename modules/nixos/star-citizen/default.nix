@@ -123,6 +123,10 @@
           "vm.max_map_count" = mkOverride 999 16777216;
           "fs.file-max" = mkOverride 999 524288;
         };
+        boot = {
+          extraModulePackages = with config.boot.kernelPackages; [v4l2loopback];
+          kernelModules = ["snd-aloop"];
+        };
         security.pam = mkIf cfg.setLimits {
           loginLimits = [
             {
