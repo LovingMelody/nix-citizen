@@ -115,7 +115,7 @@
       config = mkIf cfg.enable {
         assertions = [
           {
-            assertion = cfg.helperScript.enable;
+            assertion = ! cfg.helperScript.enable;
             message = "This `helperScript` has been removed nix-citizen as the feature has been added to the RSI Launcher";
           }
         ];
