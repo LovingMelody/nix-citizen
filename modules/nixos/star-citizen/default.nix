@@ -52,11 +52,6 @@
               });
               preCommands = ''
                 ${cfg.preCommands}
-                ${
-                  if cfg.helperScript.enable
-                  then "${cfg.helperScript.package}/bin/star-citizen-helper"
-                  else ""
-                }
               '';
               inherit (cfg) postCommands location;
             });
@@ -101,7 +96,6 @@
           package = mkOption {
             description = "Package to use for star-citizen-helper";
             type = types.package;
-            default = smartPackage "star-citizen-helper";
           };
         };
         setLimits = mkOption {
@@ -119,7 +113,12 @@
         };
       };
       config = mkIf cfg.enable {
-        assertions = [];
+        assertions = [
+          {
+            assertion = cfg.helperScript.enable;
+            message = "This `helperScript` has been removed nix-citizen as the feature has been added to the RSI Launcher";
+          }
+        ];
         boot.kernel.sysctl = mkIf cfg.setLimits {
           "vm.max_map_count" = mkOverride 999 16777216;
           "fs.file-max" = mkOverride 999 524288;
