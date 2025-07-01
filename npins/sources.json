@@ -11,8 +11,7 @@
       "submodules": true,
       "revision": "d51422e0b0ca832768153ce71c1a572b25df1677",
       "url": null,
-      "hash": "1v32xgz1fjx2fif9yphb7x3anxbfbddg8hyglxxw648pdld5ac04",
-      "frozen": true
+      "hash": "1v32xgz1fjx2fif9yphb7x3anxbfbddg8hyglxxw648pdld5ac04"
     },
     "dxvk-gplasync": {
       "type": "Git",
