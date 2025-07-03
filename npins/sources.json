@@ -9,9 +9,9 @@
       },
       "branch": "master",
       "submodules": true,
-      "revision": "eb0d67a0111f4263b0fbb84948eb875ec225d848",
+      "revision": "24fcf3817ed5dd815f2e4d28c2f3cdc24238e60a",
       "url": null,
-      "hash": "1pjlivmjh74agzg2vliqi1nrw9qa8gwh65wq33ff64jcdwkfvsml"
+      "hash": "1dcafbi50r6qm1mfc5dyix1nxx7kw1237326i8wvhx6axs6jnxb3"
     },
     "dxvk-gplasync": {
       "type": "Git",
@@ -61,9 +61,9 @@
       },
       "branch": "main",
       "submodules": false,
-      "revision": "e9535fa0265901cda2cd3da47df18c45507b4066",
-      "url": "https://github.com/libsdl-org/sdl/archive/e9535fa0265901cda2cd3da47df18c45507b4066.tar.gz",
-      "hash": "1c58l98zfzs6grm6bl4z974zg69dqdqf9y6d55408j9khykailmj"
+      "revision": "7c11a8cb9f66a2cac63f9a24ab2f49f6d4bf12a0",
+      "url": "https://github.com/libsdl-org/sdl/archive/7c11a8cb9f66a2cac63f9a24ab2f49f6d4bf12a0.tar.gz",
+      "hash": "0zhjih8jc2dyp8amvwszsz3q07hqgz047607c53j47jpyq384xci"
     },
     "sdl2-compat": {
       "type": "Git",
@@ -74,9 +74,9 @@
       },
       "branch": "main",
       "submodules": false,
-      "revision": "76eb981a4c376bcaf615c0af37d46512ba45cfb8",
-      "url": "https://github.com/libsdl-org/sdl2-compat/archive/76eb981a4c376bcaf615c0af37d46512ba45cfb8.tar.gz",
-      "hash": "0630n9prg088alqg7y3h12yjp32f572hx9kkzybnvsx6icd5c7ha"
+      "revision": "ed7e8bd5b169f379d7b1ba57b242657bc3455ebb",
+      "url": "https://github.com/libsdl-org/sdl2-compat/archive/ed7e8bd5b169f379d7b1ba57b242657bc3455ebb.tar.gz",
+      "hash": "0b0fbqh5dslq2id3ab2qdc9736i1qjgaivrp6vahsykcvajiwyc4"
     },
     "vkd3d-proton": {
       "type": "Git",
@@ -87,9 +87,9 @@
       },
       "branch": "master",
       "submodules": true,
-      "revision": "2b9f7cae1f7d4eae3d2d33a1a27d42d7a1a0b86e",
+      "revision": "87ad440b896a6542e37f60aabb5476e4c79e365c",
       "url": null,
-      "hash": "1nv402k48q6a2w26j9ip7v41nnvyswzb969dk1qrqk1ya0h8vpxa"
+      "hash": "1qmyrg1nq4w3nvgx4sjmq878gj5vxbh70ciahpyp39f08v1zzmmx"
     },
     "wine-tkg": {
       "type": "Git",
@@ -100,9 +100,9 @@
       },
       "branch": "master",
       "submodules": false,
-      "revision": "5e65bf5fd87d1628ff77e214caded5b4707b6f45",
-      "url": "https://github.com/Kron4ek/wine-tkg/archive/5e65bf5fd87d1628ff77e214caded5b4707b6f45.tar.gz",
-      "hash": "0avbmqjvzgivdjhf5j34nbs24gzm5dg83qw69kx44zrbm2fw31vy"
+      "revision": "a9503a3166f8011be1ec3c1caa49b300bddfe5bd",
+      "url": "https://github.com/Kron4ek/wine-tkg/archive/a9503a3166f8011be1ec3c1caa49b300bddfe5bd.tar.gz",
+      "hash": "17z43hhr618pfz0q93cf2pfxk7c5mjl1p5f4fvw8gr7qk3yn88ky"
     },
     "wine-tkg-ntsync": {
       "type": "Git",
@@ -113,9 +113,9 @@
       },
       "branch": "ntsync",
       "submodules": false,
-      "revision": "b5417fc26c586da6a58d58d74afe8843d2482168",
-      "url": "https://github.com/Kron4ek/wine-tkg/archive/b5417fc26c586da6a58d58d74afe8843d2482168.tar.gz",
-      "hash": "15rsl4n23b7pib9lh609pvinrc9qmirzdgw95n0silg34b9kr13h"
+      "revision": "e4caa4ee626329b92eeda3f9ee478cad70e8f122",
+      "url": "https://github.com/Kron4ek/wine-tkg/archive/e4caa4ee626329b92eeda3f9ee478cad70e8f122.tar.gz",
+      "hash": "07xrr1ffjih6v33znf9jj7zz36lj30ahqirs2sa1gics936ykxz6"
     }
   },
   "version": 5
