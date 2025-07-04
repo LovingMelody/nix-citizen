@@ -1,5 +1,6 @@
 let
   MIN_KERNEL_VERSION_NTSYNC = "6.14";
+  # BROKEN_LUG_WINE_PATCHES_COMMIT = "98d6a9b6ce102726030bec3ee9ff63e3fad59ad5";
 in
   {
     inputs,
@@ -81,7 +82,8 @@ in
           blacklist = [
             "10.2+_eac_fix.patch"
             "real_path.patch"
-            "winewayland-no-enter-move-if-relative.patch"
+            "winewayland-no-enter-move-if-relative.patch" # See BROKEN_LUG_WINE_PATCHES_COMMIT
+            "cache-committed-size.patch"
           ];
           filter = name: _type: ! (builtins.elem (builtins.baseNameOf name) blacklist);
           cleanedPatches = builtins.filterSource filter "${pins.lug-patches}/wine";
