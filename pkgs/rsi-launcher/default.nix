@@ -29,7 +29,7 @@
   postCommands ? "",
   enableGlCache ? true,
   glCacheSize ? 10737418240, # 10GB
-  disableEac ? true,
+  disableEac ? false,
   extraLibs ? [],
   extraEnvVars ? {},
   enforceWaylandDrv ? true, # Needed for Vulkan
