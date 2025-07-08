@@ -67,7 +67,7 @@
         disableEAC =
           mkEnableOption "Disable EasyAntiCheat"
           // {
-            default = true;
+            default = false;
           };
         location = mkOption {
           default = "$HOME/Games/star-citizen";
