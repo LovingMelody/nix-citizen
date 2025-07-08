@@ -82,7 +82,7 @@ in
           blacklist = [
             "10.2+_eac_fix.patch"
             "winewayland-no-enter-move-if-relative.patch" # See BROKEN_LUG_WINE_PATCHES_COMMIT
-            "cache-committed-size.patch"
+            # "cache-committed-size.patch"
           ];
           filter = name: _type: ! (builtins.elem (builtins.baseNameOf name) blacklist);
           cleanedPatches = builtins.filterSource filter "${pins.lug-patches}/wine";

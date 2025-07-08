@@ -48,9 +48,10 @@
       },
       "branch": "main",
       "submodules": false,
-      "revision": "6e1bb9e6be76fb559344885cad755a5a71db9623",
-      "url": "https://github.com/starcitizen-lug/patches/archive/6e1bb9e6be76fb559344885cad755a5a71db9623.tar.gz",
-      "hash": "1gv9vd9rf1w99nph0s9h1vvmy4a4rvvvn3454q7xr8p7d9f73zf7"
+      "revision": "98d6a9b6ce102726030bec3ee9ff63e3fad59ad5",
+      "url": "https://github.com/starcitizen-lug/patches/archive/98d6a9b6ce102726030bec3ee9ff63e3fad59ad5.tar.gz",
+      "hash": "1xfwq55fa6khhn8g5xd3z9a1x31h1vy9ccw4vij7qqv0s90cv8ka",
+      "frozen": true
     },
     "sdl": {
       "type": "Git",
@@ -100,9 +101,10 @@
       },
       "branch": "master",
       "submodules": false,
-      "revision": "a9503a3166f8011be1ec3c1caa49b300bddfe5bd",
-      "url": "https://github.com/Kron4ek/wine-tkg/archive/a9503a3166f8011be1ec3c1caa49b300bddfe5bd.tar.gz",
-      "hash": "17z43hhr618pfz0q93cf2pfxk7c5mjl1p5f4fvw8gr7qk3yn88ky"
+      "revision": "5e65bf5fd87d1628ff77e214caded5b4707b6f45",
+      "url": "https://github.com/Kron4ek/wine-tkg/archive/5e65bf5fd87d1628ff77e214caded5b4707b6f45.tar.gz",
+      "hash": "0avbmqjvzgivdjhf5j34nbs24gzm5dg83qw69kx44zrbm2fw31vy",
+      "frozen": true
     },
     "wine-tkg-ntsync": {
       "type": "Git",
@@ -113,9 +115,10 @@
       },
       "branch": "ntsync",
       "submodules": false,
-      "revision": "e4caa4ee626329b92eeda3f9ee478cad70e8f122",
-      "url": "https://github.com/Kron4ek/wine-tkg/archive/e4caa4ee626329b92eeda3f9ee478cad70e8f122.tar.gz",
-      "hash": "07xrr1ffjih6v33znf9jj7zz36lj30ahqirs2sa1gics936ykxz6"
+      "revision": "b5417fc26c586da6a58d58d74afe8843d2482168",
+      "url": "https://github.com/Kron4ek/wine-tkg/archive/b5417fc26c586da6a58d58d74afe8843d2482168.tar.gz",
+      "hash": "15rsl4n23b7pib9lh609pvinrc9qmirzdgw95n0silg34b9kr13h",
+      "frozen": true
     }
   },
   "version": 5
