@@ -9,9 +9,9 @@
       },
       "branch": "master",
       "submodules": true,
-      "revision": "24fcf3817ed5dd815f2e4d28c2f3cdc24238e60a",
+      "revision": "daed0c1ce8d39e6dcc1580b753554deb7fcbd2ae",
       "url": null,
-      "hash": "1dcafbi50r6qm1mfc5dyix1nxx7kw1237326i8wvhx6axs6jnxb3"
+      "hash": "0dzpvrdv2zj6pmzsp6hhjpkvpicj2b7cbwfdgqng1zz0dg53r91r"
     },
     "dxvk-gplasync": {
       "type": "Git",
@@ -48,9 +48,9 @@
       },
       "branch": "main",
       "submodules": false,
-      "revision": "98d6a9b6ce102726030bec3ee9ff63e3fad59ad5",
-      "url": "https://github.com/starcitizen-lug/patches/archive/98d6a9b6ce102726030bec3ee9ff63e3fad59ad5.tar.gz",
-      "hash": "1xfwq55fa6khhn8g5xd3z9a1x31h1vy9ccw4vij7qqv0s90cv8ka"
+      "revision": "6e1bb9e6be76fb559344885cad755a5a71db9623",
+      "url": "https://github.com/starcitizen-lug/patches/archive/6e1bb9e6be76fb559344885cad755a5a71db9623.tar.gz",
+      "hash": "1gv9vd9rf1w99nph0s9h1vvmy4a4rvvvn3454q7xr8p7d9f73zf7"
     },
     "sdl": {
       "type": "Git",
@@ -61,9 +61,9 @@
       },
       "branch": "main",
       "submodules": false,
-      "revision": "7c11a8cb9f66a2cac63f9a24ab2f49f6d4bf12a0",
-      "url": "https://github.com/libsdl-org/sdl/archive/7c11a8cb9f66a2cac63f9a24ab2f49f6d4bf12a0.tar.gz",
-      "hash": "0zhjih8jc2dyp8amvwszsz3q07hqgz047607c53j47jpyq384xci"
+      "revision": "63867813516961dd724d88582997588c778ca38f",
+      "url": "https://github.com/libsdl-org/sdl/archive/63867813516961dd724d88582997588c778ca38f.tar.gz",
+      "hash": "1x463xa7m6qc5lhwqf56n73hw18r56dxi590akn4ls0raf17n9k2"
     },
     "sdl2-compat": {
       "type": "Git",
@@ -87,9 +87,9 @@
       },
       "branch": "master",
       "submodules": true,
-      "revision": "87ad440b896a6542e37f60aabb5476e4c79e365c",
+      "revision": "f992d48aaa8d0532d15e370fa526d26e6e7d1bbf",
       "url": null,
-      "hash": "1qmyrg1nq4w3nvgx4sjmq878gj5vxbh70ciahpyp39f08v1zzmmx"
+      "hash": "1ih8s75wlwwav9h9l6gpv8nj430x66vc7ygfqflhznir7i1v1wrv"
     },
     "wine-tkg": {
       "type": "Git",

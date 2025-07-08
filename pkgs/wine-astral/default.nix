@@ -81,7 +81,6 @@ in
         patches = let
           blacklist = [
             "10.2+_eac_fix.patch"
-            "real_path.patch"
             "winewayland-no-enter-move-if-relative.patch" # See BROKEN_LUG_WINE_PATCHES_COMMIT
             "cache-committed-size.patch"
           ];
