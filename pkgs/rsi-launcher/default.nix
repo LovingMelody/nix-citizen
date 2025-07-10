@@ -68,6 +68,7 @@ in
     };
 
     script = writeScript "rsi-launcher" ''
+      set -x
       export WINETRICKS_LATEST_VERSION_CHECK=disabled
       export WINEARCH="win64"
       mkdir -p "${location}"
@@ -114,7 +115,7 @@ in
         then ''
           export PROTON_VERBS="${concatStringsSep "," protonVerbs}"
           export PROTONPATH="${protonPath}"
-          if [ ! -f "$RSI_LAUNCHER" ]; then umu-run "@RSI_LAUNCHER_INSTALLER@" /S; fi
+          if [ ! -f "$RSI_LAUNCHER" ]  || [ "${"\${1:-}"}"  = "--force-install" ]; then umu-run "@RSI_LAUNCHER_INSTALLER@" /S; fi
         ''
         else ''
           # Ensure all tricks are installed
@@ -137,7 +138,7 @@ in
             wineserver -k
           fi
 
-          if [ ! -e "$RSI_LAUNCHER" ]; then
+          if [ ! -e "$RSI_LAUNCHER" ] || [ "${"\${1:-}"}"  = "--force-install" ]; then
             mkdir -p "$WINEPREFIX/drive_c/Program Files/Roberts Space Industries/StarCitizen/"{LIVE,PTU}
 
             # install launcher using silent install
@@ -162,6 +163,7 @@ in
       cd "$WINEPREFIX"
 
       if [ "${"\${1:-}"}"  = "--shell" ]; then
+        set +x
         echo "Entered Shell for star-citizen"
         exec ${lib.getExe bash};
       fi
