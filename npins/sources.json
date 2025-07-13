@@ -48,10 +48,9 @@
       },
       "branch": "main",
       "submodules": false,
-      "revision": "98d6a9b6ce102726030bec3ee9ff63e3fad59ad5",
-      "url": "https://github.com/starcitizen-lug/patches/archive/98d6a9b6ce102726030bec3ee9ff63e3fad59ad5.tar.gz",
-      "hash": "1xfwq55fa6khhn8g5xd3z9a1x31h1vy9ccw4vij7qqv0s90cv8ka",
-      "frozen": true
+      "revision": "e288b98c9906014aaa8f3aef86350ff0f7f19af7",
+      "url": "https://github.com/starcitizen-lug/patches/archive/e288b98c9906014aaa8f3aef86350ff0f7f19af7.tar.gz",
+      "hash": "0qk8ynjfhi5fs3p073djh8a8nq45zllm2xs8aqljcyhlqxwbjla8"
     },
     "sdl": {
       "type": "Git",
