@@ -9,9 +9,6 @@
   inherit (inputs.nixpkgs.lib.strings) versionOlder;
   pins = import "${self}/npins";
   nix-gaming-pins = import "${inputs.nix-gaming}/npins";
-  brokenCommits = {
-    dxvkGplAsync = "8a55443c13a5c8b0a09b6859edaa54e3576518b3"; # Patch no longer applies to dxvk needs update
-  };
   # mkDeprecated = variant: return: {
   #   target,
   #   name,
@@ -84,12 +81,8 @@ in {
           src = pins.dxvk;
           version = "git+${pins.dxvk.revision}";
           patches = [
-            (
-              if brokenCommits.dxvkGplAsync != pins.dxvk-gplasync.revision
-              then (pins.dxvk-gplasync + "/patches/dxvk-gplasync-master.patch")
-              else patches/dxvk-gplasync-master.patch
-            )
-            (pins.dxvk-gplasync + "/patches/global-dxvk.conf.patch")
+            "${pins.dxvk-gplasync}/patches/dxvk-gplasync-master.patch"
+            "${pins.dxvk-gplasync}/patches/global-dxvk.conf.patch"
           ];
         };
         dxvk-w32 = final.dxvk-w32.overrideAttrs {
@@ -97,12 +90,8 @@ in {
           src = pins.dxvk;
           version = "git+${pins.dxvk.revision}";
           patches = [
-            (
-              if brokenCommits.dxvkGplAsync != pins.dxvk-gplasync.revision
-              then (pins.dxvk-gplasync + "/patches/dxvk-gplasync-master.patch")
-              else patches/dxvk-gplasync-master.patch
-            )
-            (pins.dxvk-gplasync + "/patches/global-dxvk.conf.patch")
+            "${pins.dxvk-gplasync}/patches/dxvk-gplasync-master.patch"
+            "${pins.dxvk-gplasync}/patches/global-dxvk.conf.patch"
           ];
         };
         vkd3d-proton-w64 = final.vkd3d-proton-w64.overrideAttrs {
