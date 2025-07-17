@@ -13,7 +13,7 @@ in
     moltenvk,
     overrideCC,
     wrapCCMulti,
-    gcc14,
+    gcc15,
     stdenv,
     linuxHeaders,
     linuxPackages_latest,
@@ -62,11 +62,11 @@ in
       buildScript = "${nixpkgs-wine}/pkgs/applications/emulators/wine/builder-wow.sh";
       configureFlags = ["--disable-tests"];
       geckos = with sources; [gecko32 gecko64];
-      mingwGccs = with pkgsCross; [mingw32.buildPackages.gcc14 mingwW64.buildPackages.gcc14];
+      mingwGccs = with pkgsCross; [mingw32.buildPackages.gcc15 mingwW64.buildPackages.gcc14];
       monos = [wine-mono];
       pkgArches = [pkgs pkgsi686Linux];
       platforms = ["x86_64-linux"];
-      stdenv = overrideCC stdenv (wrapCCMulti gcc14);
+      stdenv = overrideCC stdenv (wrapCCMulti gcc15);
       wineRelease = "unstable";
     };
   in
