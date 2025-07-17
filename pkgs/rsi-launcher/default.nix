@@ -149,10 +149,6 @@ in
           fi
         ''
       }
-      ${lib.optionalString disableEac ''
-        # Anti-cheat
-        export EOS_USE_ANTICHEATCLIENTNULL=1
-      ''}
       # Enforce wayland driver if not using x11
       # Vulkan doesnt work without this
       ${
