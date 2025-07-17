@@ -9,9 +9,9 @@
       },
       "branch": "master",
       "submodules": true,
-      "revision": "614d6a7dfce1a3475cd237442f79916345fcd02e",
+      "revision": "35aa75e68af0927ad5860eb69a5411a08adc20dd",
       "url": null,
-      "hash": "0jinmbsr2cyz5as28wxvj1n9vkkpp6xznh8i6gavn5s2ajy6isql"
+      "hash": "03czzbay0x5p992i58f5dar2ybl9h9r2ylysrmjkxcl8zv7rzkpj"
     },
     "dxvk-gplasync": {
       "type": "Git",
@@ -61,9 +61,9 @@
       },
       "branch": "main",
       "submodules": false,
-      "revision": "d5efb11f97787ac074b65979e8244c0815253afc",
-      "url": "https://github.com/libsdl-org/sdl/archive/d5efb11f97787ac074b65979e8244c0815253afc.tar.gz",
-      "hash": "0qbxy5xp8zic2df2laphaxllp9ccxs1d66hxa2dl5vrsmhwk0d98"
+      "revision": "bc5c9a686ca01c7cffa45e223efcd0cb7ef1efb7",
+      "url": "https://github.com/libsdl-org/sdl/archive/bc5c9a686ca01c7cffa45e223efcd0cb7ef1efb7.tar.gz",
+      "hash": "1hsmnpd9kf3cnk8z3f5lipsqdcss4v7d97d77m4c9dqz3c358piq"
     },
     "sdl2-compat": {
       "type": "Git",
