@@ -104,6 +104,19 @@
       "url": "https://github.com/Kron4ek/wine-tkg/archive/8711b2948890ab05e150e8e4f721411cca3a4f94.tar.gz",
       "hash": "01giwx8l7nl32i0jc9z7gihz4ax5kyhiig70yr1zkdcn7zxmqbwx"
     },
+    "wine-tkg-git": {
+      "type": "Git",
+      "repository": {
+        "type": "GitHub",
+        "owner": "Frogging-Family",
+        "repo": "wine-tkg-git"
+      },
+      "branch": "master",
+      "submodules": false,
+      "revision": "ff2b3e3243c384168d4714d1bac52aebcd95ef68",
+      "url": "https://github.com/Frogging-Family/wine-tkg-git/archive/ff2b3e3243c384168d4714d1bac52aebcd95ef68.tar.gz",
+      "hash": "0a5vbd750654dyagwx24bql822avid101564aql22bc102f964vd"
+    },
     "wine-tkg-ntsync": {
       "type": "Git",
       "repository": {
