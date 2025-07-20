@@ -40,7 +40,7 @@ in
       pname = "wine-astral-full";
       patches = let
         blacklist = [
-          "10.2+_eac_fix.patch"
+          # "10.2+_eac_fix.patch"
           "winewayland-no-enter-move-if-relative.patch"
           # "cache-committed-size.patch"
         ];
