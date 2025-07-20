@@ -48,9 +48,9 @@
       },
       "branch": "main",
       "submodules": false,
-      "revision": "db778f958c6425fd5b7f56d11bf9cdfc4f67e839",
-      "url": "https://github.com/starcitizen-lug/patches/archive/db778f958c6425fd5b7f56d11bf9cdfc4f67e839.tar.gz",
-      "hash": "03sn33xkxab4nhmkfc7xn9n2zqs5bdcn7yxmh3rzvlvaj3h76vy1"
+      "revision": "95194c181debabb4890f7cb2a3eed72b5cba5da5",
+      "url": "https://github.com/starcitizen-lug/patches/archive/95194c181debabb4890f7cb2a3eed72b5cba5da5.tar.gz",
+      "hash": "0s2hmd896yyjs07b5il91s0iqqng356xjph6bkgsncbfhdgbjl9c"
     },
     "sdl": {
       "type": "Git",
@@ -61,9 +61,9 @@
       },
       "branch": "main",
       "submodules": false,
-      "revision": "bc5c9a686ca01c7cffa45e223efcd0cb7ef1efb7",
-      "url": "https://github.com/libsdl-org/sdl/archive/bc5c9a686ca01c7cffa45e223efcd0cb7ef1efb7.tar.gz",
-      "hash": "1hsmnpd9kf3cnk8z3f5lipsqdcss4v7d97d77m4c9dqz3c358piq"
+      "revision": "735f0cc300ab1fd5fb150f1d16a0928adc65bb2f",
+      "url": "https://github.com/libsdl-org/sdl/archive/735f0cc300ab1fd5fb150f1d16a0928adc65bb2f.tar.gz",
+      "hash": "0sn8rdb673qdafa290fnfi43dl9fbjgiqxx3graklcxzwbr549ia"
     },
     "sdl2-compat": {
       "type": "Git",

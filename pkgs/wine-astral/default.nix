@@ -82,12 +82,17 @@ in
           blacklist = [
             "10.2+_eac_fix.patch"
             "winewayland-no-enter-move-if-relative.patch"
+            "hidewineexports.patch"
             # "cache-committed-size.patch"
           ];
           filter = name: _type: ! (builtins.elem (builtins.baseNameOf name) blacklist);
           cleanedPatches = builtins.filterSource filter "${pins.lug-patches}/wine";
           lug-patches = builtins.attrNames (builtins.readDir cleanedPatches);
-          patches = map (f: "${cleanedPatches}/${f}") lug-patches;
+          patches =
+            map (f: "${cleanedPatches}/${f}") lug-patches
+            ++ [
+              ./hideWineExports.patch
+            ];
         in
           patches;
       })).overrideAttrs (old: {
