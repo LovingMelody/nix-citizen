@@ -10,6 +10,7 @@ in
     linuxPackages_latest,
     fetchurl,
     ntsync ? lib.versionAtLeast linuxHeaders.version MIN_KERNEL_VERSION_NTSYNC,
+    autoconf,
     ...
   }: let
     updatedHeaders =
@@ -38,6 +39,7 @@ in
   in
     pkgs.wineWow64Packages.unstable.overrideAttrs (old: {
       pname = "wine-astral-full";
+      nativeBuildInputs = old.nativeBuildInputs ++ [autoconf];
       patches = let
         blacklist = [
           # "10.2+_eac_fix.patch"
@@ -64,5 +66,6 @@ in
       '';
       buildInputs =
         old.buildInputs
+        ++ [autoconf]
         ++ lib.optional ntsync updatedHeaders;
     })
