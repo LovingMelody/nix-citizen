@@ -124,7 +124,7 @@
             message = "This `helperScript` has been removed nix-citizen as the feature has been added to the RSI Launcher";
           }
           {
-            assertion = ! (lib.versionAtLeast config.boot.kernelPackages.kernel.version "6.14");
+            assertion = lib.versionAtLeast config.boot.kernelPackages.kernel.version "6.14" || (! cfg.enableNTsync);
             message = "Your kernel must be at least 6.14 for ntsync";
           }
         ];
@@ -134,7 +134,7 @@
         };
         boot = {
           extraModulePackages = with config.boot.kernelPackages; [v4l2loopback];
-          kernelModules = ["snd-aloop"] ++ lib.optional cfg.enableNtsync "ntsync";
+          kernelModules = ["snd-aloop"] ++ lib.optional cfg.enableNTsync "ntsync";
         };
         security.pam = mkIf cfg.setLimits {
           loginLimits = [
@@ -147,12 +147,13 @@
           ];
         };
         environment.systemPackages = [cfg.package];
-        services.udev.packages = lib.optional cfg.enableNtsync [
-          (pkgs.writeTextFile {
-            name = "ntsync-udev-rules";
-            text = ''KERNEL=="ntsync", MODE="0660", TAG+="uaccess"'';
-          })
-        ];
+        # services.udev.packages = lib.optional cfg.enableNTsync [
+        #   (pkgs.writeTextFile {
+        #     name = "ntsync-udev-rules";
+        #     text = ''KERNEL=="ntsync", MODE="0660", TAG+="uaccess"'';
+        #     destination = "/etc/udev/rules.d/70-ntsync.rules";
+        #   })
+        # ];
         nixpkgs.overlays =
           lib.optional cfg.includeOverlay self.overlays.default
           ++ lib.optional cfg.patchXwayland self.overlays.patchedXwayland;
