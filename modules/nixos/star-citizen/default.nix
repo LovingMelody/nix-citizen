@@ -111,12 +111,21 @@
             Changes outlined in  https://github.com/starcitizen-lug/knowledge-base/wiki/Manual-Installation#prerequisites
           '';
         };
+        enableNTsync = mkOption {
+          type = types.bool;
+          default = lib.versionAtLeast config.boot.kernelPackages.kernel.version "6.14";
+          description = "Enable NTsync kernel module";
+        };
       };
       config = mkIf cfg.enable {
         assertions = [
           {
             assertion = ! cfg.helperScript.enable;
             message = "This `helperScript` has been removed nix-citizen as the feature has been added to the RSI Launcher";
+          }
+          {
+            assertion = ! (lib.versionAtLeast config.boot.kernelPackages.kernel.version "6.14");
+            message = "Your kernel must be at least 6.14 for ntsync";
           }
         ];
         boot.kernel.sysctl = mkIf cfg.setLimits {
@@ -125,7 +134,7 @@
         };
         boot = {
           extraModulePackages = with config.boot.kernelPackages; [v4l2loopback];
-          kernelModules = ["snd-aloop"];
+          kernelModules = ["snd-aloop"] ++ lib.optional cfg.enableNtsync "ntsync";
         };
         security.pam = mkIf cfg.setLimits {
           loginLimits = [
@@ -138,6 +147,12 @@
           ];
         };
         environment.systemPackages = [cfg.package];
+        services.udev.packages = lib.optional cfg.enableNtsync [
+          (pkgs.writeTextFile {
+            name = "ntsync-udev-rules";
+            text = ''KERNEL=="ntsync", MODE="0660", TAG+="uaccess"'';
+          })
+        ];
         nixpkgs.overlays =
           lib.optional cfg.includeOverlay self.overlays.default
           ++ lib.optional cfg.patchXwayland self.overlays.patchedXwayland;
