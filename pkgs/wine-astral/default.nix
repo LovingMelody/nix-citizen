@@ -83,6 +83,7 @@ in
             "10.2+_eac_fix.patch"
             "winewayland-no-enter-move-if-relative.patch"
             "hidewineexports.patch"
+            "reg_show_wine.patch"
             # "cache-committed-size.patch"
           ];
           filter = name: _type: ! (builtins.elem (builtins.baseNameOf name) blacklist);
@@ -97,7 +98,7 @@ in
           patches;
       })).overrideAttrs (old: {
       passthru.ntsync-enabled = ntsync;
-      prePatch = ''
+      postPatch = ''
         ${old.prepatch or ""}
         echo "Disabling wine menubuilder"
         substituteInPlace "loader/wine.inf.in" --replace-warn \
