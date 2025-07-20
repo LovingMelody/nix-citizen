@@ -99,7 +99,7 @@ in
       })).overrideAttrs (old: {
       passthru.ntsync-enabled = ntsync;
       postPatch = ''
-        ${old.prepatch or ""}
+        ${old.postPatch or ""}
         echo "Disabling wine menubuilder"
         substituteInPlace "loader/wine.inf.in" --replace-warn \
           'HKLM,%CurrentVersion%\RunServices,"winemenubuilder",2,"%11%\winemenubuilder.exe -a -r"' \
