@@ -3,6 +3,7 @@ let
   # BROKEN_LUG_WINE_PATCHES_COMMIT = "98d6a9b6ce102726030bec3ee9ff63e3fad59ad5";
 in
   {
+    inputs,
     lib,
     pins,
     pkgs,
@@ -11,6 +12,8 @@ in
     fetchurl,
     ntsync ? lib.versionAtLeast linuxHeaders.version MIN_KERNEL_VERSION_NTSYNC,
     autoconf,
+    hexdump,
+    perl,
     ...
   }: let
     updatedHeaders =
@@ -37,9 +40,20 @@ in
             - wine-astral.override { ntsync = false; }
         '';
   in
-    pkgs.wineWow64Packages.unstable.overrideAttrs (old: {
+    pkgs.wineWow64Packages.stagingFull.overrideAttrs (old: {
+      src =
+        old.src
+        // {
+          staging = old.src.staging.overrideAttrs {
+            disabledPatches = [
+              "ntdll-NtAlertThreadByThreadId"
+              "ntdll-ForceBottomUpAlloc"
+              "ntdll-Hide__Wine_Exports"
+            ];
+          };
+        };
       pname = "wine-astral-full";
-      nativeBuildInputs = old.nativeBuildInputs ++ [autoconf];
+      nativeBuildInputs = old.nativeBuildInputs ++ [autoconf hexdump perl];
       patches = let
         blacklist = [
           # "10.2+_eac_fix.patch"
@@ -63,9 +77,10 @@ in
         substituteInPlace "loader/wine.inf.in" --replace-warn \
           'HKLM,%CurrentVersion%\RunServices,"winemenubuilder",2,"%11%\winemenubuilder.exe -a -r"' \
           'HKLM,%CurrentVersion%\RunServices,"winemenubuilder",2,"%11%\winemenubuilder.exe -r"'
+        patchShebangs tools
       '';
       buildInputs =
         old.buildInputs
-        ++ [autoconf]
+        ++ [autoconf hexdump perl]
         ++ lib.optional ntsync updatedHeaders;
     })
