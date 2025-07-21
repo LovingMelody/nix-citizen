@@ -64,11 +64,35 @@ in
         filter = name: _type: ! (builtins.elem (builtins.baseNameOf name) blacklist);
         cleanedPatches = builtins.filterSource filter "${pins.lug-patches}/wine";
         lug-patches = builtins.attrNames (builtins.readDir cleanedPatches);
+        tkg-patch-dir = "${pins.wine-tkg-git}/wine-tkg-git/wine-tkg-patches";
         patches =
-          map (f: "${cleanedPatches}/${f}") lug-patches
-          ++ lib.optionals ntsync [
-            "${pins.wine-tkg-git}/wine-tkg-git/wine-tkg-patches/misc/fastsync/ntsync5-mainline.patch"
-          ];
+          lib.optionals (! ntsync) [
+            "${tkg-patch-dir}/wine-tkg-patches/proton/esync/esync-unix-mainline.patch"
+            "${tkg-patch-dir}/proton/fsync/fsync-unix-mainline.patch"
+            "${tkg-patch-dir}/proton/fsync/fsync_futex_waitv.patch"
+          ]
+          ++ [
+            "${tkg-patch-dir}/proton/proton-mf-patch/gstreamer-patch1.patch"
+            "${tkg-patch-dir}/proton/proton-mf-patch/gstreamer-patch2-non-staging.patch"
+            "${tkg-patch-dir}/misc/enable_dynamic_wow64_def/enable_dynamic_wow64_def.patch"
+            "${tkg-patch-dir}/proton/LAA/LAA-unix-wow64.patch"
+            "${tkg-patch-dir}/proton/proton-winevulkan/vulkan-1-Prefer-builtin.patch"
+            "${tkg-patch-dir}/proton/proton-winevulkan/proton10-winevulkan.patch"
+            "${tkg-patch-dir}/misc/winewayland/ge-wayland.patch"
+            "${tkg-patch-dir}/misc/josh-flat-theme/josh-flat-theme.patch"
+            "${tkg-patch-dir}/proton/proton-win10-default/proton-win10-default.patch"
+          ]
+          ++ lib.optional ntsync "${tkg-patch-dir}/misc/fastsync/ntsync5-mainline.patch"
+          ++ [
+            "${tkg-patch-dir}/hotfixes/GetMappedFileName/Return_nt_filename_and_resolve_DOS_drive_path.mypatch"
+            "${tkg-patch-dir}/hotfixes/08cccb5/a608ef1.mypatch"
+          ]
+          ++ lib.optional (! ntsync) "${tkg-patch-dir}/hotfixes/shm_esync_fsync/HACK-user32-Always-call-get_message-request-after-waiting.mypatch"
+          ++ [
+            "${tkg-patch-dir}/hotfixes/NosTale/nostale_mouse_fix.mypatch"
+            "${tkg-patch-dir}/hotfixes/autoconf-opencl-hotfix/opencl-fixup.mypatch"
+          ]
+          ++ map (f: "${cleanedPatches}/${f}") lug-patches;
       in
         old.patches ++ patches;
       passthru.ntsync-enabled = ntsync;
