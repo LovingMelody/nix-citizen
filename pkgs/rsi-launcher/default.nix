@@ -42,12 +42,12 @@
   gameScope = lib.strings.optionalString gameScopeEnable "gamescope ${concatStringsSep " " gameScopeArgs} --";
 in
   stdenvNoCC.mkDerivation (finalAttrs: {
-    version = "2.5.1";
+    version = "2.6.0";
     pname = "rsi-launcher";
     src = fetchurl {
       url = "https://install.robertsspaceindustries.com/rel/2/RSI%20Launcher-Setup-${finalAttrs.version}.exe";
       name = "RSI Launcher-Setup-${finalAttrs.version}.exe";
-      hash = "sha512-VPys0evrPiq89wm+E4xzVF2Q4fPPV9Ki4h5+jqoDKqFOnC2nqTYcS3q9zj3fQkcxWFBc92FW+3NlLzddB7RkgQ==";
+      hash = "sha512-stzxoe6aS2mJ5AGJnvf89/kls+zTheF1IhrdTSdlxEh3Vyx1dobQ802qey9n3VNyWXVbz53TdKBLRx7XGxQ95g==";
     };
     buidInputs =
       [p7zip]
