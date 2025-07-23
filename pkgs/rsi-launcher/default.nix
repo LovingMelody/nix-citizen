@@ -265,5 +265,6 @@ in
       license = lib.licenses.unfree;
       maintainers = with lib.maintainers; [fuzen];
       platforms = ["x86_64-linux"];
+      mainProgram = "rsi-launcher";
     };
   })
