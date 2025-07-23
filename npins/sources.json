@@ -61,9 +61,9 @@
       },
       "branch": "main",
       "submodules": false,
-      "revision": "ea995b1694e2af30a9dea1a1dadaa0658540d848",
-      "url": "https://github.com/libsdl-org/sdl/archive/ea995b1694e2af30a9dea1a1dadaa0658540d848.tar.gz",
-      "hash": "1r9gpc1hpi7ib863bnwm3aj3askd32jn9768rayz516l4xmafx72"
+      "revision": "acb3b0b4be8c6bd2dff1aceaca69598557eea099",
+      "url": "https://github.com/libsdl-org/sdl/archive/acb3b0b4be8c6bd2dff1aceaca69598557eea099.tar.gz",
+      "hash": "1wzgmv7wb17ijzcmpi1w7a7kln83524idzma9jy3lp1w2jdqjiwv"
     },
     "sdl2-compat": {
       "type": "Git",
@@ -99,9 +99,9 @@
       },
       "branch": "master",
       "submodules": true,
-      "revision": "7c7b3e43047a26789f1cbd5b3a04a37a3d08e2bd",
+      "revision": "dc1a81f31ae4e3e5de4acb952765ccba04d91fba",
       "url": null,
-      "hash": "1y0b7i0d3s7c90d43z18ir7gh9jcv29rzkllfv6qkdcrq7zyiwj7"
+      "hash": "07ih59iwnd8q9fvxiln29bp27zhvzy494330q61rd9ckhzrabqyp"
     },
     "wine-tkg": {
       "type": "Git",
@@ -125,9 +125,9 @@
       },
       "branch": "master",
       "submodules": false,
-      "revision": "825734f7a58966d79d01ac5d270763dcebf98059",
-      "url": "https://github.com/Frogging-Family/wine-tkg-git/archive/825734f7a58966d79d01ac5d270763dcebf98059.tar.gz",
-      "hash": "1j08n99v0lc8jmqvyfj2lzskrd0k9qgvjwf59hplxfsglhzcwkif"
+      "revision": "78efb4dc5a1a4b6d9e05a0c35bf12fb28fbda104",
+      "url": "https://github.com/Frogging-Family/wine-tkg-git/archive/78efb4dc5a1a4b6d9e05a0c35bf12fb28fbda104.tar.gz",
+      "hash": "1iyqxhimq7wvnarqs41m0ik3r57ywbp22wfhylyns13210h59wan"
     },
     "wine-tkg-ntsync": {
       "type": "Git",
