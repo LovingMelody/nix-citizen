@@ -86,7 +86,7 @@ in {
           ];
         };
         dxvk-w32 = final.dxvk-w32.overrideAttrs {
-          pname = "dxvk-async";
+          pname = "dxvk-gplasync";
           src = pins.dxvk;
           version = "git+${pins.dxvk.revision}";
           patches = [

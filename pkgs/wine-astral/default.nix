@@ -78,8 +78,8 @@ in
         src = pins.wine;
         patches = let
           blacklist = [
-            # "10.2+_eac_fix.patch"
-            # "winewayland-no-enter-move-if-relative.patch"
+            "10.2+_eac_fix.patch"
+            "winewayland-no-enter-move-if-relative.patch"
             "reg_show_wine.patch"
             # "cache-committed-size.patch"
           ];
@@ -94,31 +94,30 @@ in
               "${tkg-patch-dir}/proton/fsync/fsync_futex_waitv.patch"
             ]
             ++ [
-              "${tkg-patch-dir}/proton/proton-mf-patch/gstreamer-patch1.patch"
-              "${tkg-patch-dir}/proton/proton-mf-patch/gstreamer-patch2-non-staging.patch"
-              "${tkg-patch-dir}/misc/enable_dynamic_wow64_def/enable_dynamic_wow64_def.patch"
+              "${tkg-patch-dir}/misc/CSMT-toggle/CSMT-toggle.patch"
               "${tkg-patch-dir}/proton/LAA/LAA-unix-wow64.patch"
-              "${tkg-patch-dir}/proton/proton-winevulkan/vulkan-1-Prefer-builtin.patch"
-              "${tkg-patch-dir}/proton/proton-winevulkan/proton10-winevulkan.patch"
-              # "${tkg-patch-dir}/misc/winewayland/ge-wayland.patch"
-              "${tkg-patch-dir}/misc/josh-flat-theme/josh-flat-theme.patch"
               "${tkg-patch-dir}/proton/proton-win10-default/proton-win10-default.patch"
             ]
             ++ lib.optional ntsync "${tkg-patch-dir}/misc/fastsync/ntsync5-mainline.patch"
-            ++ [
-              "${tkg-patch-dir}/hotfixes/GetMappedFileName/Return_nt_filename_and_resolve_DOS_drive_path.mypatch"
-              "${tkg-patch-dir}/hotfixes/08cccb5/a608ef1.mypatch"
-            ]
             ++ lib.optional (! ntsync) "${tkg-patch-dir}/hotfixes/shm_esync_fsync/HACK-user32-Always-call-get_message-request-after-waiting.mypatch"
             ++ [
               "${tkg-patch-dir}/hotfixes/NosTale/nostale_mouse_fix.mypatch"
               "${tkg-patch-dir}/hotfixes/autoconf-opencl-hotfix/opencl-fixup.mypatch"
+              "${tkg-patch-dir}/hotfixes/08cccb5/a608ef1.mypatch"
+              "${tkg-patch-dir}/proton-tkg-specific/proton_battleye/proton_battleye.patch"
+              "${tkg-patch-dir}/proton-tkg-specific/proton_eac/proton-eac_bridge.patch"
+              "${tkg-patch-dir}/proton-tkg-specific/proton_eac/wow64_loader_hack.patch"
             ]
             ++ map (f: "${cleanedPatches}/${f}") lug-patches;
         in
           patches;
       })).overrideAttrs (old: {
       passthru.ntsync-enabled = ntsync;
+      patchArgs = ["-p1" "--forward"];
+      prePatch = ''
+        ${old.prePatch or ""}
+        patchShebangs tools
+      '';
       postPatch = ''
         ${old.postPatch or ""}
         echo "Disabling wine menubuilder"
