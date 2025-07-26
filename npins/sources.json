@@ -1,5 +1,37 @@
 {
   "pins": {
+    "Vulkan-Headers": {
+      "type": "GitRelease",
+      "repository": {
+        "type": "GitHub",
+        "owner": "KhronosGroup",
+        "repo": "Vulkan-Headers"
+      },
+      "pre_releases": false,
+      "version_upper_bound": null,
+      "release_prefix": "vulkan-sdk-",
+      "submodules": false,
+      "version": "vulkan-sdk-1.4.321.0",
+      "revision": "2cd90f9d20df57eac214c148f3aed885372ddcfe",
+      "url": "https://api.github.com/repos/KhronosGroup/Vulkan-Headers/tarball/vulkan-sdk-1.4.321.0",
+      "hash": "1kamn5hw5lpw4yxyri4mlrryzhn33bnnrqby0yxla45z5f5f6fb3"
+    },
+    "Vulkan-Loader": {
+      "type": "GitRelease",
+      "repository": {
+        "type": "GitHub",
+        "owner": "KhronosGroup",
+        "repo": "Vulkan-Loader"
+      },
+      "pre_releases": false,
+      "version_upper_bound": null,
+      "release_prefix": "vulkan-sdk-",
+      "submodules": false,
+      "version": "vulkan-sdk-1.4.321.0",
+      "revision": "da8d2caad9341ca8c5a7c3deba217d7da50a7c24",
+      "url": "https://api.github.com/repos/KhronosGroup/Vulkan-Loader/tarball/vulkan-sdk-1.4.321.0",
+      "hash": "0fbpypznznvwkqgf2zw85xdpbiq92j95xyldhnjk94lia6bs4klb"
+    },
     "dxvk": {
       "type": "Git",
       "repository": {
@@ -9,9 +41,9 @@
       },
       "branch": "master",
       "submodules": true,
-      "revision": "629a5f0d2bb8f7d7241833cfcd1a9d9032c3bfe0",
+      "revision": "6a5544f03419689e23df4fe79a6fd649f48a3902",
       "url": null,
-      "hash": "1vbf5r18zkb15dk5r8x3zrbn2hw1gpl592bxaxkhp0dkfydh8jbn"
+      "hash": "1mw528ynr4dp36madlapczi5dwws50yzzn8s380gafbd010i0g00"
     },
     "dxvk-gplasync": {
       "type": "Git",
@@ -61,9 +93,9 @@
       },
       "branch": "main",
       "submodules": false,
-      "revision": "acb3b0b4be8c6bd2dff1aceaca69598557eea099",
-      "url": "https://github.com/libsdl-org/sdl/archive/acb3b0b4be8c6bd2dff1aceaca69598557eea099.tar.gz",
-      "hash": "1wzgmv7wb17ijzcmpi1w7a7kln83524idzma9jy3lp1w2jdqjiwv"
+      "revision": "72b7fd10b44c029d3095e7e8605ad407a5735871",
+      "url": "https://github.com/libsdl-org/sdl/archive/72b7fd10b44c029d3095e7e8605ad407a5735871.tar.gz",
+      "hash": "05ysvfgnh7gbyqdipazhjsxwvx5vw54lp4z0dlvq2n3gxm5wnjck"
     },
     "sdl2-compat": {
       "type": "Git",
@@ -74,9 +106,9 @@
       },
       "branch": "main",
       "submodules": false,
-      "revision": "825d96d8317c7691343583abedceef28376082cb",
-      "url": "https://github.com/libsdl-org/sdl2-compat/archive/825d96d8317c7691343583abedceef28376082cb.tar.gz",
-      "hash": "0h1ydvvy7lh9w1cjhdqd42a4y4w4f7jj4ybmnlmlq6b7nzqzrl67"
+      "revision": "5ad406d633b0eb4ced7d6dae7894c0ad432ad3db",
+      "url": "https://github.com/libsdl-org/sdl2-compat/archive/5ad406d633b0eb4ced7d6dae7894c0ad432ad3db.tar.gz",
+      "hash": "1d7jfgd76qzc94qd12l92g7sjhknhw1cmlx4sf5s7xdpwplcr4w3"
     },
     "vkd3d-proton": {
       "type": "Git",
