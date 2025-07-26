@@ -64,31 +64,32 @@ in {
             meta.changelog = "https://github.com/libsdl-org/sdl2-compat/releases/";
           });
     };
-    updated-vulkan-sdk = final: prev: let
+    updated-vulkan-sdk = _final: prev: let
       version = removePrefix "vulkan-sdk-" pins.Vulkan-Headers.version;
       # Safety check, we only want to update the vulkan-sdk if the vulkan-headers version is older than the one we have
       # The loader & headers versions should always match
       applicable = (pins.Vulkan-Loader.version == pins.Vulkan-Headers.version) && (versionOlder prev.vulkan-headers.version version);
+      smartApply = pin: pkg:
+        if (applicable && (versionOlder pkg.version (removePrefix "vulkan-sdk-" pin.version)))
+        then
+          pkg.overrideAttrs {
+            version = removePrefix "vulkan-sdk-" pin.version;
+            src = pin;
+          }
+        else pkg;
     in {
-      vulkan-headers =
-        if applicable
-        then
-          prev.vulkan-headers.overrideAttrs {
-            version = removePrefix "vulkan-sdk-" pins.Vulkan-Headers.version;
-            src = pins.Vulkan-Headers;
-          }
-        else prev.vulkan-headers;
-      vulkan-loader =
-        if applicable
-        then
-          (prev.vulkan-loader.overrideAttrs
-            {
-              version = removePrefix "vulkan-sdk-" pins.Vulkan-Loader.version;
-              src = pins.Vulkan-Loader;
-            }).override {
-            inherit (final) vulkan-headers;
-          }
-        else prev.vulkan-loader;
+      vulkan-headers = smartApply pins.Vulkan-Headers prev.vulkan-headers;
+      vulkan-loader = smartApply pins.Vulkan-Loader prev.vulkan-loader;
+      glslang = smartApply pins.glslang prev.glslang;
+      vulkan-validation-layers = smartApply pins.Vulkan-Validation-Layers prev.vulkan-validation-layers;
+      vulkan-tools = smartApply pins.Vulkan-Tools prev.vulkan-tools;
+      vulkan-tools-lunarg = smartApply pins.Vulkan-Tools-LunarG prev.vulkan-tools-lunarg;
+      vulkan-extension-layer = smartApply pins.Vulkan-ExtensionLayer prev.vulkan-extension-layer;
+      vulkan-utility-libraries = smartApply pins.Vulkan-Utility-Libraries prev.vulkan-utility-libraries;
+      vulkan-volk = smartApply pins.volk prev.vulkan-volk;
+      spirv-headers = smartApply pins.SPIRV-Headers prev.spirv-headers;
+      spirv-cross = smartApply pins.SPIRV-Cross prev.spirv-cross;
+      spirv-tools = smartApply pins.SPIRV-Tools prev.spirv-tools;
     };
     patchedXwayland = _final: prev: {
       xwayland = prev.xwayland.overrideAttrs (p: {
