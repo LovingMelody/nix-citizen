@@ -32,7 +32,7 @@
   disableEac ? false,
   extraLibs ? [],
   extraEnvVars ? {},
-  enforceWaylandDrv ? true, # Needed for Vulkan
+  enforceWaylandDrv ? (! useUmu), # Needed for Vulkan
   experiments ? false,
 }: let
   inherit (lib.strings) concatStringsSep optionalString toShellVars;
