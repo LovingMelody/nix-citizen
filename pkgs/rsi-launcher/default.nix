@@ -13,11 +13,10 @@
   fetchurl,
   p7zip,
   bash,
-  freetype,
-  vulkan-loader,
   makeWrapper,
+  pname ? "rsi-launcher",
   wineFlags ? "",
-  location ? "$HOME/Games/rsi-launcher",
+  location ? "$HOME/Games/${pname}",
   tricks ? ["powershell" "corefonts" "tahoma"],
   useUmu ? false,
   protonPath ? "${proton-ge-bin.steamcompattool}/",
@@ -34,7 +33,44 @@
   extraEnvVars ? {},
   enforceWaylandDrv ? (! useUmu), # Needed for Vulkan
   experiments ? false,
-}: let
+  ... # Dont error from extra args for compatibility
+} @ args: let
+  extraArgs = builtins.removeAttrs args [
+    "lib"
+    "makeDesktopItem"
+    "writeScript"
+    "writeScriptBin"
+    "gamescope"
+    "winetricks"
+    "wine"
+    "wineprefix-preparer"
+    "umu-launcher"
+    "proton-ge-bin"
+    "stdenvNoCC"
+    "fetchurl"
+    "p7zip"
+    "bash"
+    "makeWrapper"
+    "pname"
+    "wineFlags"
+    "location"
+    "tricks"
+    "useUmu"
+    "protonPath"
+    "protonVerbs"
+    "wineDllOverrides"
+    "gameScopeEnable"
+    "gameScopeArgs"
+    "preCommands"
+    "postCommands"
+    "enableGlCache"
+    "glCacheSize"
+    "disableEac"
+    "extraLibs"
+    "extraEnvVars"
+    "enforceWaylandDrv"
+    "experiments"
+  ];
   inherit (lib.strings) concatStringsSep optionalString toShellVars;
   inherit (lib) optional;
   # Latest version can be found: https://install.robertsspaceindustries.com/rel/2/latest.yml
@@ -43,7 +79,7 @@
 in
   stdenvNoCC.mkDerivation (finalAttrs: {
     version = "2.6.0";
-    pname = "rsi-launcher";
+    inherit pname;
     src = fetchurl {
       url = "https://install.robertsspaceindustries.com/rel/2/RSI%20Launcher-Setup-${finalAttrs.version}.exe";
       name = "RSI Launcher-Setup-${finalAttrs.version}.exe";
@@ -59,16 +95,19 @@ in
       ++ optional gameScopeEnable gamescope;
     nativeBuildInputs = [p7zip makeWrapper];
     desktopItem = makeDesktopItem {
-      name = "rsi-launcher";
-      exec = "rsi-launcher %U";
-      icon = "rsi-launcher";
+      name = finalAttrs.pname;
+      exec = "${finalAttrs.pname} %U";
+      icon = finalAttrs.pname;
       comment = "Roberts Space Industries Launcher";
-      desktopName = "RSI Launcher";
+      desktopName =
+        if finalAttrs.pname == "star-citizen"
+        then "Star Citizen"
+        else "RSI Launcher";
       categories = ["Game"];
-      mimeTypes = ["application/x-rsi-launcher"];
+      mimeTypes = ["application/x-${finalAttrs.pname}"];
     };
 
-    script = writeScript "rsi-launcher" ''
+    script = writeScript "${finalAttrs.pname}" ''
       set -x
       export WINETRICKS_LATEST_VERSION_CHECK=disabled
       export WINEARCH="win64"
@@ -220,18 +259,18 @@ in
       rm RSI\ Launcher.exe
     '';
     installPhase = ''
-      install -D -m444 1.ico $out/share/icons/hicolor/16x16/apps/rsi-launcher.ico
-      install -D -m444 2.ico $out/share/icons/hicolor/32x32/apps/rsi-launcher.ico
-      install -D -m444 3.ico $out/share/icons/hicolor/48x48/apps/rsi-launcher.ico
-      install -D -m444 4.ico $out/share/icons/hicolor/256x256/apps/rsi-launcher.ico
+      install -D -m444 1.ico $out/share/icons/hicolor/16x16/apps/${finalAttrs.pname}.ico
+      install -D -m444 2.ico $out/share/icons/hicolor/32x32/apps/${finalAttrs.pname}.ico
+      install -D -m444 3.ico $out/share/icons/hicolor/48x48/apps/${finalAttrs.pname}.ico
+      install -D -m444 4.ico $out/share/icons/hicolor/256x256/apps/${finalAttrs.pname}.ico
       install -D -m744 "${finalAttrs.script}" $out/bin/${finalAttrs.pname}
       install -D -m444 "$src" "$out/lib/RSI-Launcher-Setup-${finalAttrs.version}.exe"
-      install -D -m744 "${finalAttrs.desktopItem}/share/applications/rsi-launcher.desktop" "$out/share/applications/rsi-launcher.desktop"
+      install -D -m744 "${finalAttrs.desktopItem}/share/applications/${finalAttrs.pname}.desktop" "$out/share/applications/${finalAttrs.pname}.desktop"
 
       substituteInPlace "$out/bin/${finalAttrs.pname}" \
         --replace-fail '@RSI_LAUNCHER_INSTALLER@' "$out/lib/RSI-Launcher-Setup-${finalAttrs.version}.exe"
 
-      wrapProgram $out/bin/rsi-launcher \
+      wrapProgram $out/bin/${finalAttrs.pname} \
         --prefix PATH : ${lib.makeBinPath (
         (
           if useUmu
@@ -240,7 +279,6 @@ in
         )
         ++ optional gameScopeEnable gamescope
       )} \
-        --prefix LD_LIBRARY_PATH : ${lib.makeLibraryPath ([freetype vulkan-loader] ++ extraLibs)}${lib.optionalString experiments '':"$WINEPREFIX/patchedCuda"''}:/run/opengl-driver/lib:/run/opengl-driver-32/lib \
         --prefix XDG_DATA_DIRS : "$out"
     '';
 
@@ -257,6 +295,13 @@ in
         export SRI_HASH="$(nix hash to-sri --type sha512 "$SHA512")"
         update-source-version rsi-launcher "$VERSION" "$SRI_HASH"
       '';
+      extraArgs =
+        lib.warnIf (extraArgs != {}) ''
+          ${pname}: Extra arguments are not used in the derivation, they will be ignored.
+            In a future update this will error.
+        ''
+        builtins.attrNames
+        extraArgs;
     };
 
     meta = {
@@ -265,6 +310,6 @@ in
       license = lib.licenses.unfree;
       maintainers = with lib.maintainers; [fuzen];
       platforms = ["x86_64-linux"];
-      mainProgram = "rsi-launcher";
+      mainProgram = finalAttrs.pname;
     };
   })

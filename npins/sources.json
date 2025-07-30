@@ -195,9 +195,9 @@
       },
       "branch": "master",
       "submodules": true,
-      "revision": "0ea231734d60b3ddb22c3a831b1142e3f035de91",
+      "revision": "95442f078f3c31e9d43310903383632df6d6cb39",
       "url": null,
-      "hash": "0rmhm2sqwgpjpykya4lzaka2ibsjqiqpmvpw6dl3bn63pb0icib6"
+      "hash": "09j26znnsy51lf5zbhljyvfmr5ww9yb4plfq4bnbq6qqpd5cs5q0"
     },
     "glslang": {
       "type": "GitRelease",
@@ -224,9 +224,9 @@
       },
       "branch": "main",
       "submodules": false,
-      "revision": "04673e33f02c6a586f887d38a252bab2ba0d4187",
-      "url": "https://github.com/starcitizen-lug/patches/archive/04673e33f02c6a586f887d38a252bab2ba0d4187.tar.gz",
-      "hash": "1h5ccfayjc353bzbl6pygbc5mi3wqnbxi2jhriv7lsk4474c7izr"
+      "revision": "99738853cb925ad541f0747de92f72d201765e1e",
+      "url": "https://github.com/starcitizen-lug/patches/archive/99738853cb925ad541f0747de92f72d201765e1e.tar.gz",
+      "hash": "0rgqnzqpxkwbknz649w30dzdd8gapjp9nqwqlmx2pph4ry3g36lz"
     },
     "sdl": {
       "type": "Git",
@@ -237,9 +237,9 @@
       },
       "branch": "main",
       "submodules": false,
-      "revision": "72b7fd10b44c029d3095e7e8605ad407a5735871",
-      "url": "https://github.com/libsdl-org/sdl/archive/72b7fd10b44c029d3095e7e8605ad407a5735871.tar.gz",
-      "hash": "05ysvfgnh7gbyqdipazhjsxwvx5vw54lp4z0dlvq2n3gxm5wnjck"
+      "revision": "dec21043a0de66b6160eb263921e95685f7e6e7e",
+      "url": "https://github.com/libsdl-org/sdl/archive/dec21043a0de66b6160eb263921e95685f7e6e7e.tar.gz",
+      "hash": "1klv20h90ivcrijcbrbhr970zpqplpfdh6pd3whl7vcnfzb6pmng"
     },
     "sdl2-compat": {
       "type": "Git",
@@ -250,9 +250,9 @@
       },
       "branch": "main",
       "submodules": false,
-      "revision": "5ad406d633b0eb4ced7d6dae7894c0ad432ad3db",
-      "url": "https://github.com/libsdl-org/sdl2-compat/archive/5ad406d633b0eb4ced7d6dae7894c0ad432ad3db.tar.gz",
-      "hash": "1d7jfgd76qzc94qd12l92g7sjhknhw1cmlx4sf5s7xdpwplcr4w3"
+      "revision": "378ea5813293b76485021e43bbb1e36b78d27cb8",
+      "url": "https://github.com/libsdl-org/sdl2-compat/archive/378ea5813293b76485021e43bbb1e36b78d27cb8.tar.gz",
+      "hash": "1dih1v1v984cr42mnflg4vb3ijx9ckldx45zymdlrx6i59s8di40"
     },
     "vkd3d-proton": {
       "type": "Git",
@@ -263,9 +263,9 @@
       },
       "branch": "master",
       "submodules": true,
-      "revision": "6f32f627b37c6779904e38d2d65ea7589d0977f5",
+      "revision": "e42f95cbd56ea91e92f9b4398ccd2b882b35e6ef",
       "url": null,
-      "hash": "0a0dr1945paipwy68bvi0238rmlkvicwglb48pg6jlixwyfzw9k9"
+      "hash": "00yiir5f5fc8kynnw196jgshaim6mab6fff0vhymghlvv81c0j4j"
     },
     "volk": {
       "type": "GitRelease",
@@ -295,6 +295,19 @@
       "revision": "8711b2948890ab05e150e8e4f721411cca3a4f94",
       "url": "https://github.com/Kron4ek/wine-tkg/archive/8711b2948890ab05e150e8e4f721411cca3a4f94.tar.gz",
       "hash": "01giwx8l7nl32i0jc9z7gihz4ax5kyhiig70yr1zkdcn7zxmqbwx"
+    },
+    "wine-tkg-git": {
+      "type": "Git",
+      "repository": {
+        "type": "GitHub",
+        "owner": "Frogging-Family",
+        "repo": "wine-tkg-git"
+      },
+      "branch": "master",
+      "submodules": false,
+      "revision": "78efb4dc5a1a4b6d9e05a0c35bf12fb28fbda104",
+      "url": "https://github.com/Frogging-Family/wine-tkg-git/archive/78efb4dc5a1a4b6d9e05a0c35bf12fb28fbda104.tar.gz",
+      "hash": "1iyqxhimq7wvnarqs41m0ik3r57ywbp22wfhylyns13210h59wan"
     },
     "wine-tkg-ntsync": {
       "type": "Git",
