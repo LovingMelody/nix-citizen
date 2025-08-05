@@ -169,9 +169,9 @@
       },
       "branch": "master",
       "submodules": true,
-      "revision": "6a5544f03419689e23df4fe79a6fd649f48a3902",
+      "revision": "3265e4aa43b9d3893c82b6157fafb7fa45388cb9",
       "url": null,
-      "hash": "1mw528ynr4dp36madlapczi5dwws50yzzn8s380gafbd010i0g00"
+      "hash": "0hjiavkshx4865gv8k47544zzr9nyx4fvkkx0ahx1miqy8k0x7i6"
     },
     "dxvk-gplasync": {
       "type": "Git",
@@ -224,9 +224,9 @@
       },
       "branch": "main",
       "submodules": false,
-      "revision": "99738853cb925ad541f0747de92f72d201765e1e",
-      "url": "https://github.com/starcitizen-lug/patches/archive/99738853cb925ad541f0747de92f72d201765e1e.tar.gz",
-      "hash": "0rgqnzqpxkwbknz649w30dzdd8gapjp9nqwqlmx2pph4ry3g36lz"
+      "revision": "87a620ee062812d640fc8b8d01c39293b8fd4f60",
+      "url": "https://github.com/starcitizen-lug/patches/archive/87a620ee062812d640fc8b8d01c39293b8fd4f60.tar.gz",
+      "hash": "1p6yax53wj92rjxi6hh354m4sqr6izmg58l7s0xawjh7yjcfjgzy"
     },
     "sdl": {
       "type": "Git",
@@ -237,9 +237,9 @@
       },
       "branch": "main",
       "submodules": false,
-      "revision": "dec21043a0de66b6160eb263921e95685f7e6e7e",
-      "url": "https://github.com/libsdl-org/sdl/archive/dec21043a0de66b6160eb263921e95685f7e6e7e.tar.gz",
-      "hash": "1klv20h90ivcrijcbrbhr970zpqplpfdh6pd3whl7vcnfzb6pmng"
+      "revision": "b6fa89ea74159ceb913437c3de0a5b8b58267ae2",
+      "url": "https://github.com/libsdl-org/sdl/archive/b6fa89ea74159ceb913437c3de0a5b8b58267ae2.tar.gz",
+      "hash": "0y44m2y57n6p9apr9grdhmfhavsv2hr2r6j3jagwx2xm9v0hm6fy"
     },
     "sdl2-compat": {
       "type": "Git",
@@ -250,9 +250,9 @@
       },
       "branch": "main",
       "submodules": false,
-      "revision": "378ea5813293b76485021e43bbb1e36b78d27cb8",
-      "url": "https://github.com/libsdl-org/sdl2-compat/archive/378ea5813293b76485021e43bbb1e36b78d27cb8.tar.gz",
-      "hash": "1dih1v1v984cr42mnflg4vb3ijx9ckldx45zymdlrx6i59s8di40"
+      "revision": "459c48d588556187229ecde2fa770b163d320e51",
+      "url": "https://github.com/libsdl-org/sdl2-compat/archive/459c48d588556187229ecde2fa770b163d320e51.tar.gz",
+      "hash": "0x8fc9q1mgbmssicr1ysd05zpbm63xrpnxf8rw7a9mjp0k88yslx"
     },
     "vkd3d-proton": {
       "type": "Git",
@@ -263,9 +263,9 @@
       },
       "branch": "master",
       "submodules": true,
-      "revision": "e42f95cbd56ea91e92f9b4398ccd2b882b35e6ef",
+      "revision": "923127f70032741e3455d075d1998a5c5c00f6b6",
       "url": null,
-      "hash": "00yiir5f5fc8kynnw196jgshaim6mab6fff0vhymghlvv81c0j4j"
+      "hash": "0g3c14n63mzds4djarfhiyg3lkzz8agyap0qf1s1gsly2x5czyjr"
     },
     "volk": {
       "type": "GitRelease",

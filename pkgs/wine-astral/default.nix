@@ -97,6 +97,7 @@ in
             "reg_show_wine.patch"
             "reg_hide_wine.patch"
             "printkey_x11-staging.patch"
+            "printkey_wld.patch"
             # "cache-committed-size.patch"
           ];
           filter = name: _type: ! (builtins.elem (builtins.baseNameOf name) blacklist);
