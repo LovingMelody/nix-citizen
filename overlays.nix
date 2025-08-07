@@ -64,7 +64,7 @@ in {
             meta.changelog = "https://github.com/libsdl-org/sdl2-compat/releases/";
           });
     };
-    updated-vulkan-sdk = _final: prev: let
+    updated-vulkan-sdk = final: prev: let
       version = removePrefix "vulkan-sdk-" pins.Vulkan-Headers.version;
       # Safety check, we only want to update the vulkan-sdk if the vulkan-headers version is older than the one we have
       # The loader & headers versions should always match
@@ -72,10 +72,39 @@ in {
       smartApply = pin: pkg:
         if (applicable && (versionOlder pkg.version (removePrefix "vulkan-sdk-" pin.version)))
         then
-          pkg.overrideAttrs {
-            version = removePrefix "vulkan-sdk-" pin.version;
-            src = pin;
-          }
+          pkg.overrideAttrs ({
+              version = removePrefix "vulkan-sdk-" pin.version;
+              src = pin;
+            }
+            // (final.lib.mkIf (pkg.pname == "vulkan-tools-lunarg") {
+              nativeBuildInputs = with final; [
+                cmake
+                python3
+                jq
+                which
+                pkg-config
+                qt6.wrapQtAppsHook
+              ];
+
+              buildInputs = with final; [
+                expat
+                jsoncpp
+                libX11
+                libXdmcp
+                libXrandr
+                libffi
+                libxcb
+                valijson
+                vulkan-headers
+                vulkan-loader
+                vulkan-utility-libraries
+                wayland
+                xcbutilkeysyms
+                xcbutilwm
+                qt6.qtbase
+                qt6.qtwayland
+              ];
+            }))
         else pkg;
     in {
       vulkan-headers = smartApply pins.Vulkan-Headers prev.vulkan-headers;
