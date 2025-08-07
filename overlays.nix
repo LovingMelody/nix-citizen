@@ -72,39 +72,14 @@ in {
       smartApply = pin: pkg:
         if (applicable && (versionOlder pkg.version (removePrefix "vulkan-sdk-" pin.version)))
         then
-          pkg.overrideAttrs ({
+          if pkg.pname == "vulkan-tools-lunarg"
+          then final.callPackage ./pkgs/vulkan-tools-lunarg {inherit pins;}
+          else
+            pkg.overrideAttrs {
               version = removePrefix "vulkan-sdk-" pin.version;
               src = pin;
+              passthru.smartUpdated = true;
             }
-            // (final.lib.mkIf (pkg.pname == "vulkan-tools-lunarg") {
-              nativeBuildInputs = with final; [
-                cmake
-                python3
-                jq
-                which
-                pkg-config
-                qt6.wrapQtAppsHook
-              ];
-
-              buildInputs = with final; [
-                expat
-                jsoncpp
-                libX11
-                libXdmcp
-                libXrandr
-                libffi
-                libxcb
-                valijson
-                vulkan-headers
-                vulkan-loader
-                vulkan-utility-libraries
-                wayland
-                xcbutilkeysyms
-                xcbutilwm
-                qt6.qtbase
-                qt6.qtwayland
-              ];
-            }))
         else pkg;
     in {
       vulkan-headers = smartApply pins.Vulkan-Headers prev.vulkan-headers;
@@ -112,7 +87,45 @@ in {
       glslang = smartApply pins.glslang prev.glslang;
       vulkan-validation-layers = smartApply pins.Vulkan-Validation-Layers prev.vulkan-validation-layers;
       vulkan-tools = smartApply pins.Vulkan-Tools prev.vulkan-tools;
-      vulkan-tools-lunarg = smartApply pins.Vulkan-Tools-LunarG prev.vulkan-tools-lunarg;
+      vulkan-tools-lunarg = let
+        pkg = smartApply pins.Vulkan-Tools-LunarG prev.vulkan-tools-lunarg;
+      in
+        if (pkg.passthru ? smartUpdated)
+        then
+          pkg.overrideAttrs rec {
+            nativeBuildInputs = with final; [
+              cmake
+              python3
+              jq
+              which
+              pkg-config
+              qt6.wrapQtAppsHook
+            ];
+
+            buildInputs = with final; [
+              expat
+              jsoncpp
+              libX11
+              libXdmcp
+              libXrandr
+              libffi
+              libxcb
+              valijson
+              vulkan-headers
+              vulkan-loader
+              vulkan-utility-libraries
+              wayland
+              xcbutilkeysyms
+              xcbutilwm
+              qt6.qtbase
+              qt6.qtwayland
+            ];
+
+            cmakeFlags = [
+              "-DVULKAN_HEADERS_INSTALL_DIR=${final.vulkan-headers}"
+            ];
+          }
+        else pkg;
       vulkan-extension-layer = smartApply pins.Vulkan-ExtensionLayer prev.vulkan-extension-layer;
       vulkan-utility-libraries = smartApply pins.Vulkan-Utility-Libraries prev.vulkan-utility-libraries;
       vulkan-volk = smartApply pins.volk prev.vulkan-volk;
