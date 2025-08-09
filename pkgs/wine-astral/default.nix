@@ -64,15 +64,16 @@ in
 
     base = {
       inherit supportFlags moltenvk;
-      buildScript = "${nixpkgs-wine}/pkgs/applications/emulators/wine/builder-wow.sh";
-      configureFlags = ["--disable-tests"];
+      buildScript = null;
+      configureFlags = ["--disable-tests" "--enable-archs=x86_64,i386"];
       geckos = with sources; [gecko32 gecko64];
       mingwGccs = with pkgsCross; [mingw32.buildPackages.gcc14 mingwW64.buildPackages.gcc14];
       monos = [wine-mono];
-      pkgArches = [pkgs pkgsi686Linux];
+      pkgArches = [pkgs];
       platforms = ["x86_64-linux"];
       stdenv = overrideCC stdenv (wrapCCMulti gcc14);
       wineRelease = "unstable";
+      mainProgram = "wine";
     };
     nixPatches = sources.patches;
   in
