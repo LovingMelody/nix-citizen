@@ -237,9 +237,9 @@
       },
       "branch": "main",
       "submodules": false,
-      "revision": "a743fb578c7adb066d1a00ad56d229e003fdbe73",
-      "url": "https://github.com/libsdl-org/sdl/archive/a743fb578c7adb066d1a00ad56d229e003fdbe73.tar.gz",
-      "hash": "1yxmnldnhwszkxrk460x1594dzyylai8kpyvc1mak8pi675xka8i"
+      "revision": "5f77da3a5025b92500c32d0dc7962d22fc79a8c7",
+      "url": "https://github.com/libsdl-org/sdl/archive/5f77da3a5025b92500c32d0dc7962d22fc79a8c7.tar.gz",
+      "hash": "1gdab4b2y1vwh113l9c47ayvrk9940pvpq7ciiay7c7rripq2pzv"
     },
     "sdl2-compat": {
       "type": "Git",
@@ -250,9 +250,9 @@
       },
       "branch": "main",
       "submodules": false,
-      "revision": "459c48d588556187229ecde2fa770b163d320e51",
-      "url": "https://github.com/libsdl-org/sdl2-compat/archive/459c48d588556187229ecde2fa770b163d320e51.tar.gz",
-      "hash": "0x8fc9q1mgbmssicr1ysd05zpbm63xrpnxf8rw7a9mjp0k88yslx"
+      "revision": "a5d1e2a0dfd6b6b7d3fd257f3efccbb20e9c30e4",
+      "url": "https://github.com/libsdl-org/sdl2-compat/archive/a5d1e2a0dfd6b6b7d3fd257f3efccbb20e9c30e4.tar.gz",
+      "hash": "13jkrqbxwa5fm9plv98cvihqyknlqg0jsha9injv2f0x2wcq6zhj"
     },
     "vkd3d-proton": {
       "type": "Git",
