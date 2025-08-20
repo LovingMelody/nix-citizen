@@ -145,6 +145,7 @@ in {
         # We dont want to apply the globally but we do want to apply it to wine-astral & rsi-launcher-git
         final.extend unstable-sdl;
     in {
+      cnc-ddraw = final.callPackage "${inputs.nix-gaming}/pkgs/cnc-ddraw" {};
       dxvk-w32 = mFinal.pkgsCross.mingw32.callPackage "${inputs.nix-gaming}/pkgs/dxvk" {
         withSdl2 = true;
         withGlfw = true;
