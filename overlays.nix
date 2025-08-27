@@ -5,7 +5,7 @@
 }: let
   # inherit (inputs.nixpkgs.lib) assertOneOf optional optionalString warn;
   inherit (inputs.nixpkgs.lib) optional;
-  inherit (inputs.nixpkgs.lib.strings) removePrefix versionOlder hasSuffix;
+  inherit (inputs.nixpkgs.lib.strings) removePrefix versionOlder versionAtLeast hasSuffix;
   pins = import "${self}/npins";
   nix-gaming-pins = import "${inputs.nix-gaming}/npins";
   # mkDeprecated = variant: return: {
@@ -57,14 +57,32 @@ in {
         if (hasSuffix pins.sdl2-compat.revision prev.SDL2.version)
         then prev.SDL2
         else
-          (prev.SDL2.override {inherit (final) sdl3;}).overrideAttrs (o: rec {
+          (prev.SDL2.override {
+            inherit (final) sdl3;
+          }).overrideAttrs (o: rec {
             src = pins.sdl2-compat;
             # Not perfect but it works
             version = "${o.version}-${src.revision}";
             meta.changelog = "https://github.com/libsdl-org/sdl2-compat/releases/";
           });
     };
-    updated-vulkan-sdk = final: prev: let
+    latestFFMPEG = final: prev: {
+      opencv =
+        if (versionAtLeast prev.opencv.version "4.12")
+        then
+          if (versionAtLeast prev.ffmpeg.version prev.ffmpeg_8)
+          then prev.opencv
+          else prev.opencv.override {inherit (final) ffmpeg;}
+        else prev.opencv;
+      ffmpeg =
+        if
+          (versionAtLeast final.opencv.version "4.12")
+          && (builtins.hasAttr "ffmpeg_8" final)
+          && (versionOlder prev.ffmpeg.version final.ffmpeg_8.version)
+        then final.ffmpeg_8
+        else prev.ffmpeg;
+    };
+    upated-vulkan-sdk = final: prev: let
       version = removePrefix "vulkan-sdk-" pins.Vulkan-Headers.version;
       # Safety check, we only want to update the vulkan-sdk if the vulkan-headers version is older than the one we have
       # The loader & headers versions should always match
@@ -143,7 +161,7 @@ in {
     default = final: prev: let
       mFinal =
         # We dont want to apply the globally but we do want to apply it to wine-astral & rsi-launcher-git
-        final.extend unstable-sdl;
+        (final.extend unstable-sdl).extend latestFFMPEG;
     in {
       cnc-ddraw = final.callPackage "${inputs.nix-gaming}/pkgs/cnc-ddraw" {};
       dxvk-w32 = mFinal.pkgsCross.mingw32.callPackage "${inputs.nix-gaming}/pkgs/dxvk" {
@@ -219,14 +237,7 @@ in {
         wine-mono = final.callPackage "${inputs.nix-gaming}/pkgs/wine-mono" {
           pins = nix-gaming-pins;
         };
-        ffmpeg =
-          if
-            ((
-                builtins.hasAttr "ffmpeg_8" final
-              )
-              && (versionOlder final.ffmpeg.version final.ffmpeg_8.version))
-          then final.ffmpeg_8-full
-          else final.ffmpeg-full;
+        ffmpeg = final.ffmpeg-full;
       };
       wine-astral-ntsync = final.wine-astral.override {ntsync = true;};
 
