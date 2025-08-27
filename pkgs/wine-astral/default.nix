@@ -25,6 +25,7 @@ in
     perl,
     python3,
     gitMinimal,
+    ffmpeg,
     ntsync ? lib.versionAtLeast linuxHeaders.version MIN_KERNEL_VERSION_NTSYNC,
   }: let
     sources = (import "${inputs.nixpkgs}/pkgs/applications/emulators/wine/sources.nix" {inherit pkgs;}).unstable;
@@ -65,7 +66,10 @@ in
     base = {
       inherit supportFlags moltenvk;
       buildScript = null;
-      configureFlags = ["--disable-tests" "--enable-archs=x86_64,i386"];
+      configureFlags =
+        ["--disable-tests" "--enable-archs=x86_64,i386"]
+        ++ lib.optional (supportFlags.ffmpegSupport or true) "--with-ffmpeg";
+
       geckos = with sources; [gecko32 gecko64];
       mingwGccs = with pkgsCross; [mingw32.buildPackages.gcc14 mingwW64.buildPackages.gcc14];
       monos = [wine-mono];
@@ -170,7 +174,8 @@ in
           perl
           python3
           gitMinimal
-        ];
+        ]
+        ++ lib.optional (supportFlags.ffmpegSupport or true) ffmpeg;
       buildInputs =
         old.buildInputs
         ++ [
@@ -178,6 +183,7 @@ in
           perl
           gitMinimal
         ]
+        ++ lib.optional (supportFlags.ffmpegSupport or true) ffmpeg
         ++ lib.optional stdenv.hostPlatform.isLinux util-linux
         ++ lib.optional ntsync updatedHeaders;
     })

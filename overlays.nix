@@ -219,6 +219,14 @@ in {
         wine-mono = final.callPackage "${inputs.nix-gaming}/pkgs/wine-mono" {
           pins = nix-gaming-pins;
         };
+        ffmpeg =
+          if
+            ((
+                builtins.hasAttr "ffmpeg_8" final
+              )
+              && (versionOlder final.ffmpeg.version final.ffmpeg_8.version))
+          then final.ffmpeg_8-full
+          else final.ffmpeg-full;
       };
       wine-astral-ntsync = final.wine-astral.override {ntsync = true;};
 
