@@ -118,7 +118,21 @@ Likewise for [winecfg](https://wiki.winehq.org/Winecfg) (ex. registry edits,
 some graphics settings):
 
 ```bash
-WINEPREFIX=$HOME/Games/star-citizen nix run github:fufexan/nix-gaming#wine-ge -- winecfg
+# If you used the rsi-launcher package the command is rsi-launcher
+star-citizen --shell
+
+# You can run your usual wine commands once you enter the shell
+```
+
+Gstreamer errors:
+
+```bash
+star-citizen --shell
+
+#
+# Once you enter the shell:
+# wine reg add "HKCU\\Software\\Wine\\MediaFoundation" /v DisableGstByteStreamHandler /t REG_DWORD /d 1 /f
+#
 ```
 
 ## Credits

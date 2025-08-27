@@ -237,9 +237,9 @@
       },
       "branch": "main",
       "submodules": false,
-      "revision": "26d6352500b29bd7fb655e9e1c04c61fe0aeef2d",
-      "url": "https://github.com/libsdl-org/sdl/archive/26d6352500b29bd7fb655e9e1c04c61fe0aeef2d.tar.gz",
-      "hash": "195dhagq2mp55yd85jjqk6h40q1yxyqlc3x2566ibifczvy17r6h"
+      "revision": "943d0f67baa9d2e4cd549ff9ab7589c6f73ab453",
+      "url": "https://github.com/libsdl-org/sdl/archive/943d0f67baa9d2e4cd549ff9ab7589c6f73ab453.tar.gz",
+      "hash": "0cxxixr7j7snjn9jnwr6isj0yxc42v0hia9l4qkfxds2ch06rc1s"
     },
     "sdl2-compat": {
       "type": "Git",
@@ -263,9 +263,9 @@
       },
       "branch": "master",
       "submodules": true,
-      "revision": "724ce4d200fa1eac2491bf4e6564550ecff1791e",
+      "revision": "6faa47d495c8202a4c98211ffe7c8f8463382e14",
       "url": null,
-      "hash": "16kcjs6xx3ydsn29xf8sl9ns2ccz4i3pa0qdrw6fq37hpqw64ll5"
+      "hash": "0ra322vw1vjcgv3pgydrqr44hpj4z9xpzr5wzi58sxs4h8yb3lhv"
     },
     "volk": {
       "type": "GitRelease",
