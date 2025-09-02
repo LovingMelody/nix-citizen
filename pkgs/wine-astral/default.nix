@@ -138,13 +138,6 @@ in
               "${tkg-patch-dir}/proton-tkg-specific/proton_eac/proton-eac_bridge.patch"
               "${tkg-patch-dir}/proton-tkg-specific/proton_eac/wow64_loader_hack.patch"
             ]
-            ++ [
-              (pkgs.fetchurl {
-                url = "https://cdn.discordapp.com/attachments/979298119747518505/1411308578618347541/eac_60101_timeout.patch?ex=68b4d7c9&is=68b38649&hm=32ad3bbb7f86b581c47ca0ea4854af7c2cdb80e06c3ff4938848b4e0cf05d343&";
-                name = "eac_60101_timeout.patch";
-                hash = "sha256-hsNwkvajSein+Y9xSIpWaAlG9pULzxUMT2bND1ijX2s=";
-              })
-            ]
             ++ map (f: "${cleanedPatches}/${f}") lug-patches;
         in
           nixPatches ++ patches;
