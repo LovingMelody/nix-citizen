@@ -84,10 +84,10 @@ in
       (lib.recursiveUpdate base rec {
         pname = "wine-astral-full";
         # version = lib.removeSuffix "\n" (lib.removePrefix "Wine version " (builtins.readFile "${src}/VERSION"));
-        version = "10.12";
+        version = "10.14";
         src = fetchurl {
           url = "https://dl.winehq.org/wine/source/10.x/wine-${version}.tar.xz";
-          hash = "sha256-zVcscaPXLof5hJCyKMfCaq6z/eON2eefw7VjkdWZ1r8=";
+          hash = "sha256-pPo7Wu/hwLc5GpGiw8czuN/QS7MVyOq8+yr0E5aeXks=";
         };
         # src =
         #   if ntsync
@@ -110,12 +110,7 @@ in
           tkg-patch-dir = "${pins.wine-tkg-git}/wine-tkg-git/wine-tkg-patches";
           patches =
             [
-              "${tkg-patch-dir}/proton/proton-mf-patch/gstreamer-patch1.patch"
-              "${tkg-patch-dir}/proton/proton-mf-patch/gstreamer-patch2-non-staging.patch"
               "${tkg-patch-dir}/misc/enable_dynamic_wow64_def/enable_dynamic_wow64_def.patch"
-              # "${tkg-patch-dir}/proton/proton-winevulkan/vulkan-1-Prefer-builtin.patch"
-              # "${tkg-patch-dir}/proton/proton-winevulkan/proton10-winevulkan.patch"
-              "${tkg-patch-dir}/misc/winewayland/ge-wayland.patch"
             ]
             ++ lib.optionals (! ntsync) [
               "${tkg-patch-dir}/wine-tkg-patches/proton/esync/esync-unix-mainline.patch"
@@ -137,6 +132,7 @@ in
               "${tkg-patch-dir}/proton-tkg-specific/proton_battleye/proton_battleye.patch"
               "${tkg-patch-dir}/proton-tkg-specific/proton_eac/proton-eac_bridge.patch"
               "${tkg-patch-dir}/proton-tkg-specific/proton_eac/wow64_loader_hack.patch"
+              "${tkg-patch-dir}/proton-tkg-specific/proton_eac/Revert-ntdll-Get-rid-of-the-wine_nt_to_unix_file_nam.patch"
             ]
             ++ map (f: "${cleanedPatches}/${f}") lug-patches;
         in
@@ -164,7 +160,16 @@ in
 
       #  NOTE: Star Citizen requires a minimum of x86-64-v3 due to AVX requirements.
       # We can build wine-astral with support since its intended for Star Citizen.
-      env.CFLAGS = lib.strings.optionalString stdenv.hostPlatform.isx86_64 "-march=x86-64-v3";
+      env = {
+        NIX_CFLAGS_COMPILE =
+          builtins.concatStringsSep " "
+          ([
+              "-Wno-error=implicit-function-declaration"
+              "-Wno-error=incompatible-pointer-types"
+            ]
+            ++ lib.optional stdenv.hostPlatform.isx86_64 "-march=x86-64-v3");
+      };
+
       nativeBuildInputs =
         (old.nativeBuildInputs or [])
         ++ [

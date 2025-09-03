@@ -19,7 +19,7 @@
   x11Support = true;
   usbSupport = true;
   gtkSupport = true;
-  gstreamerSupport = true;
+  gstreamerSupport = false;
   openalSupport = true;
   openclSupport = true;
   odbcSupport = true;
