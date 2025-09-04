@@ -33,6 +33,7 @@
           default = smartPackage "star-citizen";
           apply = star-citizen:
             star-citizen.override (_old: {
+              inherit (cfg) enforceWaylandDrv;
               useUmu = cfg.umu.enable;
               disableEac = cfg.disableEAC;
               umu-launcher = pkgs.umu-launcher.override (prev: {
@@ -115,6 +116,11 @@
           type = types.bool;
           default = lib.versionAtLeast config.boot.kernelPackages.kernel.version "6.14";
           description = "Enable NTsync kernel module";
+        };
+        enforceWaylandDrv = mkOption {
+          type = types.bool;
+          default = true;
+          description = "enforce wayland drv if wayland is detected. Required for vulkan disable if you have launcher freezes. Disabling may also cause cursor issues.";
         };
       };
       config = mkIf cfg.enable {
