@@ -59,7 +59,6 @@ in
             Detected latest version: ${linuxPackages_latest.kernel.version}
           To fix this error try the followwing
             - Update your pinned nixpkgs
-            - wine-astral.override { ntsync = false; }
         '';
 
     base = {
@@ -83,16 +82,8 @@ in
     (callPackage "${nixpkgs-wine}/pkgs/applications/emulators/wine/base.nix"
       (lib.recursiveUpdate base rec {
         pname = "wine-astral-full";
-        # version = lib.removeSuffix "\n" (lib.removePrefix "Wine version " (builtins.readFile "${src}/VERSION"));
-        version = "10.14";
-        src = fetchurl {
-          url = "https://dl.winehq.org/wine/source/10.x/wine-${version}.tar.xz";
-          hash = "sha256-pPo7Wu/hwLc5GpGiw8czuN/QS7MVyOq8+yr0E5aeXks=";
-        };
-        # src =
-        #   if ntsync
-        #   then pins.wine-tkg-ntsync
-        #   else pins.wine-tkg;
+        version = lib.removeSuffix "\n" (lib.removePrefix "Wine version " (builtins.readFile "${src}/VERSION"));
+        src = pins.wine;
         patches = let
           blacklist = [
             "10.2+_eac_fix.patch"
@@ -102,6 +93,7 @@ in
             "reg_hide_wine.patch"
             "printkey_x11-staging.patch"
             "printkey_wld.patch"
+            "real_path.patch"
             # "cache-committed-size.patch"
           ];
           filter = name: _type: ! (builtins.elem (builtins.baseNameOf name) blacklist);
@@ -112,18 +104,11 @@ in
             [
               "${tkg-patch-dir}/misc/enable_dynamic_wow64_def/enable_dynamic_wow64_def.patch"
             ]
-            ++ lib.optionals (! ntsync) [
-              "${tkg-patch-dir}/wine-tkg-patches/proton/esync/esync-unix-mainline.patch"
-              "${tkg-patch-dir}/proton/fsync/fsync-unix-mainline.patch"
-              "${tkg-patch-dir}/proton/fsync/fsync_futex_waitv.patch"
-            ]
             ++ [
               "${tkg-patch-dir}/misc/CSMT-toggle/CSMT-toggle.patch"
               # "${tkg-patch-dir}/proton/LAA/LAA-unix-wow64.patch"
               "${tkg-patch-dir}/proton/proton-win10-default/proton-win10-default.patch"
             ]
-            ++ lib.optional ntsync "${tkg-patch-dir}/misc/fastsync/ntsync5-mainline.patch"
-            ++ lib.optional (! ntsync) "${tkg-patch-dir}/hotfixes/shm_esync_fsync/HACK-user32-Always-call-get_message-request-after-waiting.mypatch"
             ++ [
               "${tkg-patch-dir}/hotfixes/GetMappedFileName/Return_nt_filename_and_resolve_DOS_drive_path.mypatch"
               "${tkg-patch-dir}/hotfixes/NosTale/nostale_mouse_fix.mypatch"
@@ -139,7 +124,6 @@ in
           nixPatches ++ patches;
       })).overrideAttrs (old: {
       passthru = {
-        ntsync-enabled = ntsync;
         inherit (sources) updateScript;
       };
       prePatch = ''
@@ -186,8 +170,8 @@ in
           autoconf
           perl
           gitMinimal
+          updatedHeaders
         ]
         ++ lib.optional (supportFlags.ffmpegSupport or true) ffmpeg
-        ++ lib.optional stdenv.hostPlatform.isLinux util-linux
-        ++ lib.optional ntsync updatedHeaders;
+        ++ lib.optional stdenv.hostPlatform.isLinux util-linux;
     })

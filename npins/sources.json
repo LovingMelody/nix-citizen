@@ -283,6 +283,18 @@
       "url": "https://api.github.com/repos/zeux/volk/tarball/vulkan-sdk-1.4.321.0",
       "hash": "1xbga13fi90g4gij40756paahh3ibxiyll8xravqsb3gwp8f5ss5"
     },
+    "wine": {
+      "type": "Git",
+      "repository": {
+        "type": "Git",
+        "url": "https://gitlab.winehq.org/wine/wine.git"
+      },
+      "branch": "master",
+      "submodules": true,
+      "revision": "e6df334f178a9b0058fdee0326c5901082efd0d2",
+      "url": null,
+      "hash": "15al23a7simdxmc0rbcgh7bs5gg6fgzrsvcwmgchxvhhlvx26fl7"
+    },
     "wine-tkg": {
       "type": "Git",
       "repository": {
