@@ -118,6 +118,7 @@ in
               "${tkg-patch-dir}/proton-tkg-specific/proton_eac/proton-eac_bridge.patch"
               "${tkg-patch-dir}/proton-tkg-specific/proton_eac/wow64_loader_hack.patch"
               "${tkg-patch-dir}/proton-tkg-specific/proton_eac/Revert-ntdll-Get-rid-of-the-wine_nt_to_unix_file_nam.patch"
+              "${tkg-patch-dir}/misc/fastsync/ntsync5-mainline.patch"
             ]
             ++ map (f: "${cleanedPatches}/${f}") lug-patches;
         in
