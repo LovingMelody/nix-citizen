@@ -70,13 +70,21 @@ in {
       opencv =
         if (versionAtLeast prev.opencv.version "4.12")
         then
-          if (versionAtLeast prev.ffmpeg.version prev.ffmpeg_8)
+          if (versionAtLeast prev.ffmpeg.version prev.ffmpeg_8.version)
           then prev.opencv
-          else prev.opencv.override {inherit (final) ffmpeg;}
+          else
+            ((prev.opencv.override {inherit (final) ffmpeg;}).overrideAttrs (o: {
+              patches =
+                (o.patches or [])
+                ++ final.lib.optional (o.version == "4.12.0") (final.fetchpatch2 {
+                  url = "https://github.com/opencv/opencv/commit/90c444abd387ffa70b2e72a34922903a2f0f4f5a.patch";
+                  hash = "sha256-wRL2mLxclO5NpWg1rBKso/8oTO13I5XJ6pEW+Y3PsPc=";
+                });
+            }))
         else prev.opencv;
       ffmpeg =
         if
-          (versionAtLeast final.opencv.version "4.12")
+          (versionAtLeast prev.opencv.version "4.12")
           && (builtins.hasAttr "ffmpeg_8" final)
           && (versionOlder prev.ffmpeg.version final.ffmpeg_8.version)
         then final.ffmpeg_8
