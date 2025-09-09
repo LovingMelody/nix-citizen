@@ -26,6 +26,8 @@ in
     gitMinimal,
     ffmpeg,
     ntsync ? lib.versionAtLeast linuxHeaders.version MIN_KERNEL_VERSION_NTSYNC,
+    enableAvx2 ? stdenv.hostPlatform.avx2Support,
+    enableFma ? stdenv.hostPlatform.fmaSupport,
   }: let
     sources = (import "${inputs.nixpkgs}/pkgs/applications/emulators/wine/sources.nix" {inherit pkgs;}).unstable;
     supportFlags = import ./supportFlags.nix;
@@ -148,11 +150,15 @@ in
       env = {
         NIX_CFLAGS_COMPILE =
           builtins.concatStringsSep " "
-          ([
+          (
+            [
               "-Wno-error=implicit-function-declaration"
               "-Wno-error=incompatible-pointer-types"
+              "-mavx"
             ]
-            ++ lib.optional stdenv.hostPlatform.isx86_64 "-march=x86-64-v3");
+            ++ lib.optional enableAvx2 "-mavx2"
+            ++ lib.optional enableFma "-mfma3"
+          );
       };
 
       nativeBuildInputs =
