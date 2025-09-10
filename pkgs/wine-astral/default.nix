@@ -154,10 +154,10 @@ in
             [
               "-Wno-error=implicit-function-declaration"
               "-Wno-error=incompatible-pointer-types"
-              "-mavx"
             ]
+            ++ lib.optional (! enableAvx2) "-mavx"
             ++ lib.optional enableAvx2 "-mavx2"
-            ++ lib.optional enableFma "-mfma3"
+            ++ lib.optional enableFma "-mfma"
           );
       };
 
