@@ -169,9 +169,9 @@
       },
       "branch": "master",
       "submodules": true,
-      "revision": "b05c5188c7c54670c3a332739b02087049f04d1f",
+      "revision": "e83650fdf7e64444a166ab0488ab16cae63dcb48",
       "url": null,
-      "hash": "1pccijrx98b0a6gyyy6q603n2jsrwlkzv3wqw1skpyw7f0cgv3gl"
+      "hash": "1s5idadbzp0qxsa0mg290v7ip8fkz0rlk06frlw2iarb0b52jl5s"
     },
     "dxvk-gplasync": {
       "type": "Git",
@@ -182,9 +182,9 @@
       },
       "branch": "main",
       "submodules": true,
-      "revision": "bdbd9f6d98057477b3a44921dcd3e2e08b84d935",
+      "revision": "159ee8ef743d18769dfea284ea95393aca6b8421",
       "url": null,
-      "hash": "18pyr17kkbazp3hywrjwy1ahs46clcb595s7lpq4v1q3317ql06k"
+      "hash": "11b5r4z81y0d4dal97mwvd9z30xg31xi2yd0j5p7l6g1jhx0wvxy"
     },
     "dxvk-nvapi": {
       "type": "Git",
@@ -195,9 +195,9 @@
       },
       "branch": "master",
       "submodules": true,
-      "revision": "40d48a6dc18a0848fcdc02ad8759738c3364fd46",
+      "revision": "6bc947de8214a124f14e15a7cecc9ed1723deb3c",
       "url": null,
-      "hash": "1wk378x7mmkfnmdjl4lj0p4h1v7q15sva4alqfm6p6h4ld9jl694"
+      "hash": "1f56mi00fdq3aqmvmr5yd0r82fkfnw16fvdzwsi2wvdrr7fx89k9"
     },
     "glslang": {
       "type": "GitRelease",
@@ -263,9 +263,9 @@
       },
       "branch": "master",
       "submodules": true,
-      "revision": "8ee768ac6a13dbaf0114a0deb2ec8724f311815c",
+      "revision": "6c860bc1e09fefd68f9ebdca3d165ce0b4b903c1",
       "url": null,
-      "hash": "1a93f9f3v7vcdq9qqylrqcsmwjcy7m0wppx4fy7h7nxyhka1mrfm"
+      "hash": "1kbvr1k9vf0v8s5gx19bq7f216m0jn1hh3q98169n5h57id3wnb6"
     },
     "volk": {
       "type": "GitRelease",
@@ -291,9 +291,9 @@
       },
       "branch": "master",
       "submodules": true,
-      "revision": "72dc2afb1a78f88cd930d61a20498838a3bea271",
+      "revision": "fc70990d579a74974c6e4f1550f892188114f5cf",
       "url": null,
-      "hash": "0lfjbhnczca63g2ydsrqz90jagfafbkzfczvhkb2dlrswhc0952m"
+      "hash": "17hibai9ziq38ar0cyx88i1jrgkkkclyj7kapg9kkg8psv9hsygl"
     },
     "wine-tkg": {
       "type": "Git",
@@ -317,9 +317,9 @@
       },
       "branch": "master",
       "submodules": false,
-      "revision": "bb60d88ef7d99feb86aff4fb2ab54df2d33fc77c",
-      "url": "https://github.com/Frogging-Family/wine-tkg-git/archive/bb60d88ef7d99feb86aff4fb2ab54df2d33fc77c.tar.gz",
-      "hash": "0vypkiw0a96i9xi13xr8rimdj0s4fp80w7cpmxja7jvhrg43ci25"
+      "revision": "520cd43242f0a5dbcdc2805d32531900d1b3af99",
+      "url": "https://github.com/Frogging-Family/wine-tkg-git/archive/520cd43242f0a5dbcdc2805d32531900d1b3af99.tar.gz",
+      "hash": "1qifl7cspv7f34p0fnx46ggv4zlbgkqsskkasf7pf5a4dmsflx34"
     },
     "wine-tkg-ntsync": {
       "type": "Git",
