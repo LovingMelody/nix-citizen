@@ -248,6 +248,12 @@ in {
         ffmpeg = final.ffmpeg-full;
       };
       wine-astral-ntsync = final.wine-astral.override {ntsync = true;};
+      inherit
+        (inputs.nix-gaming.packages.${final.system})
+        wine-tkg
+        wine-tkg-ntsync
+        wine-cachyos
+        ;
 
       rsi-launcher-unwrapped = final.callPackage ./pkgs/rsi-launcher {
         wine = final.wine-astral;
