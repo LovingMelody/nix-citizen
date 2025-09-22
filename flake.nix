@@ -76,6 +76,8 @@
             umu-launcher
             wine-astral
             wine-astral-ntsync
+            wine-tkg
+            wine-tkg-ntsync
             wineprefix-preparer
             wineprefix-preparer-git
             winetricks-git
