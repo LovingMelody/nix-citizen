@@ -4,7 +4,7 @@
   ...
 }: let
   inherit (inputs.nixpkgs.lib) assertOneOf optional optionalString warn;
-  inherit (inputs.nixpkgs.lib.strings) removePrefix versionOlder versionAtLeast hasSuffix;
+  inherit (inputs.nixpkgs.lib.strings) removePrefix versionOlder versionAtLeast;
   pins = import "${self}/npins";
   nix-gaming-pins = import "${inputs.nix-gaming}/npins";
   mkDeprecated = variant: return: {
