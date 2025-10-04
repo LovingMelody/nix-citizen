@@ -41,30 +41,6 @@
       '';
 in {
   flake.overlays = rec {
-    unstable-sdl = final: prev: {
-      sdl3 =
-        if (hasSuffix pins.sdl.revision prev.sdl3.version)
-        then prev.sdl3
-        else
-          prev.sdl3.overrideAttrs (o: rec {
-            src = pins.sdl;
-            # Not perfect but it works
-            version = "${o.version}-${src.revision}";
-            meta.changelog = "https://github.com/libsdl-org/SDL/releases";
-          });
-      SDL2 =
-        if (hasSuffix pins.sdl2-compat.revision prev.SDL2.version)
-        then prev.SDL2
-        else
-          (prev.SDL2.override {
-            inherit (final) sdl3;
-          }).overrideAttrs (o: rec {
-            src = pins.sdl2-compat;
-            # Not perfect but it works
-            version = "${o.version}-${src.revision}";
-            meta.changelog = "https://github.com/libsdl-org/sdl2-compat/releases/";
-          });
-    };
     latestFFMPEG = final: prev: {
       opencv =
         if (versionAtLeast prev.opencv.version "4.12")
@@ -168,7 +144,7 @@ in {
     default = final: prev: let
       mFinal =
         # We dont want to apply the globally but we do want to apply it to wine-astral & rsi-launcher-git
-        (final.extend unstable-sdl).extend latestFFMPEG;
+        final.extend latestFFMPEG;
     in {
       cnc-ddraw = final.callPackage "${inputs.nix-gaming}/pkgs/cnc-ddraw" {};
       dxvk-w32 = mFinal.pkgsCross.mingw32.callPackage "${inputs.nix-gaming}/pkgs/dxvk" {

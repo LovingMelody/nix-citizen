@@ -228,32 +228,6 @@
       "url": "https://github.com/starcitizen-lug/patches/archive/26d601c68b159300dcf07c4b29620868d694efb4.tar.gz",
       "hash": "1rf4zvv98cz8cgiyd3fzjrcf1n7lwzwi8sc4sz197r27yqz8yr2y"
     },
-    "sdl": {
-      "type": "Git",
-      "repository": {
-        "type": "GitHub",
-        "owner": "libsdl-org",
-        "repo": "sdl"
-      },
-      "branch": "main",
-      "submodules": false,
-      "revision": "dc1cc98e2b116f3317887757c8fc1699fe3c183a",
-      "url": "https://github.com/libsdl-org/sdl/archive/dc1cc98e2b116f3317887757c8fc1699fe3c183a.tar.gz",
-      "hash": "0p1y358rf5pcmknvg3bpccbwdifi39nqyw2wwdzkff93m21znadd"
-    },
-    "sdl2-compat": {
-      "type": "Git",
-      "repository": {
-        "type": "GitHub",
-        "owner": "libsdl-org",
-        "repo": "sdl2-compat"
-      },
-      "branch": "main",
-      "submodules": false,
-      "revision": "dbb14dbb750d37b7499a898a10f5900dc90228b9",
-      "url": "https://github.com/libsdl-org/sdl2-compat/archive/dbb14dbb750d37b7499a898a10f5900dc90228b9.tar.gz",
-      "hash": "09lk80mhpaninyy323hdmw2r5piv57cxkhzxyvbfn9v060sxv4vm"
-    },
     "vkd3d-proton": {
       "type": "Git",
       "repository": {
