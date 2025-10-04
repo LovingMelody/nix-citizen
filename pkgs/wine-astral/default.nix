@@ -105,7 +105,7 @@ in
           patches =
             [
               "${tkg-patch-dir}/misc/CSMT-toggle/CSMT-toggle.patch"
-              "${tkg-patch-dir}/proton/LAA/LAA-unix-wow64.patch"
+              # "${tkg-patch-dir}/proton/LAA/LAA-unix-wow64.patch"
               "${tkg-patch-dir}/proton/proton-win10-default/proton-win10-default.patch"
               "${tkg-patch-dir}/proton-tkg-specific/proton_eac/Revert-ntdll-Get-rid-of-the-wine_nt_to_unix_file_nam.patch"
               # "${tkg-patch-dir}/proton-tkg-specific/proton_eac/proton-eac_bridge.patch"
