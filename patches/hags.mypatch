@@ -1,0 +1,53 @@
+commit 647004cd5d7ee93ad8b53abb8939da87be3e25a0 (origin/master, origin/HEAD, master)
+Author: Daniel Martin <dm@xbostechnology.com>
+Date:   Wed Apr 9 04:25:44 2025 -0400
+diff --git a/dlls/win32u/d3dkmt.c b/dlls/win32u/d3dkmt.c
+index a6ec70d5ac4..6d4492fa674 100644
+--- a/dlls/win32u/d3dkmt.c
++++ b/dlls/win32u/d3dkmt.c
+@@ -328,11 +328,21 @@ NTSTATUS WINAPI NtGdiDdDDIDestroyDevice( const D3DKMT_DESTROYDEVICE *desc )
+     return STATUS_SUCCESS;
+ }
+ 
++static BOOL check_hags_enabled( void )
++{
++    const char *winehags = getenv( "WINEHAGS" );
++    return winehags && *winehags != '0';
++}
++
++#include "d3dkmdt.h"
++
+ /******************************************************************************
+  *           NtGdiDdDDIQueryAdapterInfo    (win32u.@)
+  */
+ NTSTATUS WINAPI NtGdiDdDDIQueryAdapterInfo( D3DKMT_QUERYADAPTERINFO *desc )
+ {
++    D3DKMT_WDDM_2_7_CAPS *d3dkmt_wddm_2_7_caps;
++    
+     TRACE( "(%p).\n", desc );
+ 
+     if (!desc || !desc->hAdapter || !desc->pPrivateDriverData)
+@@ -340,6 +350,23 @@ NTSTATUS WINAPI NtGdiDdDDIQueryAdapterInfo( D3DKMT_QUERYADAPTERINFO *desc )
+ 
+     switch (desc->Type)
+     {
++    case KMTQAITYPE_WDDM_2_7_CAPS:
++            if (!desc->pPrivateDriverData || desc->PrivateDriverDataSize != sizeof(D3DKMT_WDDM_2_7_CAPS))
++                return STATUS_INVALID_PARAMETER;
++
++            d3dkmt_wddm_2_7_caps = desc->pPrivateDriverData;
++            d3dkmt_wddm_2_7_caps->HwSchSupported = 1;
++            d3dkmt_wddm_2_7_caps->HwSchEnabled = 0;
++            d3dkmt_wddm_2_7_caps->HwSchEnabledByDefault = 0;
++            d3dkmt_wddm_2_7_caps->IndependentVidPnVSyncControl = 0;
++
++            if (check_hags_enabled())
++            {
++                d3dkmt_wddm_2_7_caps->HwSchEnabled = 1;
++                d3dkmt_wddm_2_7_caps->HwSchEnabledByDefault = 1;
++            }
++            break;
++            
+     case KMTQAITYPE_CHECKDRIVERUPDATESTATUS:
+     {
+         BOOL *value = desc->pPrivateDriverData;

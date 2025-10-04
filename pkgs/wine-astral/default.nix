@@ -25,7 +25,7 @@ in
     python3,
     gitMinimal,
     ffmpeg,
-    ntsync ? lib.versionAtLeast linuxHeaders.version MIN_KERNEL_VERSION_NTSYNC,
+    ntsync ? true,
     enableAvx2 ? stdenv.hostPlatform.avx2Support,
     enableFma ? stdenv.hostPlatform.fmaSupport,
   }: let
@@ -104,23 +104,18 @@ in
           tkg-patch-dir = "${pins.wine-tkg-git}/wine-tkg-git/wine-tkg-patches";
           patches =
             [
-              "${tkg-patch-dir}/misc/enable_dynamic_wow64_def/enable_dynamic_wow64_def.patch"
-            ]
-            ++ [
               "${tkg-patch-dir}/misc/CSMT-toggle/CSMT-toggle.patch"
-              # "${tkg-patch-dir}/proton/LAA/LAA-unix-wow64.patch"
+              "${tkg-patch-dir}/proton/LAA/LAA-unix-wow64.patch"
               "${tkg-patch-dir}/proton/proton-win10-default/proton-win10-default.patch"
-            ]
-            ++ [
+              "${tkg-patch-dir}/proton-tkg-specific/proton_eac/Revert-ntdll-Get-rid-of-the-wine_nt_to_unix_file_nam.patch"
+              # "${tkg-patch-dir}/proton-tkg-specific/proton_eac/proton-eac_bridge.patch"
+              # "${tkg-patch-dir}/proton-tkg-specific/proton_eac/wow64_loader_hack.patch"
+              "${tkg-patch-dir}/misc/enable_dynamic_wow64_def/enable_dynamic_wow64_def.patch"
               "${tkg-patch-dir}/hotfixes/GetMappedFileName/Return_nt_filename_and_resolve_DOS_drive_path.mypatch"
+              "${tkg-patch-dir}/hotfixes/08cccb5/a608ef1.mypatch"
               "${tkg-patch-dir}/hotfixes/NosTale/nostale_mouse_fix.mypatch"
               "${tkg-patch-dir}/hotfixes/autoconf-opencl-hotfix/opencl-fixup.mypatch"
-              "${tkg-patch-dir}/hotfixes/08cccb5/a608ef1.mypatch"
-              "${tkg-patch-dir}/proton-tkg-specific/proton_battleye/proton_battleye.patch"
-              "${tkg-patch-dir}/proton-tkg-specific/proton_eac/proton-eac_bridge.patch"
-              "${tkg-patch-dir}/proton-tkg-specific/proton_eac/wow64_loader_hack.patch"
-              "${tkg-patch-dir}/proton-tkg-specific/proton_eac/Revert-ntdll-Get-rid-of-the-wine_nt_to_unix_file_nam.patch"
-              "${tkg-patch-dir}/misc/fastsync/ntsync5-mainline.patch"
+              "${inputs.self}/patches/hags.mypatch"
             ]
             ++ map (f: "${cleanedPatches}/${f}") lug-patches;
         in
