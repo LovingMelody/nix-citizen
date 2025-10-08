@@ -11,10 +11,10 @@
       "version_upper_bound": null,
       "release_prefix": "vulkan-sdk-",
       "submodules": false,
-      "version": "vulkan-sdk-1.4.321.0",
-      "revision": "d8e3e2b141b8c8a167b2e3984736a6baacff316c",
-      "url": "https://api.github.com/repos/KhronosGroup/SPIRV-Cross/tarball/vulkan-sdk-1.4.321.0",
-      "hash": "13fci6z74bxm8pbb3plchx31r04yzb4g11dbzcw3337dsgdllqma"
+      "version": "vulkan-sdk-1.4.328.0",
+      "revision": "7affe74d77f93a622bb5002789d5332d32e512ee",
+      "url": "https://api.github.com/repos/KhronosGroup/SPIRV-Cross/tarball/vulkan-sdk-1.4.328.0",
+      "hash": "04qrza78bwpijd9zgqm77dmj6q5mrx4y8whnhpwiv5lfqb1qmb8n"
     },
     "SPIRV-Headers": {
       "type": "GitRelease",
@@ -27,10 +27,10 @@
       "version_upper_bound": null,
       "release_prefix": "vulkan-sdk-",
       "submodules": false,
-      "version": "vulkan-sdk-1.4.321.0",
-      "revision": "2a611a970fdbc41ac2e3e328802aed9985352dca",
-      "url": "https://api.github.com/repos/KhronosGroup/SPIRV-Headers/tarball/vulkan-sdk-1.4.321.0",
-      "hash": "11nsfr6z11dx6ccyi9anz2iycxr9i06zl8dk4pdllf3dvk5wq61d"
+      "version": "vulkan-sdk-1.4.328.0",
+      "revision": "01e0577914a75a2569c846778c2f93aa8e6feddd",
+      "url": "https://api.github.com/repos/KhronosGroup/SPIRV-Headers/tarball/vulkan-sdk-1.4.328.0",
+      "hash": "0kvkz6icl5lzsfdbgv6rg9lpyfri2ib4dmk3fnm0yiqmyx105v41"
     },
     "SPIRV-Tools": {
       "type": "GitRelease",
@@ -43,10 +43,10 @@
       "version_upper_bound": null,
       "release_prefix": "vulkan-sdk-",
       "submodules": false,
-      "version": "vulkan-sdk-1.4.321.0",
-      "revision": "33e02568181e3312f49a3cf33df470bf96ef293a",
-      "url": "https://api.github.com/repos/KhronosGroup/SPIRV-Tools/tarball/vulkan-sdk-1.4.321.0",
-      "hash": "015xymrzch87f3xkzx9rvlglqp39zx4vphjb2dkl5w6qcpz5s1y8"
+      "version": "vulkan-sdk-1.4.328.0",
+      "revision": "7f2d9ee926f98fc77a3ed1e1e0f113b8c9c49458",
+      "url": "https://api.github.com/repos/KhronosGroup/SPIRV-Tools/tarball/vulkan-sdk-1.4.328.0",
+      "hash": "05a7f1kacdwjn1mqn9r91zxa7xgflmpclb0djh04447gfbjl4z1m"
     },
     "Vulkan-ExtensionLayer": {
       "type": "GitRelease",
@@ -59,10 +59,10 @@
       "version_upper_bound": null,
       "release_prefix": "vulkan-sdk-",
       "submodules": false,
-      "version": "vulkan-sdk-1.4.321.0",
-      "revision": "8a82afc1fed3da06bded122b7c921ac26ca83b89",
-      "url": "https://api.github.com/repos/KhronosGroup/Vulkan-ExtensionLayer/tarball/vulkan-sdk-1.4.321.0",
-      "hash": "03k15ljpr8sbh2nrladw1dcclazvb8ggx871am5h7vw843xj4rdm"
+      "version": "vulkan-sdk-1.4.328.0",
+      "revision": "a48e623e3f6bb5024bc0db4f1c88167b05aa0cb3",
+      "url": "https://api.github.com/repos/KhronosGroup/Vulkan-ExtensionLayer/tarball/vulkan-sdk-1.4.328.0",
+      "hash": "0p53q10p7cq2k3s3cyvl3m10m5ksvhfhm9s52y96gvp7lv8pdn97"
     },
     "Vulkan-Headers": {
       "type": "GitRelease",
@@ -75,10 +75,10 @@
       "version_upper_bound": null,
       "release_prefix": "vulkan-sdk-",
       "submodules": false,
-      "version": "vulkan-sdk-1.4.321.0",
-      "revision": "2cd90f9d20df57eac214c148f3aed885372ddcfe",
-      "url": "https://api.github.com/repos/KhronosGroup/Vulkan-Headers/tarball/vulkan-sdk-1.4.321.0",
-      "hash": "1kamn5hw5lpw4yxyri4mlrryzhn33bnnrqby0yxla45z5f5f6fb3"
+      "version": "vulkan-sdk-1.4.328.0",
+      "revision": "a4f8ada9f4f97c45b8c89c57997be9cebaae65d2",
+      "url": "https://api.github.com/repos/KhronosGroup/Vulkan-Headers/tarball/vulkan-sdk-1.4.328.0",
+      "hash": "0r9izm5n6a3dghpjqbk0q3qhpi6jxkbvvdqlm1q2wi11lnkz63sa"
     },
     "Vulkan-Loader": {
       "type": "GitRelease",
@@ -91,10 +91,10 @@
       "version_upper_bound": null,
       "release_prefix": "vulkan-sdk-",
       "submodules": false,
-      "version": "vulkan-sdk-1.4.321.0",
-      "revision": "da8d2caad9341ca8c5a7c3deba217d7da50a7c24",
-      "url": "https://api.github.com/repos/KhronosGroup/Vulkan-Loader/tarball/vulkan-sdk-1.4.321.0",
-      "hash": "0fbpypznznvwkqgf2zw85xdpbiq92j95xyldhnjk94lia6bs4klb"
+      "version": "vulkan-sdk-1.4.328.0",
+      "revision": "0a278cc725089cb67bf6027076e5d72f97c04d86",
+      "url": "https://api.github.com/repos/KhronosGroup/Vulkan-Loader/tarball/vulkan-sdk-1.4.328.0",
+      "hash": "0dzm4c10bfq5v6blhpqmnw5ncc5cin825cz1dzw84c222xv8mjzr"
     },
     "Vulkan-Tools": {
       "type": "GitRelease",
@@ -107,10 +107,10 @@
       "version_upper_bound": null,
       "release_prefix": "vulkan-sdk-",
       "submodules": false,
-      "version": "vulkan-sdk-1.4.321.0",
-      "revision": "06ae73a3dc3a03466817d8370355203dac7b79b1",
-      "url": "https://api.github.com/repos/KhronosGroup/Vulkan-Tools/tarball/vulkan-sdk-1.4.321.0",
-      "hash": "13rpspdhhqc8gb9cvc78vgxy6va0qbbxkwbsjqb9x2ap70ndmpki"
+      "version": "vulkan-sdk-1.4.328.0",
+      "revision": "c08c91e473dcab3d5042e85856b005562fa5dbbb",
+      "url": "https://api.github.com/repos/KhronosGroup/Vulkan-Tools/tarball/vulkan-sdk-1.4.328.0",
+      "hash": "061rnhnhy9crf2j1m7svhza4gb382y2rjcdh8i95ssb0p0gab2j2"
     },
     "Vulkan-Tools-LunarG": {
       "type": "GitRelease",
@@ -123,10 +123,10 @@
       "version_upper_bound": null,
       "release_prefix": "vulkan-sdk-",
       "submodules": false,
-      "version": "vulkan-sdk-1.4.321.0",
-      "revision": "b498dbee1e9a4301f0896a8251ebd27779c30be4",
-      "url": "https://api.github.com/repos/LunarG/VulkanTools/tarball/vulkan-sdk-1.4.321.0",
-      "hash": "0saw75zbbzm0ns6l67fgc1dkxfwgfby3dgblj6wqdw6rhw0zppar"
+      "version": "vulkan-sdk-1.4.328.0",
+      "revision": "1b528dc93780ac0d50310e41376c0160663a5de0",
+      "url": "https://api.github.com/repos/LunarG/VulkanTools/tarball/vulkan-sdk-1.4.328.0",
+      "hash": "07in7i126bqbfzw4ql6h9l5x119jn1qv2b5q25hjjbaqj1r00b4k"
     },
     "Vulkan-Utility-Libraries": {
       "type": "GitRelease",
@@ -139,10 +139,10 @@
       "version_upper_bound": null,
       "release_prefix": "vulkan-sdk-",
       "submodules": false,
-      "version": "vulkan-sdk-1.4.321.0",
-      "revision": "ec329e2721921f79743b90307ee047d08e057788",
-      "url": "https://api.github.com/repos/KhronosGroup/Vulkan-Utility-Libraries/tarball/vulkan-sdk-1.4.321.0",
-      "hash": "1xj860z596p2wgdfc5yr15q0hasz8p4ci6x0j1wim7jklp92g89i"
+      "version": "vulkan-sdk-1.4.328.0",
+      "revision": "4322db5906e67b57ec9c327e6afe3d98ed893df7",
+      "url": "https://api.github.com/repos/KhronosGroup/Vulkan-Utility-Libraries/tarball/vulkan-sdk-1.4.328.0",
+      "hash": "122l6qmxmss2z2pb5bzlcq9jhmkcxwc5fy9rv1s85lccjm6q1h59"
     },
     "Vulkan-ValidationLayers": {
       "type": "GitRelease",
@@ -155,10 +155,10 @@
       "version_upper_bound": null,
       "release_prefix": "vulkan-sdk-",
       "submodules": false,
-      "version": "vulkan-sdk-1.4.321.0",
-      "revision": "fee7b2b4a926355e48668e29570be129eb82cb36",
-      "url": "https://api.github.com/repos/KhronosGroup/Vulkan-ValidationLayers/tarball/vulkan-sdk-1.4.321.0",
-      "hash": "1lmkcgz80386304s6kr4fi825r5004305fhvfc7gmsqdih0bqcv9"
+      "version": "vulkan-sdk-1.4.328.0",
+      "revision": "a1ff2dbc7e50828def8098c5ebf0fee10b714f85",
+      "url": "https://api.github.com/repos/KhronosGroup/Vulkan-ValidationLayers/tarball/vulkan-sdk-1.4.328.0",
+      "hash": "19l981jx7xsl22h659r46vhidwjad9r385xzkzkpqmnzz5da8glb"
     },
     "dxvk": {
       "type": "Git",
@@ -169,9 +169,9 @@
       },
       "branch": "master",
       "submodules": true,
-      "revision": "8bd72bb2be83d2974c097cfa978b0aade474769d",
+      "revision": "1c25c0a517d86e2bdea82730589a38eab17451c4",
       "url": null,
-      "hash": "1dk05lj2diw42vfsq3cgrlbkv9a9xmkqk2x68ybvnngfdc2y771a"
+      "hash": "0danx3x50p0gv54970l35v3dwcqph3bivaff6bl04pq13wd3fna8"
     },
     "dxvk-gplasync": {
       "type": "Git",
@@ -252,10 +252,10 @@
       "version_upper_bound": null,
       "release_prefix": "vulkan-sdk-",
       "submodules": false,
-      "version": "vulkan-sdk-1.4.321.0",
-      "revision": "a8da8ef3368482b0ee9b0ec0c6079a16a89c6924",
-      "url": "https://api.github.com/repos/zeux/volk/tarball/vulkan-sdk-1.4.321.0",
-      "hash": "1xbga13fi90g4gij40756paahh3ibxiyll8xravqsb3gwp8f5ss5"
+      "version": "vulkan-sdk-1.4.328.0",
+      "revision": "f30088b3f4160810b53e19258dd2f7395e5f0ba3",
+      "url": "https://api.github.com/repos/zeux/volk/tarball/vulkan-sdk-1.4.328.0",
+      "hash": "0fd4vymx1r75wj6fx2vv9rbcjy16n6yj27c61krpyxma20p5767c"
     },
     "wine": {
       "type": "Git",
@@ -265,9 +265,9 @@
       },
       "branch": "master",
       "submodules": true,
-      "revision": "01269452e0fbb1f081d506bd64996590a553e2b9",
+      "revision": "dc34fef45d491516fa8eaee45b2ae40faa7b0bfe",
       "url": null,
-      "hash": "1jmj2x93fhvizmgffsx0yhkr8645gqlp79yv7i0v9m6lfmdihp0q"
+      "hash": "1i8y3j3v866fnsgdc8xa506q0jxizjln4h19i134l7jk9sihpbiw"
     },
     "wine-tkg": {
       "type": "Git",
@@ -278,9 +278,9 @@
       },
       "branch": "master",
       "submodules": false,
-      "revision": "a71c7188c7142149b10c780e12ce76a510cd647f",
-      "url": "https://github.com/Kron4ek/wine-tkg/archive/a71c7188c7142149b10c780e12ce76a510cd647f.tar.gz",
-      "hash": "1j9piqcc4xrz4a89lfm9h8iw9hq025aihljm1lzp8rpp0aqisk83"
+      "revision": "9f5833a022a178aa17f30c98d6a15c60635a8404",
+      "url": "https://github.com/Kron4ek/wine-tkg/archive/9f5833a022a178aa17f30c98d6a15c60635a8404.tar.gz",
+      "hash": "01fpb4p19ljlzfnckk648ax8xfw1bwpi17fy24bf6x4k7lckvl2j"
     },
     "wine-tkg-git": {
       "type": "Git",
