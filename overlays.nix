@@ -233,7 +233,6 @@ in {
       inherit
         (inputs.nix-gaming.packages.${final.system})
         wine-tkg
-        wine-tkg-ntsync
         wine-cachyos
         ;
 
