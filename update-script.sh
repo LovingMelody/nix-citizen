@@ -3,9 +3,8 @@
 #! nix-shell -p bash nix-update npins curl jq gnused gnugrep yq-go
 nix-update --flake lug-helper
 
-nix run .\#rsi-launcher.passthru.updateScript
-nix-update --flake -u rsi-launcher
-
+# RSI Launcher
+./pkgs/rsi-launcher/update.sh
 # Update GameGlass
 
 VERSION="$(curl -s https://download.gameglass.gg/hub/latest-linux.yml | yq -r '.version')"

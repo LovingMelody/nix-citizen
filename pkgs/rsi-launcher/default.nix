@@ -73,17 +73,18 @@
   ];
   inherit (lib.strings) concatStringsSep optionalString toShellVars;
   inherit (lib) optional;
+  info = builtins.fromJSON (builtins.readFile ./info.json);
   # Latest version can be found: https://install.robertsspaceindustries.com/rel/2/latest.yml
 
   gameScope = lib.strings.optionalString gameScopeEnable "gamescope ${concatStringsSep " " gameScopeArgs} --";
 in
   stdenvNoCC.mkDerivation (finalAttrs: {
-    version = "2.8.1";
+    inherit (info) version;
     inherit pname;
     src = fetchurl {
       url = "https://install.robertsspaceindustries.com/rel/2/RSI%20Launcher-Setup-${finalAttrs.version}.exe";
       name = "RSI Launcher-Setup-${finalAttrs.version}.exe";
-      hash = "sha512-unApZzxQnlCJeS41e0V6AejuBnFqCmJIoGab4ADhRhr1GbhPQmVXeae/PErzRAtqXXZlQuBGMADcKQnHiTDVbA==";
+      inherit (info) hash;
     };
     buidInputs =
       [p7zip]
@@ -283,18 +284,7 @@ in
     '';
 
     passthru = {
-      updateScript = writeScriptBin "rsi-launcher-update.sh" ''
-        #!/usr/bin/env nix-shell
-        #! nix-shell -i bash -p curl yq-go common-updater-scripts
-
-        export FILE=$(mktemp)
-        curl -o "$FILE" 'https://install.robertsspaceindustries.com/rel/2/latest.yml'
-
-        export VERSION="$(yq -r '.version' "$FILE")"
-        export SHA512=$(yq -r '.files[] | select(.url | test("\\.exe$")).sha512' "$FILE")
-        export SRI_HASH="$(nix hash to-sri --type sha512 "$SHA512")"
-        update-source-version rsi-launcher "$VERSION" "$SRI_HASH"
-      '';
+      updateScript = writeScriptBin "rsi-launcher-update.sh" builtins.readFile ./update.sh;
       extraArgs =
         lib.warnIf (extraArgs != {}) ''
           ${pname}: Extra arguments are not used in the derivation, they will be ignored.
