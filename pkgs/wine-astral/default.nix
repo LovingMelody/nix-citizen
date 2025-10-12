@@ -89,7 +89,7 @@ in
         src = pins.wine;
         patches = let
           blacklist = [
-            "10.2+_eac_fix.patch"
+            # "10.2+_eac_fix.patch"
             "winewayland-no-enter-move-if-relative.patch"
             "hidewineexports.patch"
             "reg_show_wine.patch"
