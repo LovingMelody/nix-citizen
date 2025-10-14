@@ -237,9 +237,9 @@
       },
       "branch": "master",
       "submodules": true,
-      "revision": "949728af01c54aa2f96ecdcb30caeffe12e5b6a7",
+      "revision": "abed356c7d6ac592641ed859b9a197b9f00266a0",
       "url": null,
-      "hash": "18jxlaa54w418zf2dpk6v07rlgp8v9xvbwyj6pi3pbjmfawi9iav"
+      "hash": "0m6dwrgyhhdic72hpbmq87r8jd8l7bhyadiib95pgl9q0qacii4p"
     },
     "volk": {
       "type": "GitRelease",
