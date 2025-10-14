@@ -12,6 +12,7 @@
   libnotify,
   fetchFromGitHub,
   nix-update-script,
+  winetricks,
 }:
 stdenvNoCC.mkDerivation (finalAttrs: {
   name = "lug-helper";
@@ -61,6 +62,7 @@ stdenvNoCC.mkDerivation (finalAttrs: {
         cabextract
         unzip
         libnotify
+        winetricks
       ]
     } \
       --prefix XDG_DATA_DIRS : "$out"

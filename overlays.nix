@@ -274,12 +274,14 @@ in {
       in
         # We only use the local lug-helper if nixpkgs doesn't have it
         # And if the nixpkgs version isn't newer than local
-        if (builtins.hasAttr "lug-helper" prev)
-        then
-          if (versionOlder pkg.version prev.lug-helper.version)
-          then prev.lug-helper
+        (
+          if (builtins.hasAttr "lug-helper" prev)
+          then
+            if (versionOlder pkg.version prev.lug-helper.version)
+            then prev.lug-helper
+            else pkg
           else pkg
-        else pkg;
+        ).overrideAttrs {winetricks = final.winetricks-git;};
     };
   };
 }
