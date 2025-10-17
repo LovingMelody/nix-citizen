@@ -169,9 +169,9 @@
       },
       "branch": "master",
       "submodules": true,
-      "revision": "1c25c0a517d86e2bdea82730589a38eab17451c4",
+      "revision": "42a827ba90aa4357d01bb37a9ddc6848610a2b94",
       "url": null,
-      "hash": "0danx3x50p0gv54970l35v3dwcqph3bivaff6bl04pq13wd3fna8"
+      "hash": "0xrfim1zlp9pxyvnx76vzbafghad4jpm3in4ki6vi67g8d7jyrm6"
     },
     "dxvk-gplasync": {
       "type": "Git",
@@ -195,9 +195,9 @@
       },
       "branch": "master",
       "submodules": true,
-      "revision": "c3db6d5a37ee8020101dec99c51dfc7907b9b190",
+      "revision": "a2c854c6e11b474a23ebcc1da573765e2827bf2f",
       "url": null,
-      "hash": "1p8ihwfkqx3n4m4saspzv4s94v4kfmc7zwq1r8w11436p49cjr8j"
+      "hash": "09s0nl8nl4193qiwcs39sb4jp9p7if52j42af1spc0y79r39vnm4"
     },
     "glslang": {
       "type": "GitRelease",
@@ -237,9 +237,9 @@
       },
       "branch": "master",
       "submodules": true,
-      "revision": "abed356c7d6ac592641ed859b9a197b9f00266a0",
+      "revision": "f92d8c6e283d613601de49f368edb1e0a248caaf",
       "url": null,
-      "hash": "0m6dwrgyhhdic72hpbmq87r8jd8l7bhyadiib95pgl9q0qacii4p"
+      "hash": "13zshmx8fixf58yayi7hzs49ikd50j18jwkmyvanvjmmr8h8h0ff"
     },
     "volk": {
       "type": "GitRelease",
@@ -265,9 +265,9 @@
       },
       "branch": "master",
       "submodules": true,
-      "revision": "6124fea1ddefe9dd289b8af91f0128dee6dcad72",
+      "revision": "d76b59d5c021ea5da49d1e1430c1d33bee874418",
       "url": null,
-      "hash": "164ylswxsi6mr4js3ky07b6q77177hwh0z95lz5p4ja964r1p0cp"
+      "hash": "0x0msakp0s9415wgzx1jb4bi19li9grfly66n7zd08d2gffrfc80"
     },
     "wine-tkg": {
       "type": "Git",
@@ -291,9 +291,9 @@
       },
       "branch": "master",
       "submodules": false,
-      "revision": "9e0a3fd138f4a9866edbcb840624c6584bc7adf1",
-      "url": "https://github.com/Frogging-Family/wine-tkg-git/archive/9e0a3fd138f4a9866edbcb840624c6584bc7adf1.tar.gz",
-      "hash": "1n3bh4grwgj16i7chsyjyn0ii9z2bl2hg7g96yr7f5fzgkvmk2f4"
+      "revision": "94fb13d8e55164f2a9664db9feecb6bb77d06b35",
+      "url": "https://github.com/Frogging-Family/wine-tkg-git/archive/94fb13d8e55164f2a9664db9feecb6bb77d06b35.tar.gz",
+      "hash": "06033zvcsk07pw34dpakqjp9ifq5vpl28lwslq06wghw77za9zgw"
     }
   },
   "version": 5
