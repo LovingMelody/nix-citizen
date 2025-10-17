@@ -117,10 +117,10 @@ in
               "${tkg-patch-dir}/hotfixes/NosTale/nostale_mouse_fix.mypatch"
               "${tkg-patch-dir}/hotfixes/autoconf-opencl-hotfix/opencl-fixup.mypatch"
               "${inputs.self}/patches/hags.mypatch"
-              # Patch to fix 32 bit processes
+              # Fixes RSI Launcher startup time delay
               (fetchpatch2 {
-                url = "https://github.com/Kron4ek/wine-tkg/commit/9f5833a022a178aa17f30c98d6a15c60635a8404.patch";
-                hash = "sha256-VMbzUjeFFSd3ZbATPBOdwKKAWOsdU8aPcDGiaBflwVc=";
+                url = "https://gitlab.winehq.org/wine/wine/-/merge_requests/9196.patch";
+                hash = "sha256-aNK+zQXY9OgzXQavyeQHjXdShlCuUG4NTNd6jIkPf2o=";
               })
             ]
             ++ map (f: "${cleanedPatches}/${f}") lug-patches;
