@@ -265,9 +265,9 @@
       },
       "branch": "master",
       "submodules": true,
-      "revision": "d76b59d5c021ea5da49d1e1430c1d33bee874418",
+      "revision": "d62035da4aa91327c6e38a2c8a66b829eb0983ed",
       "url": null,
-      "hash": "0x0msakp0s9415wgzx1jb4bi19li9grfly66n7zd08d2gffrfc80"
+      "hash": "1r4cqc2dr5405z5cdkdvff6m3ypjpf9lkx3lajmzvrmb4fjkiwpx"
     },
     "wine-tkg": {
       "type": "Git",
@@ -278,9 +278,9 @@
       },
       "branch": "master",
       "submodules": false,
-      "revision": "9f5833a022a178aa17f30c98d6a15c60635a8404",
-      "url": "https://github.com/Kron4ek/wine-tkg/archive/9f5833a022a178aa17f30c98d6a15c60635a8404.tar.gz",
-      "hash": "01fpb4p19ljlzfnckk648ax8xfw1bwpi17fy24bf6x4k7lckvl2j"
+      "revision": "8bd3eec82eccf22eb9bf1f61648f812a1c3814da",
+      "url": "https://github.com/Kron4ek/wine-tkg/archive/8bd3eec82eccf22eb9bf1f61648f812a1c3814da.tar.gz",
+      "hash": "1ll8hvn90h6c4r15bk0pcw2c91rng560rsgphn0sngmfxqwq9n7x"
     },
     "wine-tkg-git": {
       "type": "Git",
@@ -291,9 +291,9 @@
       },
       "branch": "master",
       "submodules": false,
-      "revision": "94fb13d8e55164f2a9664db9feecb6bb77d06b35",
-      "url": "https://github.com/Frogging-Family/wine-tkg-git/archive/94fb13d8e55164f2a9664db9feecb6bb77d06b35.tar.gz",
-      "hash": "06033zvcsk07pw34dpakqjp9ifq5vpl28lwslq06wghw77za9zgw"
+      "revision": "57451d7428838707dad1112f2c6c6e29b82a26ed",
+      "url": "https://github.com/Frogging-Family/wine-tkg-git/archive/57451d7428838707dad1112f2c6c6e29b82a26ed.tar.gz",
+      "hash": "0s6llmbrc4hy16qaq12qxap662r8xqlxpaha4r0c92mi7g67l2fq"
     }
   },
   "version": 5
