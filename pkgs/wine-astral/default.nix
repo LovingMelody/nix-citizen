@@ -12,7 +12,7 @@ in
     moltenvk,
     overrideCC,
     wrapCCMulti,
-    gcc14,
+    gcc15,
     stdenv,
     linuxHeaders,
     linuxPackages_latest,
@@ -72,11 +72,11 @@ in
         ++ lib.optional (supportFlags.ffmpegSupport or true) "--with-ffmpeg";
 
       geckos = with sources; [gecko32 gecko64];
-      mingwGccs = with pkgsCross; [mingw32.buildPackages.gcc14 mingwW64.buildPackages.gcc14];
+      mingwGccs = with pkgsCross; [mingw32.buildPackages.gcc15 mingwW64.buildPackages.gcc15];
       monos = [wine-mono];
       pkgArches = [pkgs];
       platforms = ["x86_64-linux"];
-      stdenv = overrideCC stdenv (wrapCCMulti gcc14);
+      stdenv = overrideCC stdenv (wrapCCMulti gcc15);
       wineRelease = "unstable";
       mainProgram = "wine";
     };
