@@ -47,10 +47,10 @@ in
       else if (linuxPackages_latest.kernelAtLeast MIN_KERNEL_VERSION_NTSYNC)
       then
         pkgs.makeLinuxHeaders {
-          version = "6.15";
+          version = "6.17";
           src = fetchurl {
-            url = "mirror://kernel/linux/kernel/v6.x/linux-6.15.tar.xz";
-            hash = "sha256-dYaWJUeAO+fsxAVu/JJ/slIUVIcivSgXEXLzWZq7l2Q=";
+            url = "mirror://kernel/linux/kernel/v6.x/linux-6.17.tar.xz";
+            hash = "sha256-m2BxZqHJmdgyYJgSEiL+sICiCjJTl1/N+i3pa6f3V6c=";
           };
         }
       else
@@ -118,10 +118,10 @@ in
               "${tkg-patch-dir}/hotfixes/autoconf-opencl-hotfix/opencl-fixup.mypatch"
               "${inputs.self}/patches/hags.mypatch"
               # Fixes RSI Launcher startup time delay
-              (fetchpatch2 {
-                url = "https://gitlab.winehq.org/wine/wine/-/merge_requests/9196.patch";
-                hash = "sha256-aNK+zQXY9OgzXQavyeQHjXdShlCuUG4NTNd6jIkPf2o=";
-              })
+              # (fetchpatch2 {
+              #   url = "https://gitlab.winehq.org/wine/wine/-/merge_requests/9196.patch";
+              #   hash = "sha256-aNK+zQXY9OgzXQavyeQHjXdShlCuUG4NTNd6jIkPf2o=";
+              # })
             ]
             ++ map (f: "${cleanedPatches}/${f}") lug-patches;
         in
