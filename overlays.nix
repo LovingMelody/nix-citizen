@@ -64,6 +64,21 @@ in {
           && (versionOlder prev.ffmpeg.version final.ffmpeg_8.version)
         then final.ffmpeg_8
         else prev.ffmpeg;
+
+      ffmpeg-headless =
+        if
+          (versionAtLeast prev.opencv.version "4.12")
+          && (builtins.hasAttr "ffmpeg_8" final)
+          && (versionOlder prev.ffmpeg.version final.ffmpeg_8.version)
+        then final.ffmpeg_8-headless
+        else prev.ffmpeg-headless;
+      ffmpeg-full =
+        if
+          (versionAtLeast prev.opencv.version "4.12")
+          && (builtins.hasAttr "ffmpeg_8" final)
+          && (versionOlder prev.ffmpeg.version final.ffmpeg_8.version)
+        then final.ffmpeg_8-full
+        else prev.ffmpeg-full;
     };
     upated-vulkan-sdk = final: prev: let
       version = removePrefix "vulkan-sdk-" pins.Vulkan-Headers.version;
@@ -93,7 +108,7 @@ in {
       in
         if (pkg.passthru ? smartUpdated)
         then
-          pkg.overrideAttrs rec {
+          pkg.overrideAttrs {
             nativeBuildInputs = with final; [
               cmake
               python3
@@ -141,44 +156,40 @@ in {
           ++ optional (!builtins.elem ./patches/ge-xwayland-pointer-warp-fix.patch (p.patches or [])) ./patches/ge-xwayland-pointer-warp-fix.patch;
       });
     };
-    default = final: prev: let
-      mFinal =
-        # We dont want to apply the globally but we do want to apply it to wine-astral & rsi-launcher-git
-        final.extend latestFFMPEG;
-    in {
+    default = final: prev: {
       cnc-ddraw = final.callPackage "${inputs.nix-gaming}/pkgs/cnc-ddraw" {};
-      dxvk-w32 = mFinal.pkgsCross.mingw32.callPackage "${inputs.nix-gaming}/pkgs/dxvk" {
+      dxvk-w32 = final.pkgsCross.mingw32.callPackage "${inputs.nix-gaming}/pkgs/dxvk" {
         withSdl2 = true;
         withGlfw = true;
         pins = nix-gaming-pins;
       };
-      dxvk-w64 = mFinal.pkgsCross.mingwW64.callPackage "${inputs.nix-gaming}/pkgs/dxvk" {
+      dxvk-w64 = final.pkgsCross.mingwW64.callPackage "${inputs.nix-gaming}/pkgs/dxvk" {
         withSdl2 = true;
         withGlfw = true;
         pins = nix-gaming-pins;
       };
 
-      dxvk-nvapi-w32 = mFinal.pkgsCross.mingw32.callPackage "${inputs.nix-gaming}/pkgs/dxvk-nvapi" {pins = nix-gaming-pins;};
-      dxvk-nvapi-w64 = mFinal.pkgsCross.mingwW64.callPackage "${inputs.nix-gaming}/pkgs/dxvk-nvapi" {pins = nix-gaming-pins;};
-      dxvk-nvapi-vkreflex-layer = mFinal.callPackage "${inputs.nix-gaming}/pkgs/dxvk-nvapi/vkreflex-layer.nix" {pins = nix-gaming-pins;};
-      dxvk-nvapi-vkreflex-layer-git = mFinal.dxvk-nvapi-vkreflex-layer.overrideAttrs {
+      dxvk-nvapi-w32 = final.pkgsCross.mingw32.callPackage "${inputs.nix-gaming}/pkgs/dxvk-nvapi" {pins = nix-gaming-pins;};
+      dxvk-nvapi-w64 = final.pkgsCross.mingwW64.callPackage "${inputs.nix-gaming}/pkgs/dxvk-nvapi" {pins = nix-gaming-pins;};
+      dxvk-nvapi-vkreflex-layer = final.callPackage "${inputs.nix-gaming}/pkgs/dxvk-nvapi/vkreflex-layer.nix" {pins = nix-gaming-pins;};
+      dxvk-nvapi-vkreflex-layer-git = final.dxvk-nvapi-vkreflex-layer.overrideAttrs {
         src = pins.dxvk-nvapi;
         version = "git+${pins.dxvk-nvapi.revision}";
       };
 
-      vkd3d-proton-w32 = mFinal.pkgsCross.mingw32.callPackage "${inputs.nix-gaming}/pkgs/vkd3d-proton" {
+      vkd3d-proton-w32 = final.pkgsCross.mingw32.callPackage "${inputs.nix-gaming}/pkgs/vkd3d-proton" {
         pins = nix-gaming-pins;
         wine64 = final.wine-astral;
       };
-      vkd3d-proton-w64 = mFinal.pkgsCross.mingwW64.callPackage "${inputs.nix-gaming}/pkgs/vkd3d-proton" {
+      vkd3d-proton-w64 = final.pkgsCross.mingwW64.callPackage "${inputs.nix-gaming}/pkgs/vkd3d-proton" {
         pins = nix-gaming-pins;
         wine64 = final.wine-astral;
       };
-      winetricks-git = mFinal.callPackage "${inputs.nix-gaming}/pkgs/winetricks-git" {pins = nix-gaming-pins;};
-      wineprefix-preparer = mFinal.callPackage "${inputs.nix-gaming}/pkgs/wineprefix-preparer" {};
+      winetricks-git = final.callPackage "${inputs.nix-gaming}/pkgs/winetricks-git" {pins = nix-gaming-pins;};
+      wineprefix-preparer = final.callPackage "${inputs.nix-gaming}/pkgs/wineprefix-preparer" {};
 
-      wineprefix-preparer-git = mFinal.wineprefix-preparer.override {
-        dxvk-w64 = mFinal.dxvk-w64.overrideAttrs {
+      wineprefix-preparer-git = final.wineprefix-preparer.override {
+        dxvk-w64 = final.dxvk-w64.overrideAttrs {
           pname = "dxvk-gplasync";
           src = pins.dxvk;
           version = "git+${pins.dxvk.revision}";
@@ -187,7 +198,7 @@ in {
             "${pins.dxvk-gplasync}/patches/global-dxvk.conf.patch"
           ];
         };
-        dxvk-w32 = mFinal.dxvk-w32.overrideAttrs {
+        dxvk-w32 = final.dxvk-w32.overrideAttrs {
           pname = "dxvk-async";
           src = pins.dxvk;
           version = "git+${pins.dxvk.revision}";
@@ -196,19 +207,19 @@ in {
             "${pins.dxvk-gplasync}/patches/global-dxvk.conf.patch"
           ];
         };
-        dxvk-nvapi-w64 = mFinal.dxvk-nvapi-w64.overrideAttrs {
+        dxvk-nvapi-w64 = final.dxvk-nvapi-w64.overrideAttrs {
           src = pins.dxvk-nvapi;
           version = "git+${pins.dxvk-nvapi.revision}";
         };
-        dxvk-nvapi-w32 = mFinal.dxvk-nvapi-w32.overrideAttrs {
+        dxvk-nvapi-w32 = final.dxvk-nvapi-w32.overrideAttrs {
           src = pins.dxvk-nvapi;
           version = "git+${pins.dxvk-nvapi.revision}";
         };
-        vkd3d-proton-w64 = mFinal.vkd3d-proton-w64.overrideAttrs {
+        vkd3d-proton-w64 = final.vkd3d-proton-w64.overrideAttrs {
           src = pins.vkd3d-proton;
           version = "git+${pins.vkd3d-proton.revision}";
         };
-        vkd3d-proton-w32 = mFinal.vkd3d-proton-w32.overrideAttrs {
+        vkd3d-proton-w32 = final.vkd3d-proton-w32.overrideAttrs {
           src = pins.vkd3d-proton;
           version = "git+${pins.vkd3d-proton.revision}";
         };
@@ -220,7 +231,7 @@ in {
         wine-mono = final.callPackage "${inputs.nix-gaming}/pkgs/wine-mono" {
           pins = nix-gaming-pins;
         };
-        ffmpeg = final.ffmpeg-full;
+        ffmpeg = final.ffmpeg_8-full;
       };
       wine-astral-ntsync = mkDeprecated "warn" final.wine-astral {
         target = "package";
@@ -240,30 +251,30 @@ in {
         wine = final.wine-astral;
         winetricks = final.winetricks-git;
       };
-      rsi-launcher-unwrapped-git = mFinal.rsi-launcher.override {
-        wineprefix-preparer = mFinal.wineprefix-preparer-git;
-        wine = mFinal.wine-astral;
+      rsi-launcher-unwrapped-git = final.rsi-launcher.override {
+        wineprefix-preparer = final.wineprefix-preparer-git;
+        wine = final.wine-astral;
       };
       rsi-launcher = final.callPackage ./pkgs/rsi-launcher/wrapped.nix {
         wine = final.wine-astral;
         winetricks = final.winetricks-git;
       };
-      rsi-launcher-git = mFinal.rsi-launcher.override {
-        rsi-launcher-unwrapped = mFinal.rsi-launcher-unwrapped-git;
-        dxvk-nvapi-vkreflex-layer = mFinal.dxvk-nvapi-vkreflex-layer-git;
-        wine = mFinal.wine-astral;
+      rsi-launcher-git = final.rsi-launcher.override {
+        rsi-launcher-unwrapped = final.rsi-launcher-unwrapped-git;
+        dxvk-nvapi-vkreflex-layer = final.dxvk-nvapi-vkreflex-layer-git;
+        wine = final.wine-astral;
       };
       rsi-launcher-umu = final.rsi-launcher-unwrapped.override {useUmu = true;};
 
       star-citizen-unwrapped = final.rsi-launcher-unwrapped.override {pname = "star-citizen";};
-      star-citizen-unwrapped-git = mFinal.rsi-launcher-unwrapped-git.override {
+      star-citizen-unwrapped-git = final.rsi-launcher-unwrapped-git.override {
         pname = "star-citizen";
-        wineprefix-preparer = mFinal.wineprefix-preparer-git;
+        wineprefix-preparer = final.wineprefix-preparer-git;
       };
       star-citizen = (final.rsi-launcher.override {rsi-launcher-unwrapped = final.star-citizen-unwrapped;}).override {pname = "star-citizen";};
-      star-citizen-git = mFinal.star-citizen.override {
-        rsi-launcher-unwrapped = mFinal.star-citizen-unwrapped-git;
-        dxvk-nvapi-vkreflex-layer = mFinal.dxvk-nvapi-vkreflex-layer-git;
+      star-citizen-git = final.star-citizen.override {
+        rsi-launcher-unwrapped = final.star-citizen-unwrapped-git;
+        dxvk-nvapi-vkreflex-layer = final.dxvk-nvapi-vkreflex-layer-git;
       };
       star-citizen-umu = final.star-citizen-unwrapped.override {useUmu = true;};
 
