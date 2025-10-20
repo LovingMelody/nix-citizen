@@ -12,6 +12,7 @@
   stdenvNoCC,
   fetchurl,
   p7zip,
+  imagemagick,
   bash,
   makeWrapper,
   pname ? "rsi-launcher",
@@ -94,7 +95,7 @@ in
         else [wine winetricks wineprefix-preparer]
       )
       ++ optional gameScopeEnable gamescope;
-    nativeBuildInputs = [p7zip makeWrapper];
+    nativeBuildInputs = [p7zip makeWrapper imagemagick];
     desktopItem = makeDesktopItem {
       name = finalAttrs.pname;
       exec = "${finalAttrs.pname} %U";
@@ -256,14 +257,15 @@ in
       7z e -y $src app-64.7z -r
       7z e -y app-64.7z RSI\ Launcher.exe -r
       rm app-64.7z
-      7z e -y RSI\ Launcher.exe 1.ico 2.ico 3.ico 4.ico -r
+      7z e -y RSI\ Launcher.exe 4.ico -r
       rm RSI\ Launcher.exe
     '';
     installPhase = ''
-      install -D -m444 1.ico $out/share/icons/hicolor/16x16/apps/${finalAttrs.pname}.ico
-      install -D -m444 2.ico $out/share/icons/hicolor/32x32/apps/${finalAttrs.pname}.ico
-      install -D -m444 3.ico $out/share/icons/hicolor/48x48/apps/${finalAttrs.pname}.ico
-      install -D -m444 4.ico $out/share/icons/hicolor/256x256/apps/${finalAttrs.pname}.ico
+      for size in 16 32 48 256; do
+        outPath=$out/share/icons/hicolor/"$size"x"$size"/apps/${finalAttrs.pname}.png
+        install -d "$(dirname "$outPath")"
+        magick -background none 4.ico -resize "$size"x"$size" "$outPath"
+      done
       install -D -m744 "${finalAttrs.script}" $out/bin/${finalAttrs.pname}
       install -D -m444 "$src" "$out/lib/RSI-Launcher-Setup-${finalAttrs.version}.exe"
       install -D -m744 "${finalAttrs.desktopItem}/share/applications/${finalAttrs.pname}.desktop" "$out/share/applications/${finalAttrs.pname}.desktop"
