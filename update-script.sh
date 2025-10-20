@@ -6,12 +6,7 @@ nix-update --flake lug-helper
 # RSI Launcher
 ./pkgs/rsi-launcher/update.sh
 # Update GameGlass
-
-VERSION="$(curl -s https://download.gameglass.gg/hub/latest-linux.yml | yq -r '.version')"
-HASH="$(nix-prefetch-url "https://download.gameglass.gg/hub/GameGlass.AppImage")"
-SRI_HASH="$(nix hash to-sri --type sha256 "$HASH")"
-
-echo "{\"version\": \"$VERSION\", \"hash\": \"$SRI_HASH\" }" | jq >./pkgs/gameglass/sources.json
+./pkgs/gameglass/update.sh
 
 npins update
 
