@@ -24,8 +24,7 @@ in
     perl,
     python3,
     gitMinimal,
-    ffmpeg,
-    fetchpatch2,
+    ffmpeg_8-full,
     ntsync ? true,
     enableAvx2 ? stdenv.hostPlatform.avx2Support,
     enableFma ? stdenv.hostPlatform.fmaSupport,
@@ -97,6 +96,7 @@ in
             "printkey_x11-staging.patch"
             "printkey_wld.patch"
             "real_path.patch"
+            "9196_process_idle_event_client_side.patch"
             # "cache-committed-size.patch"
           ];
           filter = name: _type: ! (builtins.elem (builtins.baseNameOf name) blacklist);
@@ -118,10 +118,6 @@ in
               "${tkg-patch-dir}/hotfixes/autoconf-opencl-hotfix/opencl-fixup.mypatch"
               "${inputs.self}/patches/hags.mypatch"
               # Fixes RSI Launcher startup time delay
-              # (fetchpatch2 {
-              #   url = "https://gitlab.winehq.org/wine/wine/-/merge_requests/9196.patch";
-              #   hash = "sha256-aNK+zQXY9OgzXQavyeQHjXdShlCuUG4NTNd6jIkPf2o=";
-              # })
             ]
             ++ map (f: "${cleanedPatches}/${f}") lug-patches;
         in
@@ -171,7 +167,7 @@ in
           python3
           gitMinimal
         ]
-        ++ lib.optional (supportFlags.ffmpegSupport or true) ffmpeg;
+        ++ lib.optional (supportFlags.ffmpegSupport or true) ffmpeg_8-full;
       buildInputs =
         old.buildInputs
         ++ [
@@ -180,6 +176,6 @@ in
           gitMinimal
           updatedHeaders
         ]
-        ++ lib.optional (supportFlags.ffmpegSupport or true) ffmpeg
+        ++ lib.optional (supportFlags.ffmpegSupport or true) ffmpeg_8-full
         ++ lib.optional stdenv.hostPlatform.isLinux util-linux;
     })

@@ -231,7 +231,6 @@ in {
         wine-mono = final.callPackage "${inputs.nix-gaming}/pkgs/wine-mono" {
           pins = nix-gaming-pins;
         };
-        ffmpeg = final.ffmpeg_8-full;
       };
       wine-astral-ntsync = mkDeprecated "warn" final.wine-astral {
         target = "package";
