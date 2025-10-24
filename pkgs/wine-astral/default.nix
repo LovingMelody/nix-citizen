@@ -97,6 +97,7 @@ in
             "printkey_wld.patch"
             "real_path.patch"
             "9196_process_idle_event_client_side.patch"
+            "revert-egl-default.patch"
             # "cache-committed-size.patch"
           ];
           filter = name: _type: ! (builtins.elem (builtins.baseNameOf name) blacklist);

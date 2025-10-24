@@ -265,9 +265,9 @@
       },
       "branch": "master",
       "submodules": true,
-      "revision": "ff187dc851c1d9f992049688a7e7190b83250ae4",
+      "revision": "6124fea1ddefe9dd289b8af91f0128dee6dcad72",
       "url": null,
-      "hash": "0y2824kdqn6ng6kya1rp8rvmb80qmyx5b3h6yfc1khs7kq9sim5p"
+      "hash": "164ylswxsi6mr4js3ky07b6q77177hwh0z95lz5p4ja964r1p0cp"
     },
     "wine-tkg": {
       "type": "Git",
