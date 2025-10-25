@@ -26,8 +26,10 @@ in
     gitMinimal,
     ffmpeg_8-full,
     ntsync ? true,
+    llvmBuild ? false,
     enableAvx2 ? stdenv.hostPlatform.avx2Support,
     enableFma ? stdenv.hostPlatform.fmaSupport,
+    llvmPackages_latest,
   }: let
     sources = (import "${inputs.nixpkgs}/pkgs/applications/emulators/wine/sources.nix" {inherit pkgs;}).unstable;
     supportFlags = import ./supportFlags.nix;
@@ -75,7 +77,10 @@ in
       monos = [wine-mono];
       pkgArches = [pkgs];
       platforms = ["x86_64-linux"];
-      stdenv = overrideCC stdenv (wrapCCMulti gcc15);
+      stdenv =
+        if llvmBuild
+        then llvmPackages_latest.stdenv
+        else overrideCC stdenv (wrapCCMulti gcc15);
       wineRelease = "unstable";
       mainProgram = "wine";
     };
