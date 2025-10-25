@@ -26,7 +26,7 @@ in
     gitMinimal,
     ffmpeg_8-full,
     ntsync ? true,
-    llvmBuild ? false,
+    llvmBuild ? true,
     enableAvx2 ? stdenv.hostPlatform.avx2Support,
     enableFma ? stdenv.hostPlatform.fmaSupport,
     llvmPackages_latest,
