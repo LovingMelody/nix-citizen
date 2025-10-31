@@ -156,7 +156,7 @@ in {
           ++ optional (!builtins.elem ./patches/ge-xwayland-pointer-warp-fix.patch (p.patches or [])) ./patches/ge-xwayland-pointer-warp-fix.patch;
       });
     };
-    default = final: prev: {
+    default = final: _prev: {
       cnc-ddraw = final.callPackage "${inputs.nix-gaming}/pkgs/cnc-ddraw" {};
       dxvk-w32 = final.pkgsCross.mingw32.callPackage "${inputs.nix-gaming}/pkgs/dxvk" {
         withSdl2 = true;
@@ -279,19 +279,8 @@ in {
 
       gameglass = final.callPackage ./pkgs/gameglass {};
       star-citizen-helper = final.callPackage ./pkgs/star-citizen-helper {};
-      lug-helper = let
-        pkg = final.callPackage ./pkgs/lug-helper {};
-      in
-        # We only use the local lug-helper if nixpkgs doesn't have it
-        # And if the nixpkgs version isn't newer than local
-        (
-          if (builtins.hasAttr "lug-helper" prev)
-          then
-            if (versionOlder pkg.version prev.lug-helper.version)
-            then prev.lug-helper
-            else pkg
-          else pkg
-        ).overrideAttrs {winetricks = final.winetricks-git;};
+      lug-helper =
+        final.callPackage ./pkgs/lug-helper {winetricks = final.winetricks-git;};
     };
   };
 }
