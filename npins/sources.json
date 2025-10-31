@@ -169,9 +169,9 @@
       },
       "branch": "master",
       "submodules": true,
-      "revision": "604cfc1fa9c155af6882f9068cb762dfa7ba14e4",
+      "revision": "e9ad90562cf4f785f33038bd27bc8c58f5222008",
       "url": null,
-      "hash": "1a992kxigyccq1d337kag9pprrmp8czzfhbvia7bmd6g4za3hiaa"
+      "hash": "0vqmphjyf7fmx9i3y7syhj02ynr12ha233g9m24gfkpbxzrx9rdm"
     },
     "dxvk-gplasync": {
       "type": "Git",
@@ -237,9 +237,9 @@
       },
       "branch": "master",
       "submodules": true,
-      "revision": "e8b00efc60d70e356ee8638f14195bd44acc707b",
+      "revision": "f9028fc154ef52bd9f8eeb564447e2d1ec9ae07d",
       "url": null,
-      "hash": "0lrqf77xk5xwlb57zm7s3fmsf93qn7ah6xffxsdfvniwn2g43y8m"
+      "hash": "0vwaj40wnfn5sw9brvidbwy9kpx6my4ifjlnh5b225c39x66p25z"
     },
     "volk": {
       "type": "GitRelease",
@@ -265,9 +265,9 @@
       },
       "branch": "master",
       "submodules": true,
-      "revision": "6124fea1ddefe9dd289b8af91f0128dee6dcad72",
+      "revision": "cd858d59d6532a0cf624ff1dabc57a370deb43bf",
       "url": null,
-      "hash": "164ylswxsi6mr4js3ky07b6q77177hwh0z95lz5p4ja964r1p0cp"
+      "hash": "11i2kp6qhz7hcpb4bwv83z98jxv4cd5a5nnwz2rgb01350w7g45i"
     },
     "wine-tkg": {
       "type": "Git",
