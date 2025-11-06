@@ -232,14 +232,6 @@ in {
           pins = nix-gaming-pins;
         };
       };
-      wine-astral-ntsync = mkDeprecated "warn" final.wine-astral {
-        target = "package";
-        name = "wine-astral-ntsync";
-        instructions = ''
-          Only ntsync builds are now supported. This package will be removed in the future.
-          Change all instances of `wine-astral-ntsync` to `wine-astral`
-        '';
-      };
       inherit
         (inputs.nix-gaming.packages.${final.system})
         wine-tkg

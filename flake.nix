@@ -75,7 +75,6 @@
             star-citizen-unwrapped-git
             umu-launcher
             wine-astral
-            wine-astral-ntsync
             wine-tkg
             wineprefix-preparer
             wineprefix-preparer-git
