@@ -3,42 +3,43 @@
   inputs,
   ...
 }: let
-  inherit (inputs.nixpkgs.lib) assertOneOf optional optionalString warn;
+  inherit (inputs.nixpkgs.lib) optional;
+  # inherit (inputs.nixpkgs.lib) assertOneOf optionalString warn;
   inherit (inputs.nixpkgs.lib.strings) removePrefix versionOlder versionAtLeast;
   pins = import "${self}/npins";
   nix-gaming-pins = import "${inputs.nix-gaming}/npins";
-  mkDeprecated = variant: return: {
-    target,
-    name,
-    instructions,
-    date ? "",
-    renamed ? false,
-  }: let
-    optionalDate = optionalString (date != "") " as of ${date}";
-    type =
-      if renamed
-      then "renamed"
-      else "depricated";
-
-    # constructed warning message
-    message = assert assertOneOf "target" target ["package" "module"]; ''
-      The ${target} ${name} in nix-citizen has been ${type}${optionalDate}.
-
-
-      ${instructions}
-    '';
-  in
-    if variant == "warn"
-    then warn message return
-    else if variant == "throw"
-    then throw message
-    else
-      # could this be asserted earlier?
-      throw ''
-        Unknown variant: ${variant}. Must be one of:
-          - warn
-          - throw
-      '';
+  # mkDeprecated = variant: return: {
+  #   target,
+  #   name,
+  #   instructions,
+  #   date ? "",
+  #   renamed ? false,
+  # }: let
+  #   optionalDate = optionalString (date != "") " as of ${date}";
+  #   type =
+  #     if renamed
+  #     then "renamed"
+  #     else "depricated";
+  #
+  #   # constructed warning message
+  #   message = assert assertOneOf "target" target ["package" "module"]; ''
+  #     The ${target} ${name} in nix-citizen has been ${type}${optionalDate}.
+  #
+  #
+  #     ${instructions}
+  #   '';
+  # in
+  #   if variant == "warn"
+  #   then warn message return
+  #   else if variant == "throw"
+  #   then throw message
+  #   else
+  #     # could this be asserted earlier?
+  #     throw ''
+  #       Unknown variant: ${variant}. Must be one of:
+  #         - warn
+  #         - throw
+  #     '';
 in {
   flake.overlays = rec {
     latestFFMPEG = final: prev: {
