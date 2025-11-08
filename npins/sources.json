@@ -169,9 +169,9 @@
       },
       "branch": "master",
       "submodules": true,
-      "revision": "e9ad90562cf4f785f33038bd27bc8c58f5222008",
+      "revision": "f4b58194ea6fef542f0c5abf33ef347ab7bf19d6",
       "url": null,
-      "hash": "0vqmphjyf7fmx9i3y7syhj02ynr12ha233g9m24gfkpbxzrx9rdm"
+      "hash": "1qcnmvcpnm432g0h2pfmm864gl2yl7hynllnva1z5i3dxg23rsk9"
     },
     "dxvk-gplasync": {
       "type": "Git",
@@ -237,9 +237,9 @@
       },
       "branch": "master",
       "submodules": true,
-      "revision": "c4e9ac56124f90fb287fc6fe77ed8ed0ba26f672",
+      "revision": "58534e4f0e3eda4916bbf0c17fe68a60465d37e9",
       "url": null,
-      "hash": "06f32pw7vcz3w0wm68384jnbvf9f8fvx6vf822m5b5wrk3kpwsy3"
+      "hash": "11kylgv82rfspfnbmxils90947g1ryax3v3ic8apmbd81164rnmm"
     },
     "volk": {
       "type": "GitRelease",
