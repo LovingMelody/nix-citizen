@@ -116,6 +116,7 @@ in
             ++ (addStagingPatchSet "nvencodeapi-Video_Encoder")
             ++ (addStagingPatchSet "nvapi-Stub_DLL")
             ++ (addStagingPatchSet "loader-KeyboardLayouts")
+            ++ (addStagingPatchSet "winedevice-Default_Drivers")
             ++ [
               "${tkg-patch-dir}/misc/CSMT-toggle/CSMT-toggle.patch"
               # "${tkg-patch-dir}/proton/LAA/LAA-unix-wow64.patch"
