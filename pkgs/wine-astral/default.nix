@@ -108,8 +108,14 @@ in
           cleanedPatches = builtins.filterSource filter "${pins.lug-patches}/wine";
           lug-patches = builtins.attrNames (builtins.readDir cleanedPatches);
           tkg-patch-dir = "${pins.wine-tkg-git}/wine-tkg-git/wine-tkg-patches";
+          addStagingPatchSet = patchSet: builtins.attrNames (builtins.readDir (builtins.filterSource (n: _: lib.hasPrefix n ".patch") "${pins.wine-staging}/patches/${patchSet}"));
           patches =
-            [
+            (addStagingPatchSet "winecfg-Staging")
+            ++ (addStagingPatchSet "nvcuvid-CUDA_Video_Support")
+            ++ (addStagingPatchSet "nvcuda-CUDA_Support")
+            ++ (addStagingPatchSet "nvencodeapi-Video_Encoder")
+            ++ (addStagingPatchSet "nvapi-Stub_DLL")
+            ++ [
               "${tkg-patch-dir}/misc/CSMT-toggle/CSMT-toggle.patch"
               # "${tkg-patch-dir}/proton/LAA/LAA-unix-wow64.patch"
               "${tkg-patch-dir}/proton/proton-win10-default/proton-win10-default.patch"

@@ -269,6 +269,18 @@
       "url": null,
       "hash": "0l3fphzy16mi1sz14j3v4zjxzp0k7b3vaf1g4vhm3hhqwvcnkv7c"
     },
+    "wine-staging": {
+      "type": "Git",
+      "repository": {
+        "type": "Git",
+        "url": "https://gitlab.winehq.org/wine/wine-staging.git"
+      },
+      "branch": "master",
+      "submodules": true,
+      "revision": "23267ac0b6a7aa4982c60bd3ed543a3a1d6be446",
+      "url": null,
+      "hash": "1qs46yxpk4x13wjb1v3d8qwwm8krh2kzqpa0nq59fbnn8rw264my"
+    },
     "wine-tkg": {
       "type": "Git",
       "repository": {
