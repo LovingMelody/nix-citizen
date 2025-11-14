@@ -24,7 +24,7 @@ in
     perl,
     python3,
     gitMinimal,
-    ffmpeg_8-full,
+    ffmpeg-full,
     llvmBuild ? true,
     enableAvx2 ? stdenv.hostPlatform.avx2Support,
     enableFma ? stdenv.hostPlatform.fmaSupport,
@@ -180,7 +180,7 @@ in
           python3
           gitMinimal
         ]
-        ++ lib.optional (supportFlags.ffmpegSupport or true) ffmpeg_8-full;
+        ++ lib.optional (supportFlags.ffmpegSupport or true) ffmpeg-full;
       buildInputs =
         old.buildInputs
         ++ [
@@ -189,6 +189,6 @@ in
           gitMinimal
           updatedHeaders
         ]
-        ++ lib.optional (supportFlags.ffmpegSupport or true) ffmpeg_8-full
+        ++ lib.optional (supportFlags.ffmpegSupport or true) ffmpeg-full
         ++ lib.optional stdenv.hostPlatform.isLinux util-linux;
     })

@@ -5,7 +5,7 @@
 }: let
   inherit (inputs.nixpkgs.lib) optional;
   # inherit (inputs.nixpkgs.lib) assertOneOf optionalString warn;
-  inherit (inputs.nixpkgs.lib.strings) removePrefix versionOlder versionAtLeast;
+  inherit (inputs.nixpkgs.lib.strings) removePrefix versionOlder;
   pins = import "${self}/npins";
   nix-gaming-pins = import "${inputs.nix-gaming}/npins";
   # mkDeprecated = variant: return: {
@@ -42,45 +42,7 @@
   #     '';
 in {
   flake.overlays = rec {
-    latestFFMPEG = final: prev: {
-      opencv =
-        if (versionAtLeast prev.opencv.version "4.12")
-        then
-          if (versionAtLeast prev.ffmpeg.version prev.ffmpeg_8.version)
-          then prev.opencv
-          else
-            ((prev.opencv.override {inherit (final) ffmpeg;}).overrideAttrs (o: {
-              patches =
-                (o.patches or [])
-                ++ final.lib.optional (o.version == "4.12.0") (final.fetchpatch2 {
-                  url = "https://github.com/opencv/opencv/commit/90c444abd387ffa70b2e72a34922903a2f0f4f5a.patch";
-                  hash = "sha256-wRL2mLxclO5NpWg1rBKso/8oTO13I5XJ6pEW+Y3PsPc=";
-                });
-            }))
-        else prev.opencv;
-      ffmpeg =
-        if
-          (versionAtLeast prev.opencv.version "4.12")
-          && (builtins.hasAttr "ffmpeg_8" final)
-          && (versionOlder prev.ffmpeg.version final.ffmpeg_8.version)
-        then final.ffmpeg_8
-        else prev.ffmpeg;
-
-      ffmpeg-headless =
-        if
-          (versionAtLeast prev.opencv.version "4.12")
-          && (builtins.hasAttr "ffmpeg_8" final)
-          && (versionOlder prev.ffmpeg.version final.ffmpeg_8.version)
-        then final.ffmpeg_8-headless
-        else prev.ffmpeg-headless;
-      ffmpeg-full =
-        if
-          (versionAtLeast prev.opencv.version "4.12")
-          && (builtins.hasAttr "ffmpeg_8" final)
-          && (versionOlder prev.ffmpeg.version final.ffmpeg_8.version)
-        then final.ffmpeg_8-full
-        else prev.ffmpeg-full;
-    };
+    latestFFMPEG = _final: _prev: {};
     upated-vulkan-sdk = final: prev: let
       version = removePrefix "vulkan-sdk-" pins.Vulkan-Headers.version;
       # Safety check, we only want to update the vulkan-sdk if the vulkan-headers version is older than the one we have
