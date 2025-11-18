@@ -237,9 +237,9 @@
       },
       "branch": "master",
       "submodules": true,
-      "revision": "58534e4f0e3eda4916bbf0c17fe68a60465d37e9",
+      "revision": "c01c8b46ec4f8e2c9b035f8bd3fae0b3c0676aca",
       "url": null,
-      "hash": "11kylgv82rfspfnbmxils90947g1ryax3v3ic8apmbd81164rnmm"
+      "hash": "1k9bn5sy6s7bfqf6hdgmxvqpah3bflwdv9j1nb76zirrnjsy3pk2"
     },
     "volk": {
       "type": "GitRelease",
@@ -265,9 +265,9 @@
       },
       "branch": "master",
       "submodules": true,
-      "revision": "1e998672cff00f8ff7628aaf9cda6026303b5ea3",
+      "revision": "6a966678e89c0c2090b7684a1c2ebfb0a295b9a8",
       "url": null,
-      "hash": "0l3fphzy16mi1sz14j3v4zjxzp0k7b3vaf1g4vhm3hhqwvcnkv7c"
+      "hash": "0csqf0r14s9cgfz7mmkh2hl6npqp7n109k1n7hpf6l7rng3s7ikn"
     },
     "wine-staging": {
       "type": "Git",
@@ -277,9 +277,9 @@
       },
       "branch": "master",
       "submodules": true,
-      "revision": "23267ac0b6a7aa4982c60bd3ed543a3a1d6be446",
+      "revision": "4741f1abc6bb80cdf5f264e2660231a6754f2508",
       "url": null,
-      "hash": "1qs46yxpk4x13wjb1v3d8qwwm8krh2kzqpa0nq59fbnn8rw264my"
+      "hash": "0fim4h9lrmgg2r7clkj7g6nl7pn0fg77nryvqk7zfw53bcr9867z"
     },
     "wine-tkg": {
       "type": "Git",
@@ -290,9 +290,9 @@
       },
       "branch": "master",
       "submodules": false,
-      "revision": "8c3995e0426196c6b5b4772ba3f372bc99a01a6d",
-      "url": "https://github.com/Kron4ek/wine-tkg/archive/8c3995e0426196c6b5b4772ba3f372bc99a01a6d.tar.gz",
-      "hash": "02lybza1w58r8nssxks2f6zf5ja52f1rcf4wd3lzc6kfvq6a379h"
+      "revision": "bb6ee8a2f8e38e3779c23c60ef42b97c08e158be",
+      "url": "https://github.com/Kron4ek/wine-tkg/archive/bb6ee8a2f8e38e3779c23c60ef42b97c08e158be.tar.gz",
+      "hash": "1k0ad69jrp7b810pw8mcpxyyfbc2maz5hdsrjxcb35ayxsnq24rs"
     },
     "wine-tkg-git": {
       "type": "Git",
