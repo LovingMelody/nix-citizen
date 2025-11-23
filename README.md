@@ -4,10 +4,6 @@
 
 ## Install & Run
 
-Recommended to setup cache if you are using the star-citizen package.
-Instructions can be found upstream at
-[fufexan/nix-gaming](https://github.com/fufexan/nix-gaming#install--run).
-
 While it is possible to install this without using nix flakes. I'm not familiar
 with this and cannot provide assistance. If you would like to learn how to use
 flakes please see the
@@ -98,7 +94,7 @@ Then to add packages....
 {pkgs, inputs, ....}: {
     environment.systemPackages = with pkgs; [ #`home.packages` if using home manager
         # replace or repeat for any included package
-        inputs.nix-citizen.packages.${system}.star-citizen
+        inputs.nix-citizen.packages.${system}.rsi-launcher
     ];
 
 };
@@ -110,8 +106,11 @@ To access the [Wine Control Panel](https://wiki.winehq.org/Control) (ex. editing
 Joystick overrides) run the following:
 
 ```bash
-# Adjust WINEPREFIX to your installation directory, otherwise use this default path
-WINEPREFIX=$HOME/Games/star-citizen nix run github:fufexan/nix-gaming#wine-ge -- control
+# Adjust command to `star-citizen` if you are using the `star-citizen` package 
+rsi-launcher --shell
+
+# Wait to enter shell
+wine control
 ```
 
 Likewise for [winecfg](https://wiki.winehq.org/Winecfg) (ex. registry edits,
@@ -119,21 +118,25 @@ some graphics settings):
 
 ```bash
 # If you used the rsi-launcher package the command is rsi-launcher
-star-citizen --shell
+rsi-launcher --shell
 
 # You can run your usual wine commands once you enter the shell
+winecfg
 ```
 
 Gstreamer errors:
 
 ```bash
-star-citizen --shell
+rsi-launcher --shell
 
 #
 # Once you enter the shell:
-# wine reg add "HKCU\\Software\\Wine\\MediaFoundation" /v DisableGstByteStreamHandler /t REG_DWORD /d 1 /f
+wine reg add "HKCU\\Software\\Wine\\MediaFoundation" /v DisableGstByteStreamHandler /t REG_DWORD /d 1 /f
 #
 ```
+
+The [LUG wiki](https://wiki.starcitizen-lug.org) contains many other useful
+troubleshooting steps & tips
 
 ## Credits
 

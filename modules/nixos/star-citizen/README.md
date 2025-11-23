@@ -2,7 +2,7 @@
 
 This module is meant to help simplify your system with opinionated defaults...
 
-NameSpace: nix-citizen.starCitizen
+NameSpace: `nix-citizen.starCitizen` and `programs.rsi-launcher`
 
 ## Example Setup
 
@@ -21,14 +21,14 @@ NameSpace: nix-citizen.starCitizen
            specialArgs = {inherit inputs;};
            modules = [
                ./configuration.nix
-               nix-citizen.nixosModules.StarCitizen
+               nix-citizen.nixosModules.default
                {
                    # Cachix setup
                     nix.settings = {
                         substituters = ["https://nix-citizen.cachix.org"];
                         trusted-public-keys = ["nix-citizen.cachix.org-1:lPMkWc2X8XD4/7YPEEwXKKBg+SVbYTVrAaLA2wQTKCo="];
                     };
-                   nix-citizen.starCitizen = {
+                    programs.rsi-launcher = {
                        # Enables the star citizen module
                        enable = true;
                        # Additional commands before the game starts
