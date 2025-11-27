@@ -169,9 +169,9 @@
       },
       "branch": "master",
       "submodules": true,
-      "revision": "f4b58194ea6fef542f0c5abf33ef347ab7bf19d6",
+      "revision": "1855e5e5209abdac3f5d33a1fc50981f6ae709f4",
       "url": null,
-      "hash": "1qcnmvcpnm432g0h2pfmm864gl2yl7hynllnva1z5i3dxg23rsk9"
+      "hash": "15vps7yscza3pd4szxp8wikxr25ls4k19kaqr9kd121pxk34v2c3"
     },
     "dxvk-gplasync": {
       "type": "Git",
@@ -186,6 +186,19 @@
       "url": null,
       "hash": "11b5r4z81y0d4dal97mwvd9z30xg31xi2yd0j5p7l6g1jhx0wvxy"
     },
+    "dxvk-gplasync-pr-13": {
+      "type": "Git",
+      "repository": {
+        "type": "GitLab",
+        "repo_path": "brittyazel/dxvk-gplasync",
+        "server": "https://gitlab.com/"
+      },
+      "branch": "2.8_Updates",
+      "submodules": false,
+      "revision": "24d24720312f6e384003f52f031476c3a043f366",
+      "url": "https://gitlab.com/api/v4/projects/brittyazel%2Fdxvk-gplasync/repository/archive.tar.gz?sha=24d24720312f6e384003f52f031476c3a043f366",
+      "hash": "0vm6c10yk5lhag71f6mmqxjs6c4dwgazwl6wvjfqxfi0d2dca5jq"
+    },
     "dxvk-nvapi": {
       "type": "Git",
       "repository": {
@@ -195,9 +208,9 @@
       },
       "branch": "master",
       "submodules": true,
-      "revision": "91ea9daa720220d974c0a82812f2d1afbfe52031",
+      "revision": "583a20e676963d336ae8b679d0af5bef80fde77c",
       "url": null,
-      "hash": "07vbvb4m29rzzja721y8lkl82ikkq962ivdbwyibzn8bj7lm43m0"
+      "hash": "1s51czvv1cllzprybshhjv6gsgicpyj473y8sj6crc22hnxgawl5"
     },
     "glslang": {
       "type": "GitRelease",
@@ -210,10 +223,10 @@
       "version_upper_bound": null,
       "release_prefix": null,
       "submodules": false,
-      "version": "16.0.0",
-      "revision": "a57276bf558f5cf94d3a9854ebdf5a2236849a5a",
-      "url": "https://api.github.com/repos/KhronosGroup/glslang/tarball/16.0.0",
-      "hash": "05lg4k0m79lx9lrz9k5giaq9yh2c8v3avnf5rsv1s2w6wk51sg7w"
+      "version": "16.1.0",
+      "revision": "b5782e52ee2f7b3e40bb9c80d15b47016e008bc9",
+      "url": "https://api.github.com/repos/KhronosGroup/glslang/tarball/16.1.0",
+      "hash": "0z5zabmjiqgxr935wbk9pr649bxk404nkjkvkavdwj904sg48i3h"
     },
     "lug-patches": {
       "type": "Git",
@@ -224,9 +237,9 @@
       },
       "branch": "main",
       "submodules": false,
-      "revision": "30baf9a03f58f049f3f618334c457fbcf551953b",
-      "url": "https://github.com/starcitizen-lug/patches/archive/30baf9a03f58f049f3f618334c457fbcf551953b.tar.gz",
-      "hash": "013843l3xj0kj27cfy7mkl51cf6fyf86k7gnrlj8hi56jy39brc2"
+      "revision": "7eee783167ccbbf346f46e3332b90fdd6057aa3c",
+      "url": "https://github.com/starcitizen-lug/patches/archive/7eee783167ccbbf346f46e3332b90fdd6057aa3c.tar.gz",
+      "hash": "01zkj81zhqyp569yrzbw0av2qqsqkz6lxsi8n3zhkdvpfqa3g0x9"
     },
     "vkd3d-proton": {
       "type": "Git",
@@ -237,9 +250,9 @@
       },
       "branch": "master",
       "submodules": true,
-      "revision": "58534e4f0e3eda4916bbf0c17fe68a60465d37e9",
+      "revision": "e3ef30dd638530f4f160617fda1ac57b00aa5198",
       "url": null,
-      "hash": "11kylgv82rfspfnbmxils90947g1ryax3v3ic8apmbd81164rnmm"
+      "hash": "1jv1h8vz5zlwln1lz0d5frbf716bi3c4z6avyalhgmpfxaiaxl95"
     },
     "volk": {
       "type": "GitRelease",
@@ -290,9 +303,9 @@
       },
       "branch": "master",
       "submodules": false,
-      "revision": "bb6ee8a2f8e38e3779c23c60ef42b97c08e158be",
-      "url": "https://github.com/Kron4ek/wine-tkg/archive/bb6ee8a2f8e38e3779c23c60ef42b97c08e158be.tar.gz",
-      "hash": "1k0ad69jrp7b810pw8mcpxyyfbc2maz5hdsrjxcb35ayxsnq24rs"
+      "revision": "e8154d4aef0cdc27d16b88c8a7d8adb2abbd24f7",
+      "url": "https://github.com/Kron4ek/wine-tkg/archive/e8154d4aef0cdc27d16b88c8a7d8adb2abbd24f7.tar.gz",
+      "hash": "0ygi63w9j0gckg8ckd2a22jwhjljprzjdyvni7fz510iwqqx3p9s"
     },
     "wine-tkg-git": {
       "type": "Git",
