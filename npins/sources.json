@@ -265,9 +265,9 @@
       },
       "branch": "master",
       "submodules": true,
-      "revision": "1e998672cff00f8ff7628aaf9cda6026303b5ea3",
+      "revision": "f5944829dc8620b48f8ebde59a9ee8a7734a7f8d",
       "url": null,
-      "hash": "0l3fphzy16mi1sz14j3v4zjxzp0k7b3vaf1g4vhm3hhqwvcnkv7c"
+      "hash": "0fpp29bikpzdlr2yvnp2mgj73jja406hs81k632yzkafaslm5lj9"
     },
     "wine-staging": {
       "type": "Git",
@@ -277,9 +277,9 @@
       },
       "branch": "master",
       "submodules": true,
-      "revision": "23267ac0b6a7aa4982c60bd3ed543a3a1d6be446",
+      "revision": "b7f859e90d0bb18753a8acc7f7bb01138ebe685e",
       "url": null,
-      "hash": "1qs46yxpk4x13wjb1v3d8qwwm8krh2kzqpa0nq59fbnn8rw264my"
+      "hash": "09i5b5h5p3s6sriv9c74bgyn8b3jwqbdhm8fs0nm4c5b31a60h8v"
     },
     "wine-tkg": {
       "type": "Git",
@@ -290,9 +290,9 @@
       },
       "branch": "master",
       "submodules": false,
-      "revision": "8c3995e0426196c6b5b4772ba3f372bc99a01a6d",
-      "url": "https://github.com/Kron4ek/wine-tkg/archive/8c3995e0426196c6b5b4772ba3f372bc99a01a6d.tar.gz",
-      "hash": "02lybza1w58r8nssxks2f6zf5ja52f1rcf4wd3lzc6kfvq6a379h"
+      "revision": "bb6ee8a2f8e38e3779c23c60ef42b97c08e158be",
+      "url": "https://github.com/Kron4ek/wine-tkg/archive/bb6ee8a2f8e38e3779c23c60ef42b97c08e158be.tar.gz",
+      "hash": "1k0ad69jrp7b810pw8mcpxyyfbc2maz5hdsrjxcb35ayxsnq24rs"
     },
     "wine-tkg-git": {
       "type": "Git",
@@ -303,9 +303,9 @@
       },
       "branch": "master",
       "submodules": false,
-      "revision": "2b032b4df78329f34ce68e6dac59b76858fb6f55",
-      "url": "https://github.com/Frogging-Family/wine-tkg-git/archive/2b032b4df78329f34ce68e6dac59b76858fb6f55.tar.gz",
-      "hash": "0wngy0bijw7hc49s8ppl06h0dpki68v47gz6cwqnznprdd7rmcvb"
+      "revision": "71b6386125ccaf4f656666e8d3b14958824101d6",
+      "url": "https://github.com/Frogging-Family/wine-tkg-git/archive/71b6386125ccaf4f656666e8d3b14958824101d6.tar.gz",
+      "hash": "0pq5zx4jjddjpkk6gj8980rd41p3bhhh9ailamjxh4vbasy2dx3p"
     }
   },
   "version": 5

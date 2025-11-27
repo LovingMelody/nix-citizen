@@ -92,7 +92,7 @@ in
         src = pins.wine;
         patches = let
           blacklist = [
-            # "10.2+_eac_fix.patch"
+            "10.2+_eac_fix.patch"
             "winewayland-no-enter-move-if-relative.patch"
             "hidewineexports.patch"
             "reg_show_wine.patch"
@@ -121,9 +121,10 @@ in
               "${tkg-patch-dir}/misc/CSMT-toggle/CSMT-toggle.patch"
               # "${tkg-patch-dir}/proton/LAA/LAA-unix-wow64.patch"
               "${tkg-patch-dir}/proton/proton-win10-default/proton-win10-default.patch"
+              "${tkg-patch-dir}/proton-tkg-specific/proton_battleye/proton_battleye.patch"
               "${tkg-patch-dir}/proton-tkg-specific/proton_eac/Revert-ntdll-Get-rid-of-the-wine_nt_to_unix_file_nam.patch"
-              # "${tkg-patch-dir}/proton-tkg-specific/proton_eac/proton-eac_bridge.patch"
-              # "${tkg-patch-dir}/proton-tkg-specific/proton_eac/wow64_loader_hack.patch"
+              "${tkg-patch-dir}/proton-tkg-specific/proton_eac/proton-eac_bridge.patch"
+              "${tkg-patch-dir}/proton-tkg-specific/proton_eac/wow64_loader_hack.patch"
               "${tkg-patch-dir}/misc/enable_dynamic_wow64_def/enable_dynamic_wow64_def.patch"
               "${tkg-patch-dir}/hotfixes/GetMappedFileName/Return_nt_filename_and_resolve_DOS_drive_path.mypatch"
               "${tkg-patch-dir}/hotfixes/08cccb5/a608ef1.mypatch"
