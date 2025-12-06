@@ -24,7 +24,6 @@ in
     perl,
     python3,
     gitMinimal,
-    ffmpeg-full,
     llvmBuild ? true,
     enableAvx2 ? stdenv.hostPlatform.avx2Support,
     enableFma ? stdenv.hostPlatform.fmaSupport,
@@ -67,9 +66,7 @@ in
     base = {
       inherit supportFlags moltenvk;
       buildScript = null;
-      configureFlags =
-        ["--disable-tests" "--enable-archs=x86_64,i386"]
-        ++ lib.optional (supportFlags.ffmpegSupport or true) "--with-ffmpeg";
+      configureFlags = ["--disable-tests" "--enable-archs=x86_64,i386"];
 
       geckos = with sources; [gecko32 gecko64];
       mingwGccs = with pkgsCross; [mingw32.buildPackages.gcc15 mingwW64.buildPackages.gcc15];
@@ -181,8 +178,7 @@ in
           perl
           python3
           gitMinimal
-        ]
-        ++ lib.optional (supportFlags.ffmpegSupport or true) ffmpeg-full;
+        ];
       buildInputs =
         old.buildInputs
         ++ [
@@ -191,6 +187,5 @@ in
           gitMinimal
           updatedHeaders
         ]
-        ++ lib.optional (supportFlags.ffmpegSupport or true) ffmpeg-full
         ++ lib.optional stdenv.hostPlatform.isLinux util-linux;
     })
