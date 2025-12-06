@@ -32,7 +32,7 @@
   disableEac ? false,
   extraLibs ? [],
   extraEnvVars ? {},
-  enforceWaylandDrv ? (! useUmu), # Needed for Vulkan
+  enforceWaylandDrv ? false, # May help with vulkan but causes issues w/ some WMs
   experiments ? false,
   ... # Dont error from extra args for compatibility
 } @ args: let

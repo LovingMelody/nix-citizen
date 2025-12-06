@@ -122,8 +122,8 @@
       };
       enforceWaylandDrv = mkOption {
         type = types.bool;
-        default = true;
-        description = "enforce wayland drv if wayland is detected. Required for vulkan disable if you have launcher freezes. Disabling may also cause cursor issues.";
+        default = false;
+        description = "enforce wayland drv if wayland is detected. May help with Vulkan though is problematic for some WMs. Also helps with cursor issues";
       };
     };
   in {
