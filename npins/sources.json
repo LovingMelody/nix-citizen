@@ -237,9 +237,9 @@
       },
       "branch": "main",
       "submodules": false,
-      "revision": "7eee783167ccbbf346f46e3332b90fdd6057aa3c",
-      "url": "https://github.com/starcitizen-lug/patches/archive/7eee783167ccbbf346f46e3332b90fdd6057aa3c.tar.gz",
-      "hash": "01zkj81zhqyp569yrzbw0av2qqsqkz6lxsi8n3zhkdvpfqa3g0x9"
+      "revision": "3f957d856a844a8e9c9bf59a4dba2dbf0fa3f0c7",
+      "url": "https://github.com/starcitizen-lug/patches/archive/3f957d856a844a8e9c9bf59a4dba2dbf0fa3f0c7.tar.gz",
+      "hash": "0crc81xbjbfd7lbpygaj03lv0jg46zyhsxy6f8fmpqv41zzia83w"
     },
     "vkd3d-proton": {
       "type": "Git",
