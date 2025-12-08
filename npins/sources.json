@@ -169,9 +169,9 @@
       },
       "branch": "master",
       "submodules": true,
-      "revision": "0118eaff27d0d9637e4f4b53e114cdab381b480c",
+      "revision": "75ecd6e39e0f5a9f43bbdad5e38a7046822981ca",
       "url": null,
-      "hash": "031ix7nxwwm70ymz5ihnv3gz1mavg5lmghhbgy9bqk5583mqny7w"
+      "hash": "1f1brbx5bn4liwy18c5dy9nv4a9377fi49j9ksfdrzqj5p6ladv8"
     },
     "dxvk-gplasync": {
       "type": "Git",
@@ -303,9 +303,9 @@
       },
       "branch": "master",
       "submodules": false,
-      "revision": "e8154d4aef0cdc27d16b88c8a7d8adb2abbd24f7",
-      "url": "https://github.com/Kron4ek/wine-tkg/archive/e8154d4aef0cdc27d16b88c8a7d8adb2abbd24f7.tar.gz",
-      "hash": "0ygi63w9j0gckg8ckd2a22jwhjljprzjdyvni7fz510iwqqx3p9s"
+      "revision": "0676320d0ade53a37dc47e709e79b340f5c46e40",
+      "url": "https://github.com/Kron4ek/wine-tkg/archive/0676320d0ade53a37dc47e709e79b340f5c46e40.tar.gz",
+      "hash": "0dgr7h6ayj0c3w20f7mjfqbk5601q2mjpc0nm0k14l1z3jpzkwx9"
     },
     "wine-tkg-git": {
       "type": "Git",
