@@ -144,20 +144,14 @@ in {
         version = "git+${pins.dxvk-nvapi.revision}";
       };
 
-      vkd3d-proton-w32 =
-        (final.pkgsCross.mingw32.callPackage "${inputs.nix-gaming}/pkgs/vkd3d-proton" {
-          pins = nix-gaming-pins;
-          wine64 = final.wine-astral;
-        }).overrideAttrs (o: {
-          patches = (o.patches or []) ++ ["${pins.lug-patches}/vkd3d-proton/fix_d3d12.patch"];
-        });
-      vkd3d-proton-w64 =
-        (final.pkgsCross.mingwW64.callPackage "${inputs.nix-gaming}/pkgs/vkd3d-proton" {
-          pins = nix-gaming-pins;
-          wine64 = final.wine-astral;
-        }).overrideAttrs (o: {
-          patches = (o.patches or []) ++ ["${pins.lug-patches}/vkd3d-proton/fix_d3d12.patch"];
-        });
+      vkd3d-proton-w32 = final.pkgsCross.mingw32.callPackage "${inputs.nix-gaming}/pkgs/vkd3d-proton" {
+        pins = nix-gaming-pins;
+        wine64 = final.wine-astral;
+      };
+      vkd3d-proton-w64 = final.pkgsCross.mingwW64.callPackage "${inputs.nix-gaming}/pkgs/vkd3d-proton" {
+        pins = nix-gaming-pins;
+        wine64 = final.wine-astral;
+      };
 
       winetricks-git = final.callPackage "${inputs.nix-gaming}/pkgs/winetricks-git" {pins = nix-gaming-pins;};
       wineprefix-preparer = final.callPackage "${inputs.nix-gaming}/pkgs/wineprefix-preparer" {};
