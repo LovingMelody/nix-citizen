@@ -152,6 +152,10 @@ in
       ${toShellVars extraEnvVars}
       # End extra vars
 
+      if [ "${"\${1:-}"}" = "--remove-eac-dir" ]; then
+         wine cmd /c "echo Deleting: %APPDATA%\EasyAntiCheat & rmdir /s /q \"%APPDATA%\\EasyAntiCheat\""
+      fi
+
       ${
         if useUmu
         then ''
