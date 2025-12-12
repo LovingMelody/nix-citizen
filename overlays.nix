@@ -210,7 +210,7 @@ in {
         wine = final.wine-astral;
         winetricks = final.winetricks-git;
       };
-      rsi-launcher-unwrapped-git = final.rsi-launcher.override {
+      rsi-launcher-unwrapped-git = final.rsi-launcher-unwrapped.override {
         wineprefix-preparer = final.wineprefix-preparer-git;
         wine = final.wine-astral;
       };

@@ -278,15 +278,13 @@ in
         --replace-fail '@RSI_LAUNCHER_INSTALLER@' "$out/lib/RSI-Launcher-Setup-${finalAttrs.version}.exe"
 
       wrapProgram $out/bin/${finalAttrs.pname} \
-        --prefix PATH : ${lib.makeBinPath (
-        (
+         --prefix PATH : ${lib.makeBinPath ((
           if useUmu
           then [umu-launcher]
           else [wine winetricks wineprefix-preparer]
         )
-        ++ optional gameScopeEnable gamescope
-      )} \
-        --prefix XDG_DATA_DIRS : "$out"
+        ++ optional gameScopeEnable gamescope)} \
+         --prefix XDG_DATA_DIRS : "$out"
     '';
 
     passthru = {
