@@ -169,9 +169,9 @@
       },
       "branch": "master",
       "submodules": true,
-      "revision": "d772a8e4786d8d415e95a3d5ce65b3a772b24adb",
+      "revision": "21eb344f2fd38a2e999706bcdcb0b3cc38cfd752",
       "url": null,
-      "hash": "1a6zapjrlfydigpclgigbq3nj9w008j0yy1w2z2h89sf747cissh"
+      "hash": "0bamh5ha9p1l273ljl4w8w53nc36z6kv56sbl9q79nmi8cvkfvkd"
     },
     "dxvk-gplasync": {
       "type": "Git",
@@ -195,9 +195,9 @@
       },
       "branch": "2.8_Updates",
       "submodules": false,
-      "revision": "e86dfe868b5bc8bfbcd727b2c1d8f3b00878486d",
-      "url": "https://gitlab.com/api/v4/projects/brittyazel%2Fdxvk-gplasync/repository/archive.tar.gz?sha=e86dfe868b5bc8bfbcd727b2c1d8f3b00878486d",
-      "hash": "1zcniyx6l4v53fhynigvqw1pz3yhhjd66p2adap4n76iiwiaa9cs"
+      "revision": "9b25f52c43c1a19b23e3309593a3631a139db85e",
+      "url": "https://gitlab.com/api/v4/projects/brittyazel%2Fdxvk-gplasync/repository/archive.tar.gz?sha=9b25f52c43c1a19b23e3309593a3631a139db85e",
+      "hash": "1jk4yxq8ys0s5l8r85k2j4ai8mfb3ady35wkgvvy1yq7i07l6vkf"
     },
     "dxvk-nvapi": {
       "type": "Git",
@@ -278,9 +278,9 @@
       },
       "branch": "master",
       "submodules": true,
-      "revision": "e5d435e3b8090c5ea8593bcd1039c78b90220b3e",
+      "revision": "8545d9d9121150788dd1bcb03fb0784f5c425641",
       "url": null,
-      "hash": "0i74zagm3fxklm3v8s3zb102knh8hrhgn9i3ji6dfw65psjh360g"
+      "hash": "155s3ga63fl6szq8xvp7q1pk8i5lph1pdxd2mkz8kv18rsa5kkid"
     },
     "wine-staging": {
       "type": "Git",
