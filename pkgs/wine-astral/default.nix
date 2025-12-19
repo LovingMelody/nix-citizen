@@ -80,7 +80,6 @@ in
       wineRelease = "unstable";
       mainProgram = "wine";
     };
-    nixPatches = sources.patches;
   in
     (callPackage "${nixpkgs-wine}/pkgs/applications/emulators/wine/base.nix"
       (lib.recursiveUpdate base rec {
@@ -108,12 +107,18 @@ in
           tkg-patch-dir = "${pins.wine-tkg-git}/wine-tkg-git/wine-tkg-patches";
           addStagingPatchSet = patchSet: builtins.attrNames (builtins.readDir (builtins.filterSource (n: _: lib.hasPrefix n ".patch") "${pins.wine-staging}/patches/${patchSet}"));
           patches =
-            (addStagingPatchSet "winecfg-Staging")
-            ++ (addStagingPatchSet "nvcuvid-CUDA_Video_Support")
-            ++ (addStagingPatchSet "nvcuda-CUDA_Support")
-            ++ (addStagingPatchSet "nvencodeapi-Video_Encoder")
-            ++ (addStagingPatchSet "nvapi-Stub_DLL")
+            (addStagingPatchSet "crypt32-CMS_Certificates")
             ++ (addStagingPatchSet "loader-KeyboardLayouts")
+            ++ (addStagingPatchSet "ntdll-Junction_Points")
+            ++ (addStagingPatchSet "ntdll-NtDevicePath")
+            ++ (addStagingPatchSet "nvapi-Stub_DLL")
+            ++ (addStagingPatchSet "nvcuda-CUDA_Support")
+            ++ (addStagingPatchSet "nvcuvid-CUDA_Video_Support")
+            ++ (addStagingPatchSet "nvencodeapi-Video_Encoder")
+            ++ (addStagingPatchSet "wine.inf-Dummy_CA_Certificate")
+            ++ (addStagingPatchSet "winecfg-Libraries")
+            ++ (addStagingPatchSet "winecfg-Staging")
+            ++ (addStagingPatchSet "winecfg-Unmounted_Devices")
             ++ (addStagingPatchSet "winedevice-Default_Drivers")
             ++ [
               "${tkg-patch-dir}/misc/CSMT-toggle/CSMT-toggle.patch"
@@ -133,7 +138,7 @@ in
             ]
             ++ map (f: "${cleanedPatches}/${f}") lug-patches;
         in
-          nixPatches ++ patches;
+          patches;
       })).overrideAttrs (old: {
       passthru = {
         inherit (sources) updateScript;
