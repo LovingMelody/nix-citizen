@@ -16,11 +16,11 @@ flakes please see the
 | [star-citizen](https://github.com/fufexan/nix-gaming/tree/master/pkgs/star-citizen) | Star Citizen game (standalone) This package is repackaged from nix-gaming. This has been modified to use wine-astral                   |
 | [star-citizen-git](./overlays.nix)                                                  | Same as `star-citizen` but uses the latest commits for dxvk dxvk-nvapi and vkd3d-proton                                                |
 | [star-citizen-umu](./overlays.nix)                                                  | Same as `star-citizen` but uses umu-launcher & proton-ge                                                                               |
-| [rsi-launcher](./pkgs/rsi-launcher)                                                 | RSI Launcher (standalone). App icon & name matches the RSI Launcher. Changes here will eventually make its way to `star-citizen`       |
+| [rsi-launcher](./pkgs/rsi-launcher)                                                 | RSI Launcher (standalone). App icon & name matches the RSI Launcher. **This is the recommended Package**                               |
 | [rsi-launcher-git](./pkgs/rsi-launcher)                                             | Same as `rsi-launcher` but uses the latest commits for dxvk dxvk-nvapi and vkd3d-proton                                                |
 | [rsi-launcher-umu](./overlays.nix)                                                  | Same as `rsi-launcher` but uses umu-launcher & proton-ge                                                                               |
-| [lug-helper](./pkgs/lug-helper)                                                     | Star Citizen's Linux Users Group Helper Script. Includes a setup script if you wish to use lutris instead of the star-citizen package. |
-| [wine-astral](./flake.nix)                                                          | My Wine build, TKG + Some other patches                                                                                                |
+| [lug-helper](./pkgs/lug-helper)                                                     | Star Citizen's Linux Users Group Helper Script. Includes a setup script if you wish to use lutris instead of the rsi-launcher package. |
+| [wine-astral](./flake.nix)                                                          | Custom Wine build (TKG, Lug, Staging + Some other patches)                                                                             |
 
 ### Cachix
 
