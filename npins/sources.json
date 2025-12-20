@@ -278,9 +278,9 @@
       },
       "branch": "master",
       "submodules": true,
-      "revision": "2dad2e74764b61ed0c569b477d425dd49262888c",
+      "revision": "72b941ef7393c0052b0288e0dbb7185201296a09",
       "url": null,
-      "hash": "1m1gyjrq2ws9w7fkd2przmwn93sisvj75iy3wgc2wpnzfjpkibvv"
+      "hash": "0m0awc71izcjh2vg0gpcixqrj2dbz3210dycx1i7pykkkvfwz9bm"
     },
     "wine-staging": {
       "type": "Git",
@@ -290,9 +290,9 @@
       },
       "branch": "master",
       "submodules": true,
-      "revision": "be758e634e6dc6352d9ede1ffdd9f160460fdf14",
+      "revision": "7bdb457b03ceedbfa817b1fdfb14ca2286030bd6",
       "url": null,
-      "hash": "0mxlk2b5arh6s749ryf7j9q6v3mlyc76pix93gil5s6gkgrb5az2"
+      "hash": "17vq61fqgqsmgik152dgsxg71cjwk79splqqc16x5glchgn474vj"
     },
     "wine-tkg": {
       "type": "Git",
