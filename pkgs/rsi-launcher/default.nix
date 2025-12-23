@@ -249,8 +249,8 @@ in
               ${gameScope} $gamemode wine ${wineFlags} "$RSI_LAUNCHER" "$@"
           else
               export LOG_DIR=$(mktemp -d)
-              echo "Working arround known launcher error by outputting logs to $LOG_DIR"
-              ${gameScope} $gamemode wine ${wineFlags} "$RSI_LAUNCHER" "$@" >"$LOG_DIR/RSIout" 2>"$LOG_DIR/RSIerr"
+              echo "Working arround known launcher error by outputting logs to $WINEPREFIX/sc-launch.log"
+              ${gameScope} $gamemode wine ${wineFlags} "$RSI_LAUNCHER" "$@" > "$WINEPREFIX/sc-launch.log" 2>&1
           fi
           wineserver -w
         ''
