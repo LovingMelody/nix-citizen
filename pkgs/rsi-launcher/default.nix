@@ -230,12 +230,13 @@ in
           ln -sv "$WINEPREFIX/drive_c/windows/system32/cryptui.dll" "$WINEPREFIX/drive_c/windows/system32/$dll"
         fi
       done
+
+      # Experimental compatibility with lug-helper
+      # Note, this will overwrite the actual sc-launch.sh
       ${lib.optionalString experiments ''
-        # Patch libcuda if it exists...
-        if [ -e /run/opengl-driver/lib/libcuda.so ]; then
-          mkdir -p "$WINEPREFIX/patchedCuda"
-          echo -ne $(od -An -tx1 -v /run/opengl-driver/lib/libcuda.so | tr -d '\n' | sed -e 's/00 00 00 f8 ff 00 00 00/00 00 00 f8 ff ff 00 00/g' -e 's/ /\\x/g') > "$WINEPREFIX/patchedCuda/libcuda.so"
-        fi
+        echo "export WINEPREFIX=$WINEPREFIX" > "$WINEPREFIX/sc-launch.sh"
+        echo 'export wine_path=${lib.getBin wine}' >> "$WINEPREFIX/sc-launch.sh"
+        echo "export launch_log=$WINEPREFIX/sc-launch.log" >> "$WINEPREFIX/sc-launch.sh"
       ''}
 
       ${preCommands}
