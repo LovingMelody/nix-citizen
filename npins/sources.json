@@ -237,9 +237,9 @@
       },
       "branch": "main",
       "submodules": false,
-      "revision": "1d34c4d3130d29dff0dd8b3742150e1a4b2dd32c",
-      "url": "https://github.com/starcitizen-lug/patches/archive/1d34c4d3130d29dff0dd8b3742150e1a4b2dd32c.tar.gz",
-      "hash": "04fbnjd2r1syn3058szm9n7hb9xzq9wscfxiz6flcapxxpnwbfn4"
+      "revision": "12073165c65b2ec53257fe69a33db0dbd08de168",
+      "url": "https://github.com/starcitizen-lug/patches/archive/12073165c65b2ec53257fe69a33db0dbd08de168.tar.gz",
+      "hash": "1yfxbdp7wgy3af0d46q17wxz6cglyqrd2crnj059b7sfxlfwp2vb"
     },
     "vkd3d-proton": {
       "type": "Git",
@@ -278,9 +278,9 @@
       },
       "branch": "master",
       "submodules": true,
-      "revision": "a854e8d4ff5d2d774bcf1656e3af2fea63526657",
+      "revision": "ca1a99f22adca7aaf4eab7bec10f7a3bc8c62314",
       "url": null,
-      "hash": "0b3j9305894zwsqc8j8f16zz0sh44w64xjzzqw4xb968cz21p2cy"
+      "hash": "1mfpnmwxcgh26d8pgs7w87c31qb9yhzbbx7bx28gqglhlkags47b"
     },
     "wine-staging": {
       "type": "Git",
@@ -290,9 +290,9 @@
       },
       "branch": "master",
       "submodules": true,
-      "revision": "701af869fd9b861aaaaa8c9bb93cc5d5d2815e25",
+      "revision": "e9363c377ec90abe082d591a3ee2847ff9d86ab2",
       "url": null,
-      "hash": "1lm1dcykzvyn1lmxh7mbsv3c0hp3d8xszykajjd4jwh0lzk21nij"
+      "hash": "0cyc04lvaikk148541ak0sygzvah4b7nrn0ncp884i1222svz2fb"
     },
     "wine-tkg": {
       "type": "Git",
