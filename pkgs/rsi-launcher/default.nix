@@ -22,7 +22,7 @@
   useUmu ? false,
   protonPath ? "${proton-ge-bin.steamcompattool}/",
   protonVerbs ? ["waitforexitandrun"],
-  wineDllOverrides ? ["winemenubuilder.exe=d" "nvapi=n" "nvapi64=n"],
+  wineDllOverrides ? ["winemenubuilder.exe=d" "nvapi=n" "nvapi64=n" "icuuc=b" "icuin=b"],
   gameScopeEnable ? false,
   gameScopeArgs ? [],
   preCommands ? "",
@@ -150,6 +150,26 @@ in
 
       # Begin extra vars
       ${toShellVars extraEnvVars}
+
+      # FIX: ICU/.NET 7+ compatibility for RSI Launcher
+      # The RSI Launcher uses .NET 7+ which calls unimplemented Wine ICU functions
+      # (ulocdata_getCLDRVersion, uloc_canonicalize, etc.)
+      # Reference: https://forum.winehq.org/viewtopic.php?p=149288
+      export DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=true
+
+      # FIX: Activate wine-astral EAC timeout patch
+      # Creates /tmp/eac_wine_pid_* for EAC IPC communication
+      # Only set for star-citizen (not rsi-launcher)
+      # Auto-detect game channel (LIVE, PTU, EPTU) for flexibility
+      if [ "${pname}" = "star-citizen" ]; then
+        for channel in LIVE PTU EPTU; do
+          eac_path="$WINEPREFIX/drive_c/Program Files/Roberts Space Industries/StarCitizen/$channel/EasyAntiCheat"
+          if [ -d "$eac_path" ]; then
+            export EAC_LAUNCHERDIR="$eac_path"
+            break
+          fi
+        done
+      fi
       # End extra vars
 
       if [ "${"\${1:-}"}" = "--remove-eac-dir" ]; then
