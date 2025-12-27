@@ -63,6 +63,7 @@
             (pkgs)
             gameglass
             lug-helper
+            lug-wine-bin
             rsi-launcher
             rsi-launcher-git
             rsi-launcher-umu

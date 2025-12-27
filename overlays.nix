@@ -241,6 +241,7 @@ in {
       star-citizen-helper = final.callPackage ./pkgs/star-citizen-helper {};
       lug-helper =
         final.callPackage ./pkgs/lug-helper {winetricks = final.winetricks-git;};
+      lug-wine-bin = final.callPackage ./pkgs/lug-wine-bin {};
     };
   };
 }
