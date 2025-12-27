@@ -16,12 +16,12 @@
 }:
 stdenvNoCC.mkDerivation (finalAttrs: {
   pname = "lug-helper";
-  version = "4.6";
+  version = "4.7";
   src = fetchFromGitHub {
     owner = "starcitizen-lug";
     repo = "lug-helper";
     tag = "v${finalAttrs.version}";
-    hash = "sha256-E8SSsAI9GvTTY121si6SsnbxXnlcc05nB+USrOdCDOw=";
+    hash = "sha256-Xgnt7ZzsrEChT9/zcwSUn7unVUEq8h/L12cQYnSrg2o=";
   };
 
   buildInputs = [
@@ -51,6 +51,7 @@ stdenvNoCC.mkDerivation (finalAttrs: {
     install -Dm755 lug-helper.sh $out/bin/lug-helper
     install -Dm644 lug-logo.png $out/share/icons/hicolor/256x256/apps/lug-logo.png
     install -Dm644 rsi-launcher.png $out/share/icons/hicolor/256x256/apps/rsi-launcher.png
+    install -Dm644 starcitizen.png $out/share/icons/hicolor/256x256/apps/starcitizen.png
     install -Dm644 lib/* -t $out/share/lug-helper
 
     wrapProgram $out/bin/lug-helper \
