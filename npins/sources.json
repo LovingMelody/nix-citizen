@@ -182,22 +182,9 @@
       },
       "branch": "main",
       "submodules": true,
-      "revision": "159ee8ef743d18769dfea284ea95393aca6b8421",
+      "revision": "1f900f20857b676d314e78d4f352f700c00b4a8b",
       "url": null,
-      "hash": "11b5r4z81y0d4dal97mwvd9z30xg31xi2yd0j5p7l6g1jhx0wvxy"
-    },
-    "dxvk-gplasync-pr-13": {
-      "type": "Git",
-      "repository": {
-        "type": "GitLab",
-        "repo_path": "brittyazel/dxvk-gplasync",
-        "server": "https://gitlab.com/"
-      },
-      "branch": "2.8_Updates",
-      "submodules": false,
-      "revision": "f70987e660db90e1a2733f19d9b935ef8ae958c5",
-      "url": "https://gitlab.com/api/v4/projects/brittyazel%2Fdxvk-gplasync/repository/archive.tar.gz?sha=f70987e660db90e1a2733f19d9b935ef8ae958c5",
-      "hash": "0vpp4i5kkxllz5cn9b1j3xxvz3x4wps4lvyn10kvm2x9nawsrpbz"
+      "hash": "168qsi7vngg8avzi8by58lbi98fv186d4phy11sb9xpf1k4fncap"
     },
     "dxvk-nvapi": {
       "type": "Git",
