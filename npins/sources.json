@@ -14,7 +14,7 @@
       "version": "vulkan-sdk-1.4.335.0",
       "revision": "fb0c1a307cca4b4a9d891837bf4c44d17fe2d324",
       "url": "https://api.github.com/repos/KhronosGroup/SPIRV-Cross/tarball/vulkan-sdk-1.4.335.0",
-      "hash": "04z7kcg0z4mfnsvfxw1bxzfyq1678zwf1d79j2hyvhkvd2c8fr86"
+      "hash": "sha256-BmWHmGh7wu2hkOm04PhHxwTs3e8r8O62tq6SDx6b5xM="
     },
     "SPIRV-Headers": {
       "type": "GitRelease",
@@ -30,7 +30,7 @@
       "version": "vulkan-sdk-1.4.335.0",
       "revision": "b824a462d4256d720bebb40e78b9eb8f78bbb305",
       "url": "https://api.github.com/repos/KhronosGroup/SPIRV-Headers/tarball/vulkan-sdk-1.4.335.0",
-      "hash": "16p1g33hw89hl2ldpqck2fggqxiwfgn735j35pwqpbckx8r66chy"
+      "hash": "sha256-HjJjMuqTrYv5LUOWcexzPHb8nhOT4duooDAhDsd44Zo="
     },
     "SPIRV-Tools": {
       "type": "GitRelease",
@@ -46,7 +46,7 @@
       "version": "vulkan-sdk-1.4.335.0",
       "revision": "262bdab48146c937467f826699a40da0fdfc0f1a",
       "url": "https://api.github.com/repos/KhronosGroup/SPIRV-Tools/tarball/vulkan-sdk-1.4.335.0",
-      "hash": "05rwpjnfaqn6yy10gn8c9xd0172ri5vgbqrjb7hfa1qjgrj7psqz"
+      "hash": "sha256-H+t7ZH4SB+XgWTLj9XaJWZwAWk8M2QeC98Zi5ay8PBc="
     },
     "Vulkan-ExtensionLayer": {
       "type": "GitRelease",
@@ -62,7 +62,7 @@
       "version": "vulkan-sdk-1.4.335.0",
       "revision": "14d4b769e3e788980a002b0d909dfb9829f26b36",
       "url": "https://api.github.com/repos/KhronosGroup/Vulkan-ExtensionLayer/tarball/vulkan-sdk-1.4.335.0",
-      "hash": "0yc64917a0vwnvr7lwk7xqb6bksglrvajmb87d2p5niwdz8py36l"
+      "hash": "sha256-1Ax/0W882nJFO2hVqXamT89lFu5ncnrytnwDdUIihnk="
     },
     "Vulkan-Headers": {
       "type": "GitRelease",
@@ -78,7 +78,7 @@
       "version": "vulkan-sdk-1.4.335.0",
       "revision": "2fa203425eb4af9dfc6b03f97ef72b0b5bcb8350",
       "url": "https://api.github.com/repos/KhronosGroup/Vulkan-Headers/tarball/vulkan-sdk-1.4.335.0",
-      "hash": "1a2w1g06w06nzr42srrvw06i5p6pzi5n25ldnbd6j8p860pqz1qc"
+      "hash": "sha256-DIePLzDoImnaso0WYUv819wSDeA7Zy1I/tYAbsALXKg="
     },
     "Vulkan-Loader": {
       "type": "GitRelease",
@@ -94,7 +94,7 @@
       "version": "vulkan-sdk-1.4.335.0",
       "revision": "057ca1e5f2b61bbb3942e3a7464d488d5bde4a3c",
       "url": "https://api.github.com/repos/KhronosGroup/Vulkan-Loader/tarball/vulkan-sdk-1.4.335.0",
-      "hash": "1xdfqvh9yhybnlfc84qxf65l5snhc8p0a3j6qaryj9m71khd64np"
+      "hash": "sha256-1xLT4AynJumzwkYOBS5i0OpCi3EdE8QctctDn+DGrvU="
     },
     "Vulkan-Tools": {
       "type": "GitRelease",
@@ -110,7 +110,7 @@
       "version": "vulkan-sdk-1.4.335.0",
       "revision": "8542e6dcfc6daef20d561220f1d91a02c25d95b2",
       "url": "https://api.github.com/repos/KhronosGroup/Vulkan-Tools/tarball/vulkan-sdk-1.4.335.0",
-      "hash": "07b5jlvp70apmkj0b8l2w086h0vbcfl49n7xr35kmv46p0n37z0b"
+      "hash": "sha256-C/wzLLiG7DrLyP3YRKhjawNoEOCCogXkrFeBczeVZR0="
     },
     "Vulkan-Tools-LunarG": {
       "type": "GitRelease",
@@ -126,7 +126,7 @@
       "version": "vulkan-sdk-1.4.335.0",
       "revision": "665575c49b30c9088de665f771d18239cf424cea",
       "url": "https://api.github.com/repos/LunarG/VulkanTools/tarball/vulkan-sdk-1.4.335.0",
-      "hash": "18187bhlny13gw6fxy9jhs4rf9cyjlf41y4fw4xclqgxc6a32dfq"
+      "hash": "sha256-2DUxlGH9Yco64Y74QByVniWXiYYy+e4MfyN4S+E6KKA="
     },
     "Vulkan-Utility-Libraries": {
       "type": "GitRelease",
@@ -142,7 +142,7 @@
       "version": "vulkan-sdk-1.4.335.0",
       "revision": "c010c19e796035e92fb3b0462cb887518a41a7c1",
       "url": "https://api.github.com/repos/KhronosGroup/Vulkan-Utility-Libraries/tarball/vulkan-sdk-1.4.335.0",
-      "hash": "116agfaayycizafq2infy12n07039rp6azzvfff3wq84ph3v8cwl"
+      "hash": "sha256-lDO0B7wEYT6cc/t/ZW5OAxxgRfDORoGd+pF5r5R7yoQ="
     },
     "Vulkan-ValidationLayers": {
       "type": "GitRelease",
@@ -158,7 +158,7 @@
       "version": "vulkan-sdk-1.4.335.0",
       "revision": "2e94023f2581aaa7f5a4d6fe0ee670d9b5e10187",
       "url": "https://api.github.com/repos/KhronosGroup/Vulkan-ValidationLayers/tarball/vulkan-sdk-1.4.335.0",
-      "hash": "06kx3769xn6xrk2xjs5k9hpkv8gvmjwn7yvz423yy7d9fzgnn70m"
+      "hash": "sha256-FRxr33epHe+HIH/7Y7ms+6E9L0yzaNnFzN3YnswZfRo="
     },
     "dxvk": {
       "type": "Git",
@@ -169,9 +169,9 @@
       },
       "branch": "master",
       "submodules": true,
-      "revision": "b650faef2604bbb55c769ed5cb0dbff9a5e449fb",
+      "revision": "584041f1422b49da590c5fe9024e9e9ab0180e76",
       "url": null,
-      "hash": "19n5qg14chd5r2vy5jgddv1xa7l4gcxbvlwd4ji5lk4xzmvf76nr"
+      "hash": "sha256-TA9Mg55k6DNM4nkKH67NBwyj3xYeYiFG+qNUNbs91vY="
     },
     "dxvk-gplasync": {
       "type": "Git",
@@ -184,7 +184,7 @@
       "submodules": true,
       "revision": "1f900f20857b676d314e78d4f352f700c00b4a8b",
       "url": null,
-      "hash": "168qsi7vngg8avzi8by58lbi98fv186d4phy11sb9xpf1k4fncap"
+      "hash": "sha256-VzHryAzu9rR0CB5e0gwK26EUF0XFLxT/Vug9u0/UGJk="
     },
     "dxvk-nvapi": {
       "type": "Git",
@@ -197,7 +197,7 @@
       "submodules": true,
       "revision": "294ef49c14d4c43223b2a238eadc251c81bd9719",
       "url": null,
-      "hash": "0jmy96ynfsd0vnfdkx39slbfskdyghp8r56zd03hck41fgqj8rs9"
+      "hash": "sha256-SWck8XOBTAYHaN+UjC58vk3tFtVp9Nmc3aBpZ71Jvko="
     },
     "glslang": {
       "type": "GitRelease",
@@ -213,7 +213,7 @@
       "version": "16.1.0",
       "revision": "b5782e52ee2f7b3e40bb9c80d15b47016e008bc9",
       "url": "https://api.github.com/repos/KhronosGroup/glslang/tarball/16.1.0",
-      "hash": "0z5zabmjiqgxr935wbk9pr649bxk404nkjkvkavdwj904sg48i3h"
+      "hash": "sha256-cEREniYgSd62mnvKaQkgs69ETL5pLl5Gyv3hKOtSv3w="
     },
     "lug-patches": {
       "type": "Git",
@@ -226,7 +226,7 @@
       "submodules": false,
       "revision": "12073165c65b2ec53257fe69a33db0dbd08de168",
       "url": "https://github.com/starcitizen-lug/patches/archive/12073165c65b2ec53257fe69a33db0dbd08de168.tar.gz",
-      "hash": "1yfxbdp7wgy3af0d46q17wxz6cglyqrd2crnj059b7sfxlfwp2vb"
+      "hash": "sha256-a4vLHe1On5UKkDYz0TL29DHzOz8BG9KAU8M/fm5b3fk="
     },
     "vkd3d-proton": {
       "type": "Git",
@@ -239,7 +239,7 @@
       "submodules": true,
       "revision": "4d4abaa230fed54c2bf12b56cf4e4cd2286bd034",
       "url": null,
-      "hash": "1r09a92snsbf03rr83sxyqfr6vlhklvc6cmiibq8mi5w2dh2803r"
+      "hash": "sha256-eQAkYBO8xIrwirEywzadkG6THfZdD5TzAG5pq0VSCeQ="
     },
     "volk": {
       "type": "GitRelease",
@@ -255,7 +255,7 @@
       "version": "vulkan-sdk-1.4.335.0",
       "revision": "4f3bcee79618a9abe79f4c717c50379197c77512",
       "url": "https://api.github.com/repos/zeux/volk/tarball/vulkan-sdk-1.4.335.0",
-      "hash": "0hqamyr3xdqacgn49hzf966vj7hn54aybzkfg76y3hc9ly2hq0x8"
+      "hash": "sha256-qAMMhaeJweHNeW7+5RUpFh65jUnuw0TsYwq3PrKvCkM="
     },
     "wine": {
       "type": "Git",
@@ -265,9 +265,9 @@
       },
       "branch": "master",
       "submodules": true,
-      "revision": "ca1a99f22adca7aaf4eab7bec10f7a3bc8c62314",
+      "revision": "a82d717ce63965bec9a06eb1452b3d09b78a6021",
       "url": null,
-      "hash": "1mfpnmwxcgh26d8pgs7w87c31qb9yhzbbx7bx28gqglhlkags47b"
+      "hash": "sha256-0QkWw89+7WveCTlu9XDxq1Qal9EKikA+zHugtwcJeqI="
     },
     "wine-staging": {
       "type": "Git",
@@ -277,9 +277,9 @@
       },
       "branch": "master",
       "submodules": true,
-      "revision": "e9363c377ec90abe082d591a3ee2847ff9d86ab2",
+      "revision": "52bc59da118fa2b9584b5e54c416bbb055306e00",
       "url": null,
-      "hash": "0cyc04lvaikk148541ak0sygzvah4b7nrn0ncp884i1222svz2fb"
+      "hash": "sha256-vt0zuZf1lPaI/Yiy9g80w8iplaytyyuh0xnu+FVDmaM="
     },
     "wine-tkg": {
       "type": "Git",
@@ -292,7 +292,7 @@
       "submodules": false,
       "revision": "ddc42ae08d2d2e0c21d8ef7c047a9ba638e4e25e",
       "url": "https://github.com/Kron4ek/wine-tkg/archive/ddc42ae08d2d2e0c21d8ef7c047a9ba638e4e25e.tar.gz",
-      "hash": "1i8a5rv5rjkjn56bcxs2np5ap2ibcm0sxkpnlz255g2ac1brr3c0"
+      "hash": "sha256-gI2cV2BKvFLEp/bOrkFlK4qryrVCd7ZMsXLKXHYuCsU="
     },
     "wine-tkg-git": {
       "type": "Git",
@@ -305,8 +305,8 @@
       "submodules": false,
       "revision": "d9840ddec9d53f7379929ac3c8dc25ccf4d326be",
       "url": "https://github.com/Frogging-Family/wine-tkg-git/archive/d9840ddec9d53f7379929ac3c8dc25ccf4d326be.tar.gz",
-      "hash": "1skldaxb5afhc84s7ymmwr09js4cdzb4hww75crswhkdyadxfq4c"
+      "hash": "sha256-jGDXm/JtQq4zK4dzSNZvjGiZQOa1+qMJYtCpsrpqdOo="
     }
   },
-  "version": 5
+  "version": 7
 }
