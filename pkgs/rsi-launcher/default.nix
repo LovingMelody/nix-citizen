@@ -10,11 +10,8 @@
   umu-launcher,
   proton-ge-bin,
   stdenvNoCC,
-  fetchurl,
-  p7zip,
-  imagemagick,
   bash,
-  makeWrapper,
+  rsi-installer,
   pname ? "rsi-launcher",
   wineFlags ? "",
   location ? "$HOME/Games/${pname}",
@@ -30,7 +27,6 @@
   enableGlCache ? true,
   glCacheSize ? 10737418240, # 10GB
   disableEac ? false,
-  extraLibs ? [],
   extraEnvVars ? {},
   enforceWaylandDrv ? false, # May help with vulkan but causes issues w/ some WMs
   experiments ? false,
@@ -48,10 +44,8 @@
     "umu-launcher"
     "proton-ge-bin"
     "stdenvNoCC"
-    "fetchurl"
-    "p7zip"
+    "rsi-installer"
     "bash"
-    "makeWrapper"
     "pname"
     "wineFlags"
     "location"
@@ -67,7 +61,6 @@
     "enableGlCache"
     "glCacheSize"
     "disableEac"
-    "extraLibs"
     "extraEnvVars"
     "enforceWaylandDrv"
     "experiments"
@@ -82,20 +75,14 @@ in
   stdenvNoCC.mkDerivation (finalAttrs: {
     inherit (info) version;
     inherit pname;
-    src = fetchurl {
-      url = "https://install.robertsspaceindustries.com/rel/2/RSI%20Launcher-Setup-${finalAttrs.version}.exe";
-      name = "RSI Launcher-Setup-${finalAttrs.version}.exe";
-      inherit (info) hash;
-    };
-    buidInputs =
-      [p7zip]
+    buildInputs =
+      [rsi-installer]
       ++ (
         if useUmu
         then [umu-launcher]
         else [wine winetricks wineprefix-preparer]
       )
       ++ optional gameScopeEnable gamescope;
-    nativeBuildInputs = [p7zip makeWrapper imagemagick];
     desktopItem = makeDesktopItem {
       name = finalAttrs.pname;
       exec = "${finalAttrs.pname} %U";
@@ -109,8 +96,9 @@ in
       mimeTypes = ["application/x-${finalAttrs.pname}"];
     };
 
-    script = writeScript "${finalAttrs.pname}" ''
+    src = writeScript "${finalAttrs.pname}" ''
       set -x
+      export PATH="${lib.makeBinPath finalAttrs.buildInputs}:$PATH"
       export WINETRICKS_LATEST_VERSION_CHECK=disabled
       export WINEARCH="win64"
       mkdir -p "${location}"
@@ -161,7 +149,7 @@ in
         then ''
           export PROTON_VERBS="${concatStringsSep "," protonVerbs}"
           export PROTONPATH="${protonPath}"
-          if [ ! -f "$RSI_LAUNCHER" ]  || [ "${"\${1:-}"}"  = "--force-install" ]; then umu-run "@RSI_LAUNCHER_INSTALLER@" /S; fi
+          if [ ! -f "$RSI_LAUNCHER" ]  || [ "${"\${1:-}"}"  = "--force-install" ]; then umu-run "${lib.getExe rsi-installer}" /S; fi
         ''
         else ''
           # Ensure all tricks are installed
@@ -188,7 +176,7 @@ in
             mkdir -p "$WINEPREFIX/drive_c/Program Files/Roberts Space Industries/StarCitizen/"{LIVE,PTU}
 
             # install launcher using silent install
-            WINEDLLOVERRIDES="dxwebsetup.exe,dotNetFx45_Full_setup.exe,winemenubuilder.exe=d" wine @RSI_LAUNCHER_INSTALLER@ /S
+            WINEDLLOVERRIDES="dxwebsetup.exe,dotNetFx45_Full_setup.exe,winemenubuilder.exe=d" wine ${lib.getExe rsi-installer} /S
 
             wineserver -k
           fi
@@ -258,35 +246,25 @@ in
       }
       ${postCommands}
     '';
-    unpackPhase = ''
-      7z e -y $src app-64.7z -r
-      7z e -y app-64.7z RSI\ Launcher.exe -r
-      rm app-64.7z
-      7z e -y RSI\ Launcher.exe 4.ico -r
-      rm RSI\ Launcher.exe
-    '';
+    dontUnpack = true;
     installPhase = ''
       for size in 16 32 48 256; do
         outPath=$out/share/icons/hicolor/"$size"x"$size"/apps/${finalAttrs.pname}.png
-        install -d "$(dirname "$outPath")"
-        magick -background none 4.ico -resize "$size"x"$size" "$outPath"
+        install -D -m444 ${rsi-installer}/share/icons/hicolor/"$size"x"$size"/apps/rsi-launcher.png "$outPath"
       done
-      install -D -m744 "${finalAttrs.script}" $out/bin/${finalAttrs.pname}
-      install -D -m444 "$src" "$out/lib/RSI-Launcher-Setup-${finalAttrs.version}.exe"
+      install -D -m744 "${finalAttrs.src}" $out/bin/${finalAttrs.pname}
       install -D -m744 "${finalAttrs.desktopItem}/share/applications/${finalAttrs.pname}.desktop" "$out/share/applications/${finalAttrs.pname}.desktop"
 
-      substituteInPlace "$out/bin/${finalAttrs.pname}" \
-        --replace-fail '@RSI_LAUNCHER_INSTALLER@' "$out/lib/RSI-Launcher-Setup-${finalAttrs.version}.exe"
-
-      wrapProgram $out/bin/${finalAttrs.pname} \
-         --prefix PATH : ${lib.makeBinPath ((
-          if useUmu
-          then [umu-launcher]
-          else [wine winetricks wineprefix-preparer]
-        )
-        ++ optional gameScopeEnable gamescope)} \
-         --prefix XDG_DATA_DIRS : "$out"
     '';
+
+    # wrapProgram $out/bin/${finalAttrs.pname} \
+    #    --prefix PATH : ${lib.makeBinPath ((
+    #     if useUmu
+    #     then [umu-launcher]
+    #     else [wine winetricks wineprefix-preparer]
+    #   )
+    #   ++ optional gameScopeEnable gamescope)} \
+    #    --prefix XDG_DATA_DIRS : "$out"
 
     passthru = {
       updateScript = writeScriptBin "rsi-launcher-update.sh" builtins.readFile ./update.sh;

@@ -201,7 +201,7 @@ in {
         wine-tkg
         wine-cachyos
         ;
-
+      rsi-installer = final.callPackage ./pkgs/rsi-launcher/installer.nix {};
       rsi-launcher-unwrapped = final.callPackage ./pkgs/rsi-launcher {
         wine = final.wine-astral;
         winetricks = final.winetricks-git;
