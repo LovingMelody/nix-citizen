@@ -169,9 +169,9 @@
       },
       "branch": "master",
       "submodules": true,
-      "revision": "c774d93309ae5108f63c0051505c2eef79b00779",
+      "revision": "f76b0ef88d1a5cf47cb0e89037f96572d20e2a51",
       "url": null,
-      "hash": "sha256-D8Meva3y6wXWhsGtKrg+0kMelbrmRqG9Ir88HmkJn0c="
+      "hash": "sha256-jSOHgnyZYrgRpc5zZg/Rn9SbBHC9AIMg0YbGgc+jhYU="
     },
     "dxvk-gplasync": {
       "type": "Git",
@@ -237,9 +237,9 @@
       },
       "branch": "master",
       "submodules": true,
-      "revision": "4d4abaa230fed54c2bf12b56cf4e4cd2286bd034",
+      "revision": "ff6b54a968d1f5c4480b588fb6fcad0b282741a3",
       "url": null,
-      "hash": "sha256-eQAkYBO8xIrwirEywzadkG6THfZdD5TzAG5pq0VSCeQ="
+      "hash": "sha256-tkwiNhgIWJY9hwEPJKogXtNdYtxXzMoJGx6363wdIhE="
     },
     "volk": {
       "type": "GitRelease",
@@ -265,9 +265,9 @@
       },
       "branch": "master",
       "submodules": true,
-      "revision": "a82d717ce63965bec9a06eb1452b3d09b78a6021",
+      "revision": "bad7380f3dfe9ef18844fd97b5d99df65a96628a",
       "url": null,
-      "hash": "sha256-0QkWw89+7WveCTlu9XDxq1Qal9EKikA+zHugtwcJeqI="
+      "hash": "sha256-X6J3cKtIRyolRF0vXrqDchZf6KW96H+EwVY26OiquBQ="
     },
     "wine-staging": {
       "type": "Git",
@@ -303,9 +303,9 @@
       },
       "branch": "master",
       "submodules": false,
-      "revision": "d9840ddec9d53f7379929ac3c8dc25ccf4d326be",
-      "url": "https://github.com/Frogging-Family/wine-tkg-git/archive/d9840ddec9d53f7379929ac3c8dc25ccf4d326be.tar.gz",
-      "hash": "sha256-jGDXm/JtQq4zK4dzSNZvjGiZQOa1+qMJYtCpsrpqdOo="
+      "revision": "8c54250246d1b28dc4d0e195ac145305284a7a9d",
+      "url": "https://github.com/Frogging-Family/wine-tkg-git/archive/8c54250246d1b28dc4d0e195ac145305284a7a9d.tar.gz",
+      "hash": "sha256-F1eiQPFL0IOxfRvKZBsCodwENJSY4LGfYUKsNQ+i6zI="
     }
   },
   "version": 7
