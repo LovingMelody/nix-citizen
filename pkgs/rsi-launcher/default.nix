@@ -76,7 +76,7 @@ in
     inherit (info) version;
     inherit pname;
     buildInputs =
-      [rsi-installer]
+      [rsi-installer bash]
       ++ (
         if useUmu
         then [umu-launcher]
@@ -97,6 +97,7 @@ in
     };
 
     src = writeScript "${finalAttrs.pname}" ''
+      #!${lib.getExe bash}
       set -x
       export PATH="${lib.makeBinPath finalAttrs.buildInputs}:$PATH"
       export WINETRICKS_LATEST_VERSION_CHECK=disabled
