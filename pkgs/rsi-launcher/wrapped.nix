@@ -59,7 +59,6 @@ in
     dieWithParent = false;
 
     extraInstallCommands = ''
-      ln -s ${rsi-launcher}/lib $out/lib
       ln -s ${rsi-launcher}/share $out/share
     '';
   }
