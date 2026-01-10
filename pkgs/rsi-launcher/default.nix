@@ -104,6 +104,9 @@ in
       export WINEARCH="win64"
       mkdir -p "${location}"
       export WINEPREFIX="$(readlink -f "${location}")"
+      if [ -d "$WINEPREFIX/prefix" ]; then
+         export WINEPREFIX="$WINEPREFIX/prefix"
+      fi
       ${
         optionalString
         #this option doesn't work on umu, an umu TOML config file will be needed instead
