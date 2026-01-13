@@ -141,7 +141,10 @@ in
         in
           patches;
       })).overrideAttrs (old: {
-                patchedSource = pkgs.applyPatches { name = "wine-astral-srouce"; src = old.src; patches = old.patches;};
+      patchedSource = pkgs.applyPatches {
+        name = "wine-astral-srouce";
+        inherit (old) src patches;
+      };
       passthru = {
         inherit (sources) updateScript;
       };
