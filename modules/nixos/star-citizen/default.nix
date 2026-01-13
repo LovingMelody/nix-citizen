@@ -40,6 +40,14 @@
       patchXwayland = mkEnableOption ''
         Enable xwayland overlay with a patch intended to help fix cursor issues
       '';
+      gamescope = {
+        enable = mkEnableOption "Enable Gamescope";
+        args = mkOption {
+          type = lib.types.listOf lib.types.strings;
+          default = [];
+          description = "Args to pass to gamescope";
+        };
+      };
       package = mkOption {
         description = "Package to use for rsi-launcher";
         type = types.package;
@@ -47,9 +55,12 @@
         apply = rsi-launcher:
           rsi-launcher.override (_old: {
             inherit (cfg) enforceWaylandDrv;
+            gameScopeEnable = cfg.gamescope.enable;
+            gameScopeArgs = cfg.gamescope.args;
             useUmu = cfg.umu.enable;
             disableEac = cfg.disableEAC;
             umu-launcher = pkgs.umu-launcher.override (prev: {
+              steam = config.programs.steam.package;
               extraLibraries = pkgs: let
                 prevLibs =
                   if prev ? extraLibraries
