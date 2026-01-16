@@ -43,9 +43,14 @@
       gamescope = {
         enable = mkEnableOption "Enable Gamescope";
         args = mkOption {
-          type = lib.types.listOf lib.types.strings;
+          type = lib.types.listOf lib.types.str;
           default = [];
           description = "Args to pass to gamescope";
+        };
+        package = mkOption {
+          description = "Gamescope package to use";
+          type = lib.types.package;
+          default = pkgs.gamescope;
         };
       };
       package = mkOption {
@@ -57,6 +62,7 @@
             inherit (cfg) enforceWaylandDrv;
             gameScopeEnable = cfg.gamescope.enable;
             gameScopeArgs = cfg.gamescope.args;
+            gamescope = cfg.gamescope.package;
             useUmu = cfg.umu.enable;
             disableEac = cfg.disableEAC;
             umu-launcher = pkgs.umu-launcher.override (prev: {
