@@ -224,9 +224,9 @@
       },
       "branch": "main",
       "submodules": false,
-      "revision": "12073165c65b2ec53257fe69a33db0dbd08de168",
-      "url": "https://github.com/starcitizen-lug/patches/archive/12073165c65b2ec53257fe69a33db0dbd08de168.tar.gz",
-      "hash": "sha256-a4vLHe1On5UKkDYz0TL29DHzOz8BG9KAU8M/fm5b3fk="
+      "revision": "8d3895dadb8e493788e4e6a3cb9c3511290542f3",
+      "url": "https://github.com/starcitizen-lug/patches/archive/8d3895dadb8e493788e4e6a3cb9c3511290542f3.tar.gz",
+      "hash": "sha256-8CsWZaJTSj/8xrPE+SYQjL6HWwqStn+i1KAtLGC9XwA="
     },
     "vkd3d-proton": {
       "type": "Git",
@@ -265,9 +265,9 @@
       },
       "branch": "master",
       "submodules": true,
-      "revision": "db11d0fe6a169c457e23d007e20404643d067aa8",
+      "revision": "05e59fccb395ac34a71d0d0d4187661fb6b1113b",
       "url": null,
-      "hash": "sha256-3jJ2paulqgMLyLR8g5bxwJuuusAMZSrnw+X+nFhYt+c="
+      "hash": "sha256-XMjvM0TFH9kjMRidsqhAKga6jFjGx3vQCNTk3yjIQ0k="
     },
     "wine-staging": {
       "type": "Git",
@@ -277,9 +277,9 @@
       },
       "branch": "master",
       "submodules": true,
-      "revision": "8d4bda1ea156501751bcef6cd5a5729b905050ca",
+      "revision": "752f3d267d77719e596d3afa4ae097e1dfb12ae9",
       "url": null,
-      "hash": "sha256-YwiKZKQ/kXlH6sGNou3AfYc4Yt4zJL5+g4fDessc0qc="
+      "hash": "sha256-gUNBXaPee0fzYQTh4S8Snxn5KG1OcB4Q/7juw7bKHDw="
     },
     "wine-tkg": {
       "type": "Git",
@@ -290,9 +290,9 @@
       },
       "branch": "master",
       "submodules": false,
-      "revision": "ddc42ae08d2d2e0c21d8ef7c047a9ba638e4e25e",
-      "url": "https://github.com/Kron4ek/wine-tkg/archive/ddc42ae08d2d2e0c21d8ef7c047a9ba638e4e25e.tar.gz",
-      "hash": "sha256-gI2cV2BKvFLEp/bOrkFlK4qryrVCd7ZMsXLKXHYuCsU="
+      "revision": "0e76ac9c578eaa6f84cf7e1d0d96c69dd7d2ed4c",
+      "url": "https://github.com/Kron4ek/wine-tkg/archive/0e76ac9c578eaa6f84cf7e1d0d96c69dd7d2ed4c.tar.gz",
+      "hash": "sha256-JsFL+tVnUExu7zO1YI2vN0mYdPjI1o9zNl1JT68DFlE="
     },
     "wine-tkg-git": {
       "type": "Git",
