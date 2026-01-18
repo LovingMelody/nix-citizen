@@ -196,7 +196,11 @@ in
         lib.optionalString enforceWaylandDrv ''
           if [ $XDG_SESSION_TYPE != "x11" ]; then
             export DISPLAY=
-          fi''
+          fi
+          if [ -z "$DISPLAY" ]; then
+            set -- "$@" "--in-process-gpu"
+          fi
+        ''
       }
       cd "$WINEPREFIX"
 
@@ -204,10 +208,6 @@ in
         set +x
         echo "Entered Shell for star-citizen"
         exec ${lib.getExe bash};
-      fi
-
-      if [ -z "$DISPLAY" ]; then
-        set -- "$@" "--in-process-gpu"
       fi
 
       # Only execute gamemode if it exists on the system
