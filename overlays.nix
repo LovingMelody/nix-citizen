@@ -139,6 +139,8 @@ in {
         src = pins.dxvk-nvapi;
         version = "git+${pins.dxvk-nvapi.revision}";
       };
+      d7vk-w32 = final.pkgsCross.mingw32.callPackage "${inputs.nix-gaming}/pkgs/d7vk" {pins = nix-gaming-pins;};
+      d7vk-w64 = final.pkgsCross.mingwW64.callPackage "${inputs.nix-gaming}/pkgs/d7vk" {pins = nix-gaming-pins;};
 
       vkd3d-proton-w32 = final.pkgsCross.mingw32.callPackage "${inputs.nix-gaming}/pkgs/vkd3d-proton" {
         pins = nix-gaming-pins;
