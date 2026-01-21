@@ -70,7 +70,7 @@
   info = builtins.fromJSON (builtins.readFile ./info.json);
   # Latest version can be found: https://install.robertsspaceindustries.com/rel/2/latest.yml
 
-  gameScope = lib.strings.optionalString gameScopeEnable "gamescope ${concatStringsSep " " gameScopeArgs} --";
+  gameScope = lib.strings.optionalString gameScopeEnable "${lib.getExe gamescope} ${concatStringsSep " " gameScopeArgs} --";
 in
   stdenvNoCC.mkDerivation (finalAttrs: {
     inherit (info) version;
