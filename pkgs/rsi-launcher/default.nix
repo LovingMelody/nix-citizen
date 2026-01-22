@@ -70,7 +70,7 @@
   info = builtins.fromJSON (builtins.readFile ./info.json);
   # Latest version can be found: https://install.robertsspaceindustries.com/rel/2/latest.yml
 
-  gameScope = lib.strings.optionalString gameScopeEnable "${lib.getExe gamescope} ${concatStringsSep " " gameScopeArgs} --";
+  gameScope = lib.strings.optionalString gameScopeEnable "${builtins.baseNameOf (lib.getExe gamescope)} ${concatStringsSep " " gameScopeArgs} --";
 in
   stdenvNoCC.mkDerivation (finalAttrs: {
     inherit (info) version;
@@ -100,10 +100,16 @@ in
       #!${lib.getExe bash}
       set -x
       export PATH="${lib.makeBinPath finalAttrs.buildInputs}:$PATH"
+      # Winetricks is a pinned version, this isnt needed...
       export WINETRICKS_LATEST_VERSION_CHECK=disabled
       export WINEARCH="win64"
       mkdir -p "${location}"
       export WINEPREFIX="$(readlink -f "${location}")"
+
+      # This is intended to allow keeping a directory for persistence
+      # So you can keep the files you want if you recreate the prefix
+      # This is mostly for testing but it is planned to fully support this
+      # So recreating the wine prefix will be a later option..
       if [ -d "$WINEPREFIX/prefix" ]; then
          export WINEPREFIX="$WINEPREFIX/prefix"
       fi
@@ -136,7 +142,7 @@ in
       ''}
       export DXVK_ENABLE_NVAPI=1
 
-
+      # For whatever reason, your user isnt known if this isnt done...
       USER="$(whoami)"
       RSI_LAUNCHER="$WINEPREFIX/drive_c/Program Files/Roberts Space Industries/RSI Launcher/RSI Launcher.exe"
 
@@ -202,6 +208,7 @@ in
           fi
         ''
       }
+      # Set runtime path for wine & the shell path to be in the wine prefix
       cd "$WINEPREFIX"
 
       if [ "${"\${1:-}"}"  = "--shell" ]; then
