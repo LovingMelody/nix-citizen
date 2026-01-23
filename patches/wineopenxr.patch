@@ -1,0 +1,563 @@
+From f1c3210ab0a39a70d8f00e19bf8c97edb3eb47ac Mon Sep 17 00:00:00 2001
+From: Vingian <89702391+Vingian@users.noreply.github.com>
+Date: Thu, 22 Jan 2026 09:35:42 -0300
+Subject: [PATCH] Embed wineopenxr from Proton into Wine
+
+Patch set to embed wineopenxr from Proton into Wine.
+
+Based on:
+https://github.com/ValveSoftware/wine/commit/dc3f28561a698874f48b20214b466895efb1f9a9
+https://github.com/ValveSoftware/wine/commit/20ccda2439b876ed5e8edcec9be744dfe849cde9
+https://github.com/ValveSoftware/wine/commit/2685a7b09f9337b0d5e5cc39e9f12bac7e5dc9a3
+https://github.com/ValveSoftware/wine/commit/af24e2d44458fdeec303b720f17c3ef7d0259d01
+https://github.com/ValveSoftware/wine/commit/f258a47db8e32fad8e7782ae55ae526e0e4db569
+---
+ configure.ac                    |  1 +
+ dlls/ntdll/ntdll.spec           |  1 +
+ dlls/ntdll/signal_arm64ec.c     |  1 +
+ dlls/ntdll/unix/env.c           | 10 +++++
+ dlls/win32u/vulkan.c            | 78 ++++++++++++++++++++++++++++++--
+ dlls/wineopenxr/Makefile.in     |  1 +
+ dlls/wineopenxr/openxr_loader.c | 80 ++++++++++++++++++++++++++++++++-
+ dlls/wineopenxr/wineopenxr.spec |  2 +
+ dlls/winevulkan/loader.c        |  1 +
+ dlls/winevulkan/make_vulkan     | 34 +++++++++++++-
+ dlls/winevulkan/vulkan.c        | 46 +++++++++++++++++++
+ dlls/wow64/system.c             | 11 +++++
+ include/wine/vulkan_driver.h    |  1 +
+ include/winternl.h              |  3 +-
+ loader/wine.inf.in              |  1 +
+ 15 files changed, 264 insertions(+), 7 deletions(-)
+
+diff --git a/configure.ac b/configure.ac
+index 1d3165dff84..850c16ecf18 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -3364,6 +3364,7 @@ WINE_CONFIG_MAKEFILE(dlls/winegstreamer)
+ WINE_CONFIG_MAKEFILE(dlls/winehid.sys)
+ WINE_CONFIG_MAKEFILE(dlls/winemac.drv)
+ WINE_CONFIG_MAKEFILE(dlls/winemapi)
++WINE_CONFIG_MAKEFILE(dlls/wineopenxr)
+ WINE_CONFIG_MAKEFILE(dlls/wineoss.drv)
+ WINE_CONFIG_MAKEFILE(dlls/wineps.drv)
+ WINE_CONFIG_MAKEFILE(dlls/wineps16.drv16)
+diff --git a/dlls/ntdll/ntdll.spec b/dlls/ntdll/ntdll.spec
+index 46cd1dccab5..4745b0c5ba9 100644
+--- a/dlls/ntdll/ntdll.spec
++++ b/dlls/ntdll/ntdll.spec
+@@ -1753,6 +1753,7 @@
+ @ extern -private __wine_unix_call_dispatcher
+ @ extern -private -arch=arm64ec __wine_unix_call_dispatcher_arm64ec
+ @ extern -private __wine_unixlib_handle
++@ stdcall -syscall __wine_set_unix_env(ptr ptr)
+ 
+ # Debugging
+ @ stdcall -norelay __wine_dbg_write(ptr long)
+diff --git a/dlls/ntdll/signal_arm64ec.c b/dlls/ntdll/signal_arm64ec.c
+index 97ad7050843..965f8c53066 100644
+--- a/dlls/ntdll/signal_arm64ec.c
++++ b/dlls/ntdll/signal_arm64ec.c
+@@ -541,6 +541,7 @@ DEFINE_SYSCALL(NtResumeThread, (HANDLE handle, ULONG *count))
+ DEFINE_SYSCALL(NtRollbackTransaction, (HANDLE transaction, BOOLEAN wait))
+ DEFINE_SYSCALL(NtSaveKey, (HANDLE key, HANDLE file))
+ DEFINE_SYSCALL(NtSecureConnectPort, (HANDLE *handle, UNICODE_STRING *name, SECURITY_QUALITY_OF_SERVICE *qos, LPC_SECTION_WRITE *write, PSID sid, LPC_SECTION_READ *read, ULONG *max_len, void *info, ULONG *info_len))
++DEFINE_SYSCALL(__wine_set_unix_env, (const char *var, const char *val))
+ DEFINE_WRAPPED_SYSCALL(NtSetContextThread, (HANDLE handle, const ARM64_NT_CONTEXT *context))
+ DEFINE_SYSCALL(NtSetDebugFilterState, (ULONG component_id, ULONG level, BOOLEAN state))
+ DEFINE_SYSCALL(NtSetDefaultLocale, (BOOLEAN user, LCID lcid))
+diff --git a/dlls/ntdll/unix/env.c b/dlls/ntdll/unix/env.c
+index 4262d384c31..28928e137fe 100644
+--- a/dlls/ntdll/unix/env.c
++++ b/dlls/ntdll/unix/env.c
+@@ -2442,3 +2442,13 @@ void WINAPI RtlSetLastWin32Error( DWORD err )
+ #endif
+     teb->LastErrorValue = err;
+ }
++
++/**********************************************************************
++ *      __wine_set_unix_env  (ntdll.so)
++ */
++NTSTATUS WINAPI __wine_set_unix_env( const char *var, const char *val )
++{
++    if (!val) unsetenv(var);
++    else setenv(var, val, 1);
++    return 0;
++}
+\ No newline at end of file
+diff --git a/dlls/win32u/vulkan.c b/dlls/win32u/vulkan.c
+index 6b8901da0f6..bda059b80e4 100644
+--- a/dlls/win32u/vulkan.c
++++ b/dlls/win32u/vulkan.c
+@@ -407,11 +407,15 @@ static void free_debug_report_callbacks( struct list *callbacks )
+ 
+ static VkResult convert_instance_create_info( struct mempool *pool, VkInstanceCreateInfo *info, struct instance *instance )
+ {
+-    const VkBaseInStructure *header = (const VkBaseInStructure *)info;
++    VkBaseInStructure *header = (VkBaseInStructure *)info;
+     const VkDebugReportCallbackCreateInfoEXT *debug_report_callback;
+     const char **extensions;
+     uint32_t count = 0;
+ 
++    if ((header = header->pNext) && header->sType == VK_STRUCTURE_TYPE_CREATE_INFO_WINE_INSTANCE_CALLBACK)
++        info->pNext = header->pNext;
++
++    header = (VkBaseInStructure *)info;
+     while ((header = find_next_struct( header->pNext, VK_STRUCTURE_TYPE_DEBUG_UTILS_MESSENGER_CREATE_INFO_EXT )))
+     {
+         const VkDebugUtilsMessengerCreateInfoEXT *debug_utils_messenger = (const VkDebugUtilsMessengerCreateInfoEXT *)header;
+@@ -542,6 +546,8 @@ static VkResult init_physical_device( struct vulkan_physical_device *physical_de
+     extensions.has_VK_KHR_win32_keyed_mutex = extensions.has_VK_KHR_timeline_semaphore &&
+                                               extensions.has_VK_KHR_external_semaphore_fd;
+ 
++    extensions.has_VK_WINE_openxr_device_extensions = 1;
++
+     /* filter out unsupported client device extensions */
+ #define USE_VK_EXT(x) client_physical_device->extensions.has_ ## x = extensions.has_ ## x;
+     ALL_VK_CLIENT_DEVICE_EXTS
+@@ -596,6 +602,9 @@ static VkResult init_physical_devices( struct vulkan_instance *instance, struct
+ static VkResult win32u_vkCreateInstance( const VkInstanceCreateInfo *client_create_info, const VkAllocationCallbacks *allocator,
+                                          VkInstance *client_instance_ptr )
+ {
++    PFN_native_vkCreateInstance native_create_instance = NULL;
++    void *native_create_instance_context = NULL;
++    VkCreateInfoWineInstanceCallback *callback;
+     VkInstanceCreateInfo *create_info = (VkInstanceCreateInfo *)client_create_info; /* cast away const, chain has been copied in the thunks */
+     VkInstance host_instance = VK_NULL_HANDLE, client_instance = *client_instance_ptr;
+     struct vulkan_physical_device *physical_devices;
+@@ -611,8 +620,20 @@ static VkResult win32u_vkCreateInstance( const VkInstanceCreateInfo *client_crea
+     list_init( &instance->utils_messengers );
+     list_init( &instance->report_callbacks );
+ 
++    if ((callback = (VkCreateInfoWineInstanceCallback *)create_info->pNext)
++            && callback->sType == VK_STRUCTURE_TYPE_CREATE_INFO_WINE_INSTANCE_CALLBACK)
++    {
++        native_create_instance = callback->native_create_callback;
++        native_create_instance_context = callback->context;
++    }
++
+     if ((res = convert_instance_create_info( &pool, create_info, instance ))) goto failed;
+-    if ((res = p_vkCreateInstance( create_info, NULL /* allocator */, &host_instance ))) goto failed;
++    if (native_create_instance)
++        res = native_create_instance( create_info, NULL /* allocator */, &host_instance,
++                (void *)p_vkGetInstanceProcAddr, native_create_instance_context );
++    else
++        res = p_vkCreateInstance( create_info, NULL /* allocator */, &host_instance );
++    if (res) goto failed;
+ 
+     vulkan_object_init_ptr( &instance->obj.obj, (UINT_PTR)host_instance, &client_instance->obj );
+     instance->obj.p_insert_object = vulkan_instance_insert_object;
+@@ -668,6 +689,24 @@ static void win32u_vkDestroyInstance( VkInstance client_instance, const VkAlloca
+     free( instance );
+ }
+ 
++static inline int has_extension(const char *extensions, const char *extension)
++{
++    char *exts = strdup( extensions );
++    if (exts)
++    {
++        char *token = strtok( exts, " " );
++        while (token) {
++            if (!strcmp( token, extension )) {
++                free( exts );
++                return 1;
++            }
++            token = strtok( NULL, " " );
++        }
++        free( exts );
++    }
++    return 0;
++}
++
+ static VkResult convert_device_create_info( struct vulkan_physical_device *physical_device, VkDeviceCreateInfo *info,
+                                             struct mempool *pool, struct vulkan_device *device )
+ {
+@@ -675,6 +714,10 @@ static VkResult convert_device_create_info( struct vulkan_physical_device *physi
+     const char **extensions;
+     uint32_t count = 0;
+ 
++    VkBaseOutStructure *header = (VkBaseOutStructure *)info;
++    if ((header = header->pNext) && header->sType == VK_STRUCTURE_TYPE_CREATE_INFO_WINE_DEVICE_CALLBACK)
++        info->pNext = header->pNext;
++
+     /* Should be filtered out by loader as ICDs don't support layers. */
+     info->enabledLayerCount = 0;
+     info->ppEnabledLayerNames = NULL;
+@@ -686,6 +729,17 @@ static VkResult convert_device_create_info( struct vulkan_physical_device *physi
+         device->extensions.has_VK_KHR_external_semaphore = 1;
+     }
+ 
++    if (device->extensions.has_VK_WINE_openxr_device_extensions)
++    {
++        char *exts = getenv("__WINE_OPENXR_VK_DEVICE_EXTENSIONS");
++        if (exts) {
++#define USE_VK_EXT(x) if (has_extension( exts, #x )) device->extensions.has_ ## x = 1;
++            ALL_VK_DEVICE_EXTS
++#undef USE_VK_EXT
++        }
++        device->extensions.has_VK_WINE_openxr_device_extensions = 0;
++    }
++
+     driver_funcs->p_map_device_extensions( &device->extensions );
+     device->extensions.has_VK_KHR_win32_keyed_mutex = 0;
+     device->extensions.has_VK_KHR_external_memory_win32 = 0;
+@@ -774,6 +828,10 @@ static VkResult win32u_vkCreateDevice( VkPhysicalDevice client_physical_device,
+     struct mempool pool = {0};
+     VkResult res;
+ 
++    PFN_native_vkCreateDevice native_create_device = NULL;
++    void *native_create_device_context = NULL;
++    VkCreateInfoWineDeviceCallback *callback;
++
+     if (TRACE_ON(vulkan))
+     {
+         VkPhysicalDeviceProperties properties = {0};
+@@ -789,8 +847,22 @@ static VkResult win32u_vkCreateDevice( VkPhysicalDevice client_physical_device,
+     if (!(device = calloc( 1, offsetof(struct vulkan_device, queues[queue_count]) ))) return VK_ERROR_OUT_OF_HOST_MEMORY;
+     device->extensions = client_device->extensions;
+ 
++    if ((callback = (VkCreateInfoWineDeviceCallback *)create_info->pNext)
++            && callback->sType == VK_STRUCTURE_TYPE_CREATE_INFO_WINE_DEVICE_CALLBACK)
++    {
++        native_create_device = callback->native_create_callback;
++        native_create_device_context = callback->context;
++    }
++
+     if ((res = convert_device_create_info( physical_device, create_info, &pool, device ))) goto failed;
+-    if ((res = instance->p_vkCreateDevice( physical_device->host.physical_device, create_info, NULL /* allocator */, &host_device ))) goto failed;
++    if (native_create_device)
++        res = native_create_device( physical_device->host.physical_device, create_info,
++                                    NULL /* allocator */, &host_device,
++                                    (void *)p_vkGetInstanceProcAddr, native_create_device_context);
++    else
++        res = instance->p_vkCreateDevice( physical_device->host.physical_device, create_info,
++                                          NULL /* allocator */, &host_device );
++    if (res) goto failed;
+ 
+     vulkan_object_init_ptr( &device->obj, (UINT_PTR)host_device, &client_device->obj );
+     device->physical_device = physical_device;
+diff --git a/dlls/wineopenxr/Makefile.in b/dlls/wineopenxr/Makefile.in
+index 05583209bba..5be3dd264a6 100644
+--- a/dlls/wineopenxr/Makefile.in
++++ b/dlls/wineopenxr/Makefile.in
+@@ -1,6 +1,7 @@
+ MODULE     = wineopenxr.dll
+ UNIXLIB    = wineopenxr.so
+ IMPORTS    = advapi32 user32 dxgi winevulkan
++UNIX_LIBS  = -lopenxr_loader
+ 
+ EXTRADEFS  = -DWINE_NO_LONG_TYPES
+ 
+diff --git a/dlls/wineopenxr/openxr_loader.c b/dlls/wineopenxr/openxr_loader.c
+index 0c330fd46be..d89c3be6aef 100644
+--- a/dlls/wineopenxr/openxr_loader.c
++++ b/dlls/wineopenxr/openxr_loader.c
+@@ -110,11 +110,14 @@ static BOOL get_vulkan_extensions(void) {
+   HANDLE event;
+   HKEY vr_key;
+ 
+-  if ((status = RegOpenKeyExA(HKEY_CURRENT_USER, "Software\\Wine\\VR", 0, KEY_READ, &vr_key))) {
++  if ((status = RegOpenKeyExA(HKEY_CURRENT_USER, "Software\\Wine\\XR", 0, KEY_READ, &vr_key))) {
+     ERR("Could not create key, status %#x.\n", status);
+     return FALSE;
+   }
+ 
++  value = 1;
++  goto done;
++
+   size = sizeof(value);
+   if ((status = RegQueryValueExA(vr_key, "state", NULL, &type, (BYTE *)&value, &size))) {
+     ERR("Could not query value, status %#x.\n", status);
+@@ -216,12 +219,15 @@ static BOOL wine_openxr_unix_init_once(void) {
+   return InitOnceExecuteOnce(&init_once, wine_openxr_unix_init, NULL, NULL);
+ }
+ 
++BOOL CDECL wineopenxr_init_registry(void);
+ static XrResult wine_openxr_init_once(void) {
+   if (g_instance_extensions || g_device_extensions) {
+     /* already done */
+     return XR_SUCCESS;
+   }
+ 
++  wineopenxr_init_registry();
++
+   if (!wine_openxr_unix_init_once()) {
+     return XR_ERROR_INITIALIZATION_FAILED;
+   }
+@@ -1979,7 +1985,12 @@ BOOL CDECL wineopenxr_init_registry(void)
+     LSTATUS status;
+     HKEY vr_key;
+ 
+-    if ((status = RegOpenKeyExA( HKEY_CURRENT_USER, "Software\\Wine\\VR", 0, KEY_ALL_ACCESS, &vr_key )))
++    static LONG init = 0;
++    if (InterlockedCompareExchange( &init, 1, 0 ) != 0)
++        return TRUE;
++
++    if ((status = RegCreateKeyExW( HKEY_CURRENT_USER, L"Software\\Wine\\XR", 0, NULL,
++                                   REG_OPTION_VOLATILE, KEY_ALL_ACCESS, NULL, &vr_key, NULL )))
+     {
+         WARN( "Could not open key, status %#x.\n", status );
+         return FALSE;
+@@ -2006,3 +2017,68 @@ BOOL CDECL wineopenxr_init_registry(void)
+     RegCloseKey( vr_key );
+     return TRUE;
+ }
++
++BOOL WINAPI DllMain(HINSTANCE hinst, DWORD reason, void *reserved)
++{
++    switch (reason)
++    {
++        case DLL_PROCESS_ATTACH:
++            DisableThreadLibraryCalls(hinst);
++            break;
++    }
++    return TRUE;
++}
++
++static const char openxr_json_content[] = 
++    "{\n"
++    "    \"file_format_version\": \"1.0.0\",\n"
++    "    \"runtime\": {\n"
++    "        \"library_path\": \".\\\\wineopenxr.dll\"\n"
++    "    }\n"
++    "}\n";
++static const WCHAR openxr_json_pathW[] = L"\\wineopenxr.json";
++static const WCHAR openxr_runtimeW[] = L"Software\\Khronos\\OpenXR\\1";
++
++HRESULT WINAPI DllRegisterServer(void)
++{
++    WCHAR json_path[MAX_PATH];
++    DWORD written;
++    HANDLE file;
++    HKEY key;
++
++    GetSystemDirectoryW(json_path, ARRAY_SIZE(json_path));
++    lstrcatW(json_path, openxr_json_pathW);
++    file = CreateFileW(json_path, GENERIC_WRITE, 0, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
++    if (file == INVALID_HANDLE_VALUE)
++    {
++        ERR("Unable to create JSON manifest.\n");
++        return E_UNEXPECTED;
++    }
++    WriteFile(file, openxr_json_content, sizeof(openxr_json_content) - 1, &written, NULL);
++    CloseHandle(file);
++
++    if (!RegCreateKeyExW(HKEY_LOCAL_MACHINE, openxr_runtimeW, 0, NULL, 0, KEY_SET_VALUE, NULL, &key, NULL))
++    {
++        RegSetValueExW(key, L"ActiveRuntime", 0, REG_SZ, (const BYTE *)json_path, (wcslen(json_path) + 1) * sizeof(WCHAR));
++        RegCloseKey(key);
++    }
++    return S_OK;
++}
++
++HRESULT WINAPI DllUnregisterServer(void)
++{
++    WCHAR json_path[MAX_PATH];
++    HKEY key;
++
++    GetSystemDirectoryW(json_path, ARRAY_SIZE(json_path));
++    lstrcatW(json_path, openxr_json_pathW);
++    DeleteFileA(json_path);
++
++    if (RegOpenKeyExW(HKEY_LOCAL_MACHINE, openxr_runtimeW, 0, KEY_SET_VALUE, &key) == ERROR_SUCCESS)
++    {
++        RegDeleteValueW(key, L"ActiveRuntime");
++        RegCloseKey(key);
++    }
++
++    return S_OK;
++}
+\ No newline at end of file
+diff --git a/dlls/wineopenxr/wineopenxr.spec b/dlls/wineopenxr/wineopenxr.spec
+index 4c522146219..1380b884ba9 100644
+--- a/dlls/wineopenxr/wineopenxr.spec
++++ b/dlls/wineopenxr/wineopenxr.spec
+@@ -3,3 +3,5 @@
+ @ stdcall __wineopenxr_GetVulkanDeviceExtensions(long ptr ptr)
+ 
+ @ cdecl -private wineopenxr_init_registry()
++@ stdcall -private DllRegisterServer()
++@ stdcall -private DllUnregisterServer()
+diff --git a/dlls/winevulkan/loader.c b/dlls/winevulkan/loader.c
+index 33a3c80e3f4..1420b5b54ad 100644
+--- a/dlls/winevulkan/loader.c
++++ b/dlls/winevulkan/loader.c
+@@ -642,6 +642,7 @@ VkResult WINAPI vkCreateDevice(VkPhysicalDevice physical_device, const VkDeviceC
+     for (uint32_t i = 0; i < create_info->enabledExtensionCount; i++)
+     {
+         const char *extension = create_info->ppEnabledExtensionNames[i];
++        if (!strcmp(extension, "VK_WINE_openxr_device_extensions")) continue;
+         if (!is_device_extension_supported(physical_device, extension, &extensions))
+             return VK_ERROR_EXTENSION_NOT_PRESENT;
+         TRACE("  - %s\n", extension);
+diff --git a/dlls/winevulkan/make_vulkan b/dlls/winevulkan/make_vulkan
+index 792f1d955e2..78dd0177fac 100755
+--- a/dlls/winevulkan/make_vulkan
++++ b/dlls/winevulkan/make_vulkan
+@@ -2262,7 +2262,18 @@ class StructConversionFunction(object):
+ 
+             body += "        default:\n"
+             if self.direction == Direction.INPUT:
+-                body += ident + "FIXME(\"Unhandled sType %u.\\n\", in_header->sType);\n"
++                body += ident + "if ((in_header->sType >> 16) == 0x7ead)\n"
++                body += ident + "{\n"
++                body += ident + "    VkBaseOutStructure *out_ext = conversion_context_alloc(ctx, 32);\n";
++                body += ident + "    memcpy(out_ext, in_header, 32);\n";
++                body += ident + "    out_ext->pNext = NULL;\n";
++                body += ident + "    out_header->pNext = (void *)out_ext;\n";
++                body += ident + "    out_header = (void *)out_ext;\n";
++                body += ident + "}\n"
++                body += ident + "else\n"
++                body += ident + "{\n"
++                body += ident + "    FIXME(\"Unhandled sType %u.\\n\", in_header->sType);\n"
++                body += ident + "}\n"
+             body += "            break;\n"
+             body += "        }\n"
+             body += "    }\n"
+@@ -2885,6 +2896,27 @@ class VkGenerator(object):
+                 f.write(f" \\\n    USE_VK_EXT({name})")
+         f.write("\n\n")
+ 
++        f.write("typedef VkResult (*PFN_native_vkCreateInstance)(const VkInstanceCreateInfo *, const VkAllocationCallbacks *, VkInstance *,\n")
++        f.write("                                                       void * (*)(VkInstance, const char *), void *);\n");
++        f.write("typedef VkResult (*PFN_native_vkCreateDevice)(VkPhysicalDevice, const VkDeviceCreateInfo *, const VkAllocationCallbacks *, VkDevice *,\n");
++        f.write("                                                     void * (*)(VkInstance, const char *), void *);\n\n");
++
++        f.write("typedef struct VkCreateInfoWineDeviceCallback {\n");
++        f.write("    VkStructureType             sType;\n");
++        f.write("    const void*                 pNext;\n");
++        f.write("    PFN_native_vkCreateDevice   native_create_callback;\n");
++        f.write("    void*                       context;\n");
++        f.write("} VkCreateInfoWineDeviceCallback;\n");
++        f.write("#define VK_STRUCTURE_TYPE_CREATE_INFO_WINE_DEVICE_CALLBACK 2125312001\n\n");
++
++        f.write("typedef struct VkCreateInfoWineInstanceCallback {\n");
++        f.write("    VkStructureType             sType;\n");
++        f.write("    const void*                 pNext;\n");
++        f.write("    PFN_native_vkCreateInstance native_create_callback;\n");
++        f.write("    void*                       context;\n");
++        f.write("} VkCreateInfoWineInstanceCallback;\n");
++        f.write("#define VK_STRUCTURE_TYPE_CREATE_INFO_WINE_INSTANCE_CALLBACK 2125312002\n\n");
++
+         f.write("#endif /* __WINE_VULKAN_H */\n")
+ 
+     def generate_vulkan_spec(self, f):
+diff --git a/dlls/winevulkan/vulkan.c b/dlls/winevulkan/vulkan.c
+index 0f49148ee15..0e0d86dd30f 100644
+--- a/dlls/winevulkan/vulkan.c
++++ b/dlls/winevulkan/vulkan.c
+@@ -1025,3 +1025,49 @@ NTSTATUS vk_is_available_device_function32(void *arg)
+     } *params = arg;
+     return is_available_device_function(UlongToPtr(params->device), UlongToPtr(params->name));
+ }
++
++DECLSPEC_EXPORT VkDevice __wine_get_native_VkDevice(VkDevice handle)
++{
++    struct vulkan_device *device = vulkan_device_from_handle(handle);
++
++    return device->host.device;
++}
++
++DECLSPEC_EXPORT VkInstance __wine_get_native_VkInstance(VkInstance handle)
++{
++    struct vulkan_instance *instance = vulkan_instance_from_handle(handle);
++
++    return instance->host.instance;
++}
++
++DECLSPEC_EXPORT VkPhysicalDevice __wine_get_native_VkPhysicalDevice(VkPhysicalDevice handle)
++{
++    struct vulkan_physical_device *phys_dev;
++
++    if (!handle) return NULL;
++
++    phys_dev = vulkan_physical_device_from_handle(handle);
++    return phys_dev->host.physical_device;
++}
++
++DECLSPEC_EXPORT VkQueue __wine_get_native_VkQueue(VkQueue handle)
++{
++    struct vulkan_queue *queue = vulkan_queue_from_handle(handle);
++
++    return queue->host.queue;
++}
++
++DECLSPEC_EXPORT VkPhysicalDevice __wine_get_wrapped_VkPhysicalDevice(VkInstance handle, VkPhysicalDevice native_phys_dev)
++{
++    struct vulkan_instance *instance = vulkan_instance_from_handle(handle);
++    unsigned int i;
++
++    for (i = 0; i < instance->physical_device_count; ++i)
++    {
++        if (instance->physical_devices[i].host.physical_device == native_phys_dev)
++            return instance->physical_devices[i].client.physical_device;
++    }
++
++    ERR("Unknown native physical device: %p, instance %p, handle %p\n", native_phys_dev, instance, handle);
++    return NULL;
++}
+\ No newline at end of file
+diff --git a/dlls/wow64/system.c b/dlls/wow64/system.c
+index fd10a0585ce..4a762878f19 100644
+--- a/dlls/wow64/system.c
++++ b/dlls/wow64/system.c
+@@ -857,3 +857,14 @@ NTSTATUS WINAPI wow64_NtWow64GetNativeSystemInformation( UINT *args )
+         return STATUS_INVALID_INFO_CLASS;
+     }
+ }
++
++/**********************************************************************
++ *           wow64___wine_set_unix_env
++ */
++NTSTATUS WINAPI wow64___wine_set_unix_env( UINT *args )
++{
++    const char *var = get_ptr( &args );
++    const char *val = get_ptr( &args );
++
++    return __wine_set_unix_env( var, val );
++}
+\ No newline at end of file
+diff --git a/include/wine/vulkan_driver.h b/include/wine/vulkan_driver.h
+index d2e2db3e360..94cf6550545 100644
+--- a/include/wine/vulkan_driver.h
++++ b/include/wine/vulkan_driver.h
+@@ -55,6 +55,7 @@ struct vulkan_device_extensions
+ #define USE_VK_EXT(x) unsigned has_ ## x : 1;
+     ALL_VK_DEVICE_EXTS
+ #undef USE_VK_EXT
++    unsigned has_VK_WINE_openxr_device_extensions : 1;
+ };
+ 
+ struct VkPhysicalDevice_T
+diff --git a/include/winternl.h b/include/winternl.h
+index 80c295f0dce..d5283ff20c1 100644
+--- a/include/winternl.h
++++ b/include/winternl.h
+@@ -5301,6 +5301,8 @@ NTSYSAPI NTSTATUS  WINAPI vDbgPrintExWithPrefix(LPCSTR,ULONG,ULONG,LPCSTR,__ms_v
+ 
+ /* 32-bit or 64-bit only functions */
+ 
++NTSYSAPI NTSTATUS WINAPI __wine_set_unix_env( const char *var, const char *val );
++
+ #ifdef _WIN64
+ NTSYSAPI void      WINAPI RtlOpenCrossProcessEmulatorWorkConnection(HANDLE,HANDLE*,void**);
+ NTSYSAPI NTSTATUS  WINAPI RtlWow64GetCpuAreaInfo(WOW64_CPURESERVED*,ULONG,WOW64_CPU_AREA_INFO*);
+@@ -5338,7 +5340,6 @@ NTSYSAPI LONGLONG  WINAPI RtlLargeIntegerSubtract(LONGLONG,LONGLONG);
+ NTSYSAPI NTSTATUS  WINAPI RtlLargeIntegerToChar(const ULONGLONG *,ULONG,ULONG,PCHAR);
+ #endif
+ 
+-
+ /***********************************************************************
+  * Inline functions
+  */
+diff --git a/loader/wine.inf.in b/loader/wine.inf.in
+index 80a4a062351..f4e788e9210 100644
+--- a/loader/wine.inf.in
++++ b/loader/wine.inf.in
+@@ -705,6 +705,7 @@ HKLM,SOFTWARE\Microsoft\VisualStudio\14.0\VC\Runtimes\x86,"Version",2,"14.42.344
+ 11,,vidreszr.dll,1
+ 11,,windowscodecs.dll,1
+ 11,,winegstreamer.dll,1
++11,,wineopenxr.dll,1
+ 55,,wineps.drv,1
+ 11,,winevulkan.dll,1
+ 55,,winprint.dll,1

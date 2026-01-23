@@ -28,6 +28,8 @@ in
     enableAvx2 ? stdenv.hostPlatform.avx2Support,
     enableFma ? stdenv.hostPlatform.fmaSupport,
     llvmPackages_latest,
+    openxr-loader,
+    bash,
   }: let
     sources = (import "${inputs.nixpkgs}/pkgs/applications/emulators/wine/sources.nix" {inherit pkgs;}).unstable;
     supportFlags = import ./supportFlags.nix;
@@ -135,22 +137,23 @@ in
               "${tkg-patch-dir}/hotfixes/NosTale/nostale_mouse_fix.mypatch"
               "${tkg-patch-dir}/hotfixes/autoconf-opencl-hotfix/opencl-fixup.mypatch"
               "${inputs.self}/patches/hags.mypatch"
-              # Fixes RSI Launcher startup time delay
+              "${inputs.self}/patches/wineopenxr.patch"
             ]
             ++ map (f: "${cleanedPatches}/${f}") lug-patches;
         in
           patches;
-      })).overrideAttrs (old: {
-      patchedSource = pkgs.applyPatches {
-        name = "wine-astral-srouce";
-        inherit (old) src patches;
-      };
+      })).overrideAttrs (old: rec {
+      inherit (pins) proton;
       passthru = {
         inherit (sources) updateScript;
       };
       prePatch = ''
+        # Copy over wineopenxr to the source root
+        cp --reflink=auto -av ${proton}/wineopenxr ./dlls/wineopenxr
+        chmod -R +w .
         ${old.prePatch or ""}
         patchShebangs tools
+        patchShebangs dlls
         # WineTKG patches need this path to exist for patches to apply properly
         echo -e "*.patch\n*.orig\n*~\n.gitignore\nautom4te.cache/*" > .gitignore
       '';
@@ -160,6 +163,9 @@ in
         substituteInPlace "loader/wine.inf.in" --replace-warn \
           'HKLM,%CurrentVersion%\RunServices,"winemenubuilder",2,"%11%\winemenubuilder.exe -a -r"' \
           'HKLM,%CurrentVersion%\RunServices,"winemenubuilder",2,"%11%\winemenubuilder.exe -r"'
+        ./dlls/winevulkan/make_vulkan --xml ${vk_xml} --video-xml ${vk_video_xml}
+        ./tools/make_requests
+        ./tools/make_specfiles
         autoreconf -f
         autoreconf -fiv
       '';
@@ -167,17 +173,28 @@ in
       #  NOTE: Star Citizen requires a minimum of x86-64-v3 due to AVX requirements.
       # We can build wine-astral with support since its intended for Star Citizen.
       env = {
+        XDG_CACHE_HOME = "$src/build-cache";
         NIX_CFLAGS_COMPILE =
           builtins.concatStringsSep " "
           (
             [
               "-Wno-error=implicit-function-declaration"
               "-Wno-error=incompatible-pointer-types"
+              "-Wno-error=int-conversion"
             ]
             ++ lib.optional (! enableAvx2) "-mavx"
             ++ lib.optional enableAvx2 "-mavx2"
             ++ lib.optional enableFma "-mfma"
           );
+      };
+      vk_version = "1.4.335"; # TODO: Read this from dlls/winevulkan/make_vulkan
+      vk_xml = fetchurl {
+        url = "https://raw.githubusercontent.com/KhronosGroup/Vulkan-Docs/v${vk_version}/xml/vk.xml";
+        hash = "sha256-fPPX7HQ3H0OV0iHAWqI9mUpeA9DM+2JpxgOZ0zNVG80=";
+      };
+      vk_video_xml = fetchurl {
+        url = "https://raw.githubusercontent.com/KhronosGroup/Vulkan-Docs/v${vk_version}/xml/video.xml";
+        hash = "sha256-IO0AWs2kfq2KXQ0JFzXWpXw2QbHYFxs2STujlSelbAk";
       };
 
       nativeBuildInputs =
@@ -188,6 +205,7 @@ in
           perl
           python3
           gitMinimal
+          bash
         ];
       buildInputs =
         old.buildInputs
@@ -196,6 +214,8 @@ in
           perl
           gitMinimal
           updatedHeaders
+          openxr-loader
+          bash
         ]
         ++ lib.optional stdenv.hostPlatform.isLinux util-linux;
     })

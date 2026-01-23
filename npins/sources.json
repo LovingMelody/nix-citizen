@@ -228,6 +228,19 @@
       "url": "https://github.com/starcitizen-lug/patches/archive/8d3895dadb8e493788e4e6a3cb9c3511290542f3.tar.gz",
       "hash": "sha256-8CsWZaJTSj/8xrPE+SYQjL6HWwqStn+i1KAtLGC9XwA="
     },
+    "proton": {
+      "type": "Git",
+      "repository": {
+        "type": "GitHub",
+        "owner": "ValveSoftware",
+        "repo": "Proton"
+      },
+      "branch": "bleeding-edge",
+      "submodules": false,
+      "revision": "24a65806de4ca9fdc46abddf0d92fb3db6426f28",
+      "url": "https://github.com/ValveSoftware/Proton/archive/24a65806de4ca9fdc46abddf0d92fb3db6426f28.tar.gz",
+      "hash": "sha256-jMIonU9zLIjQg24xq/MklKrGzV4td3KC9ki2IinhHnc="
+    },
     "vkd3d-proton": {
       "type": "Git",
       "repository": {
