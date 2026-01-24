@@ -12,7 +12,7 @@ https://github.com/ValveSoftware/wine/commit/2685a7b09f9337b0d5e5cc39e9f12bac7e5
 https://github.com/ValveSoftware/wine/commit/af24e2d44458fdeec303b720f17c3ef7d0259d01
 https://github.com/ValveSoftware/wine/commit/f258a47db8e32fad8e7782ae55ae526e0e4db569
 ---
- configure.ac                    |  1 +
+ configure.ac                    |  3 +
  dlls/ntdll/ntdll.spec           |  1 +
  dlls/ntdll/signal_arm64ec.c     |  1 +
  dlls/ntdll/unix/env.c           | 10 +++++
@@ -30,9 +30,18 @@ https://github.com/ValveSoftware/wine/commit/f258a47db8e32fad8e7782ae55ae526e0e4
  15 files changed, 264 insertions(+), 7 deletions(-)
 
 diff --git a/configure.ac b/configure.ac
-index 1d3165dff84..850c16ecf18 100644
+index 1d3165dff84..0332787b8cd 100644
 --- a/configure.ac
 +++ b/configure.ac
+@@ -2384,6 +2384,8 @@
+ 
+ dnl *** Check for modules to disable by default
+ 
++test $HOST_ARCH = x86_64 && enable_wineopenxr=${enable_wineopenxr:-x86_64} || enable_wineopenxr=${enable_wineopenxr:-no}
++
+ enable_vcruntime140_1=${enable_vcruntime140_1:-x86_64,arm64ec}
+ 
+ if test -n "$PE_ARCHS"
 @@ -3364,6 +3364,7 @@ WINE_CONFIG_MAKEFILE(dlls/winegstreamer)
  WINE_CONFIG_MAKEFILE(dlls/winehid.sys)
  WINE_CONFIG_MAKEFILE(dlls/winemac.drv)

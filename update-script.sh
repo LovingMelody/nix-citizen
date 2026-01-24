@@ -11,4 +11,8 @@ nix-update --flake lug-helper
 
 npins update
 
+# Update wine-astral sources
+# This has to be done after pins are updated
+./pkgs/wine-astral/update.sh
+
 nix fmt

@@ -32,6 +32,7 @@ in
     bash,
   }: let
     sources = (import "${inputs.nixpkgs}/pkgs/applications/emulators/wine/sources.nix" {inherit pkgs;}).unstable;
+    extraSources = builtins.fromJSON (builtins.readFile ./vk-sources.json);
     supportFlags = import ./supportFlags.nix;
     nixpkgs-wine = builtins.path {
       path = inputs.nixpkgs;
@@ -187,14 +188,34 @@ in
             ++ lib.optional enableFma "-mfma"
           );
       };
-      vk_version = "1.4.335"; # TODO: Read this from dlls/winevulkan/make_vulkan
+
+      # We have to call dlls/winevulkan/make_vukan
+      # but this attempts to fetch the XMLs on the web
+      # Which isnt allowed due to sandboxing
+      # To fix this, we fetch the expected version from the script
+      # And provide the expected files as arguments
+      vk_version = let
+        script = builtins.readFile "${old.src}/dlls/winevulkan/make_vulkan";
+
+        lines = builtins.filter builtins.isString (builtins.split "\n" script);
+
+        matches = builtins.filter (m: m != null) (map (
+            line:
+              builtins.match ''^[[:space:]]*VK_XML_VERSION[[:space:]]*=[[:space:]]*"([^"]+)".*'' line
+          )
+          lines);
+      in
+        if matches == []
+        then throw "VK_XML_VERSION not found in dlls/winevulkan/make_vulkan"
+        else builtins.elemAt (builtins.head matches) 0;
+
       vk_xml = fetchurl {
         url = "https://raw.githubusercontent.com/KhronosGroup/Vulkan-Docs/v${vk_version}/xml/vk.xml";
-        hash = "sha256-fPPX7HQ3H0OV0iHAWqI9mUpeA9DM+2JpxgOZ0zNVG80=";
+        hash = extraSources.vk_hash;
       };
       vk_video_xml = fetchurl {
         url = "https://raw.githubusercontent.com/KhronosGroup/Vulkan-Docs/v${vk_version}/xml/video.xml";
-        hash = "sha256-IO0AWs2kfq2KXQ0JFzXWpXw2QbHYFxs2STujlSelbAk";
+        hash = extraSources.video_hash;
       };
 
       nativeBuildInputs =
