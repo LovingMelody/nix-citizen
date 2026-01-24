@@ -1,7 +1,7 @@
 {
-  "version": "10.18-2",
-  "staging_url": "https://github.com/starcitizen-lug/lug-wine/releases/download/10.18-2/lug-wine-tkg-staging-git-10.18-2.tar.gz",
-  "staging_hash": "sha256-3bauRhdbb+oHEyqFWCOVmRLj47FxFO18qVb5QfnBvJk=",
-  "base_url": "https://github.com/starcitizen-lug/lug-wine/releases/download/10.18-2/lug-wine-tkg-git-10.18-2.tar.gz",
-  "base_hash": "sha256-vmLmamSE1y6BgX0EpaG79vpsYO1pz6p5gNulJ5fIciw="
+  "version": "11.0-1",
+  "staging_url": "https://github.com/starcitizen-lug/lug-wine/releases/download/11.0-1/lug-wine-tkg-staging-git-11.0-1.tar.gz",
+  "staging_hash": "sha256-mV+wmkjaPvNPTk4lRK9m17FLmqkGlF9u2eWKJh/dqQ8=",
+  "base_url": "https://github.com/starcitizen-lug/lug-wine/releases/download/11.0-1/lug-wine-tkg-git-11.0-1.tar.gz",
+  "base_hash": "sha256-qzSxJ/aMxIDYUGMsyh19ojdczxCrdNf2+2ZZDAqWPH0="
 }

@@ -169,9 +169,9 @@
       },
       "branch": "master",
       "submodules": true,
-      "revision": "77d57f2dcf3d4df0c3904b3c47bd4d82a966d3a1",
+      "revision": "c27ef1c43a93741ec1e8d1dc55b6bcf2444a471f",
       "url": null,
-      "hash": "sha256-ua0UiZvRIKZM4bmBnl59a6kqcwSXdgkEPYHjXw3f15I="
+      "hash": "sha256-U9zghjTyl49ilF24LYViGZTVkxRrBt17sarQ2lD5J8Y="
     },
     "dxvk-gplasync": {
       "type": "Git",
@@ -195,9 +195,9 @@
       },
       "branch": "master",
       "submodules": true,
-      "revision": "294ef49c14d4c43223b2a238eadc251c81bd9719",
+      "revision": "9a908baf963d6c69b882fbc0934f2c3b471b1a5e",
       "url": null,
-      "hash": "sha256-SWck8XOBTAYHaN+UjC58vk3tFtVp9Nmc3aBpZ71Jvko="
+      "hash": "sha256-/8cJzLIDI6LgunZ7K2nFkmAgEhdvY8FVPYuOyyDqtNk="
     },
     "glslang": {
       "type": "GitRelease",
@@ -210,10 +210,10 @@
       "version_upper_bound": null,
       "release_prefix": null,
       "submodules": false,
-      "version": "16.1.0",
-      "revision": "b5782e52ee2f7b3e40bb9c80d15b47016e008bc9",
-      "url": "https://api.github.com/repos/KhronosGroup/glslang/tarball/16.1.0",
-      "hash": "sha256-cEREniYgSd62mnvKaQkgs69ETL5pLl5Gyv3hKOtSv3w="
+      "version": "16.2.0",
+      "revision": "f0bd0257c308b9a26562c1a30c4748a0219cc951",
+      "url": "https://api.github.com/repos/KhronosGroup/glslang/tarball/refs/tags/16.2.0",
+      "hash": "sha256-2uWnZZNGdZorHaiLzMb/rpM6bL9oBClKqiFkUH3krJQ="
     },
     "lug-patches": {
       "type": "Git",
@@ -250,9 +250,9 @@
       },
       "branch": "master",
       "submodules": true,
-      "revision": "8af0fcd7828d1212b8beab154b449be66bc8f779",
+      "revision": "98e0c3ef667a3450442cd1faadcf62a259868fb1",
       "url": null,
-      "hash": "sha256-w+dQCC5eHAyzqXCCnR4HDsENVBV6gM4xHk3J4c6LcyA="
+      "hash": "sha256-GVjIIYY+eEf6FUQ85SgoWj1fayK+rqsulusJwXU+9e8="
     },
     "volk": {
       "type": "GitRelease",
