@@ -30,6 +30,7 @@ in
     llvmPackages_latest,
     openxr-loader,
     bash,
+    runCommand,
   }: let
     sources = (import "${inputs.nixpkgs}/pkgs/applications/emulators/wine/sources.nix" {inherit pkgs;}).unstable;
     extraSources = builtins.fromJSON (builtins.readFile ./vk-sources.json);
@@ -146,10 +147,34 @@ in
             ++ map (f: "${cleanedPatches}/${f}") lug-patches;
         in
           patches;
-      })).overrideAttrs (old: rec {
+      })).overrideAttrs
+    (old: rec {
       inherit (pins) proton;
       passthru = {
         inherit (sources) updateScript;
+
+        patchedSrc = let
+          applyPatches = builtins.concatStringsSep "\n" (builtins.map (p: ''patch --dir "$out/wine-source" --no-backup-if-mismatch -p1 -i '${p}' '') old.patches);
+        in
+          runCommand "prepare-source" {} ''
+            PATH=${lib.makeBinPath (nativeBuildInputs ++ buildInputs)}:$PATH
+            mkdir -p "$out"
+            cp --reflink=auto -av '${old.src}' "$out/wine-source"
+            chmod -R +w "$out"
+            cp --reflink=auto -av ${proton}/wineopenxr "$out/wine-source/dlls/wineopenxr"
+            chmod -R +w "$out"
+            echo -e "*.patch\n*.orig\n*~\n.gitignore\nautom4te.cache/*" > $out/wine-source/.gitignore
+            ${applyPatches}
+            cd $out/wine-source
+            mkdir -p tmp
+            XDG_CACHE_HOME="$out/wine-source/tmp" ${lib.getExe python3} ./dlls/winevulkan/make_vulkan --xml ${vk_xml} --video-xml ${vk_video_xml}
+            ${lib.getExe perl} -w   ./tools/make_requests
+            ${lib.getExe perl} -w  ./tools/make_specfiles
+            rm -rf tmp
+            ${lib.getExe' autoconf "autoreconf"} -f
+            ${lib.getExe' autoconf "autoreconf"} -fiv
+
+          '';
       };
       prePatch = ''
         # Copy over wineopenxr to the source root
