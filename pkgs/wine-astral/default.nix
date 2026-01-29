@@ -87,7 +87,7 @@ in
     (callPackage "${nixpkgs-wine}/pkgs/applications/emulators/wine/base.nix"
       (lib.recursiveUpdate base rec {
         pname = "wine-astral-full";
-        version = lib.removeSuffix "\n" (lib.removePrefix "Wine version " (builtins.readFile "${src}/VERSION"));
+        version = (lib.removeSuffix "\n" (lib.removePrefix "Wine version " (builtins.readFile "${src}/VERSION"))) + "-${builtins.substring 0 7 pins.wine.revision}";
         src = pins.wine;
         patches = let
           blacklist = [
