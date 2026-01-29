@@ -169,9 +169,9 @@
       },
       "branch": "master",
       "submodules": true,
-      "revision": "c27ef1c43a93741ec1e8d1dc55b6bcf2444a471f",
+      "revision": "4bbe4879496714763c86c15b7875c3fd9333000c",
       "url": null,
-      "hash": "sha256-U9zghjTyl49ilF24LYViGZTVkxRrBt17sarQ2lD5J8Y="
+      "hash": "sha256-WoB0MlTA7AhcAH5y+H0r+jrRwvmiTm3lSAURCP2SMFE="
     },
     "dxvk-gplasync": {
       "type": "Git",
@@ -195,9 +195,9 @@
       },
       "branch": "master",
       "submodules": true,
-      "revision": "9a908baf963d6c69b882fbc0934f2c3b471b1a5e",
+      "revision": "c68c35071128c2bda31916c50080c07062f23fe6",
       "url": null,
-      "hash": "sha256-/8cJzLIDI6LgunZ7K2nFkmAgEhdvY8FVPYuOyyDqtNk="
+      "hash": "sha256-esD6u5PqpQrjjEMqv0fKzVaB09jeYFn06tFuwUF9qwU="
     },
     "glslang": {
       "type": "GitRelease",
@@ -224,9 +224,9 @@
       },
       "branch": "main",
       "submodules": false,
-      "revision": "71fb08ebef43fb60dc85008462ccbfaa730d7ac3",
-      "url": "https://github.com/starcitizen-lug/patches/archive/71fb08ebef43fb60dc85008462ccbfaa730d7ac3.tar.gz",
-      "hash": "sha256-mj5HxfbdO/9nVbdA0frksPgpficdFBrpPwrDqDh7fW0="
+      "revision": "4584df07a771616e47a8e1ca976680e2c7cf36bf",
+      "url": "https://github.com/starcitizen-lug/patches/archive/4584df07a771616e47a8e1ca976680e2c7cf36bf.tar.gz",
+      "hash": "sha256-ExjPUEzK9EhyGpqE9YxC6McUqBu6DKcLc12kgySeXZU="
     },
     "proton": {
       "type": "Git",
@@ -237,9 +237,9 @@
       },
       "branch": "bleeding-edge",
       "submodules": false,
-      "revision": "650dd0c30357e789f47ea342a27ab8658cfeba13",
-      "url": "https://github.com/ValveSoftware/Proton/archive/650dd0c30357e789f47ea342a27ab8658cfeba13.tar.gz",
-      "hash": "sha256-jMIonU9zLIjQg24xq/MklKrGzV4td3KC9ki2IinhHnc="
+      "revision": "9eb013289c96134f8a358b5e886525977330ec00",
+      "url": "https://github.com/ValveSoftware/Proton/archive/9eb013289c96134f8a358b5e886525977330ec00.tar.gz",
+      "hash": "sha256-wrpdsJyJHU/W3X5LqrrPgVhBUwKXinPDEj1fv8cUPWs="
     },
     "vkd3d-proton": {
       "type": "Git",
@@ -250,9 +250,9 @@
       },
       "branch": "master",
       "submodules": true,
-      "revision": "98e0c3ef667a3450442cd1faadcf62a259868fb1",
+      "revision": "298eaf00036f8f1cb4410c9e21b5208ed9a66c67",
       "url": null,
-      "hash": "sha256-GVjIIYY+eEf6FUQ85SgoWj1fayK+rqsulusJwXU+9e8="
+      "hash": "sha256-zgUCKpCl6UD431l9hYUeY+9EDwkqysFia8ec9CWeqhI="
     },
     "volk": {
       "type": "GitRelease",
@@ -278,9 +278,9 @@
       },
       "branch": "master",
       "submodules": true,
-      "revision": "afba987dda1430dc0d9f36fc6f27cd3584bce79e",
+      "revision": "93f3d8ae9fad50b3ebc45f808bb4749322a0de14",
       "url": null,
-      "hash": "sha256-nIc/10eYug+tOkKCxTlHXkvQTtfLPmMBWkD5nbvBCrg="
+      "hash": "sha256-eQtdkr+q7Zr3KHKIXINyGpT2svbJ/7xS0bQyEYGoKZc="
     },
     "wine-staging": {
       "type": "Git",
@@ -290,9 +290,9 @@
       },
       "branch": "master",
       "submodules": true,
-      "revision": "506f3ece1a6d39442e90b174fe20a7e4ca42fb24",
+      "revision": "21f00bc50fe2e8f9ced2a4148f2a82bc3b5c4e21",
       "url": null,
-      "hash": "sha256-WkoS56CxgTT/vDvx5e0sqHx+2uhgUJ/TD2mfaKa0i98="
+      "hash": "sha256-JsFwgrD6g4w+k0OLUrxA+MJagamfMzg5IZZQUtpiO+8="
     },
     "wine-tkg": {
       "type": "Git",
@@ -303,9 +303,9 @@
       },
       "branch": "master",
       "submodules": false,
-      "revision": "0e76ac9c578eaa6f84cf7e1d0d96c69dd7d2ed4c",
-      "url": "https://github.com/Kron4ek/wine-tkg/archive/0e76ac9c578eaa6f84cf7e1d0d96c69dd7d2ed4c.tar.gz",
-      "hash": "sha256-JsFL+tVnUExu7zO1YI2vN0mYdPjI1o9zNl1JT68DFlE="
+      "revision": "05fb571c82b125c79068ff152dfd3a069d2b5550",
+      "url": "https://github.com/Kron4ek/wine-tkg/archive/05fb571c82b125c79068ff152dfd3a069d2b5550.tar.gz",
+      "hash": "sha256-lr64szFtxnaL1Y6+beQaEM/9VPUaIB/BBLZH1GX/YGg="
     },
     "wine-tkg-git": {
       "type": "Git",
@@ -316,9 +316,9 @@
       },
       "branch": "master",
       "submodules": false,
-      "revision": "64ca71f0704e23830a0c0cf7477e0cebd7364ebe",
-      "url": "https://github.com/Frogging-Family/wine-tkg-git/archive/64ca71f0704e23830a0c0cf7477e0cebd7364ebe.tar.gz",
-      "hash": "sha256-SBZxaF7ELtm3Ozi3nTAT1mftT659XfP48ZZmRsKlio4="
+      "revision": "65ea535d2bcd30f18662d6bf202db953f336c37f",
+      "url": "https://github.com/Frogging-Family/wine-tkg-git/archive/65ea535d2bcd30f18662d6bf202db953f336c37f.tar.gz",
+      "hash": "sha256-sUR1GfSG6ltku0g9//J7JN9fBzFYOpNDNyvNw5C/90c="
     }
   },
   "version": 7

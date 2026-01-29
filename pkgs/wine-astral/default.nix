@@ -103,6 +103,8 @@ in
             "revert-egl-default.patch"
             "winefacewarehacks-minimal.patch"
             "default-to-wayland.patch"
+            "0001-wineopenxr_add.patch"
+            "0002-wineopenxr_enable.patch"
             # "cache-committed-size.patch"
           ];
           filter = name: _type: ! (builtins.elem (builtins.baseNameOf name) blacklist);
@@ -138,7 +140,7 @@ in
               "${tkg-patch-dir}/hotfixes/NosTale/nostale_mouse_fix.mypatch"
               "${tkg-patch-dir}/hotfixes/autoconf-opencl-hotfix/opencl-fixup.mypatch"
               "${inputs.self}/patches/hags.mypatch"
-              "${inputs.self}/patches/wineopenxr.patch"
+              "${inputs.self}/patches/0002-wineopenxr_enable.patch"
             ]
             ++ map (f: "${cleanedPatches}/${f}") lug-patches;
         in
