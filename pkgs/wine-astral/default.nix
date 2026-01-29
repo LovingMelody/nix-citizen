@@ -141,6 +141,7 @@ in
               "${tkg-patch-dir}/hotfixes/autoconf-opencl-hotfix/opencl-fixup.mypatch"
               "${inputs.self}/patches/hags.mypatch"
               "${inputs.self}/patches/0002-wineopenxr_enable.patch"
+              "${inputs.self}/patches/disable-winemenubuilder.patch"
             ]
             ++ map (f: "${cleanedPatches}/${f}") lug-patches;
         in
@@ -162,10 +163,6 @@ in
       '';
       postPatch = ''
         ${old.postPatch or ""}
-        echo "Disabling wine menubuilder"
-        substituteInPlace "loader/wine.inf.in" --replace-warn \
-          'HKLM,%CurrentVersion%\RunServices,"winemenubuilder",2,"%11%\winemenubuilder.exe -a -r"' \
-          'HKLM,%CurrentVersion%\RunServices,"winemenubuilder",2,"%11%\winemenubuilder.exe -r"'
         ./dlls/winevulkan/make_vulkan --xml ${vk_xml} --video-xml ${vk_video_xml}
         ./tools/make_requests
         ./tools/make_specfiles

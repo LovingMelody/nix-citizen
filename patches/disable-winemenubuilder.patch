@@ -1,0 +1,13 @@
+diff --git a/loader/wine.inf.in b/loader/wine.inf.in
+index 5bdb6455a06..8eaa07f15c7 100644
+--- a/loader/wine.inf.in
++++ b/loader/wine.inf.in
+@@ -1101,7 +1101,7 @@ StartType=3
+ ErrorControl=1
+ 
+ [Services]
+-HKLM,%CurrentVersion%\RunServices,"winemenubuilder",2,"%11%\winemenubuilder.exe -a -r"
++HKLM,%CurrentVersion%\RunServices,"winemenubuilder",2,"%11%\winemenubuilder.exe -a"
+ HKLM,"System\CurrentControlSet\Services\Dnscache\Parameters",,16
+ HKLM,"System\CurrentControlSet\Services\Eventlog\Application",,16
+ HKLM,"System\CurrentControlSet\Services\Eventlog\System","Sources",0x10000,""
