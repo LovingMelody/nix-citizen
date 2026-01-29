@@ -8,7 +8,7 @@ VERSION="$(nix eval .\#wine-astral.vk_version --raw)"
 LAST_CHECKED_VERSION="$(jq -r .version "$INFO")"
 
 # If it's the same as current, skip other steps
-if [ "$VERSION" == "$(cat "$INFO")" ]; then
+if [ "$VERSION" == "$LAST_CHECKED_VERSION" ]; then
   exit 0
 fi
 

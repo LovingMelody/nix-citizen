@@ -173,7 +173,11 @@ in
             rm -rf tmp
             ${lib.getExe' autoconf "autoreconf"} -f
             ${lib.getExe' autoconf "autoreconf"} -fiv
-
+            echo "wine-astral: Full patch source details can be found at https://github.com/lovingmelody/nix-citizen" > astral-info
+            echo "Wine: ${old.version}" >> astral-info
+            echo "TKG Patches: ${pins.wine-tkg-git.revision}" >> astral-info
+            echo "Proton@bleeding-edge: ${pins.proton.revision}" >> astral-info
+            echo "LUG Patches: ${pins.lug-patches.revision}" >> astral-info
           '';
       };
       prePatch = ''
