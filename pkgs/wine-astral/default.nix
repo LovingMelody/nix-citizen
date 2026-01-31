@@ -105,7 +105,7 @@ in
             "winefacewarehacks-minimal.patch"
             "default-to-wayland.patch"
             "0001-wineopenxr_add.patch"
-            "0002-wineopenxr_enable.patch"
+            # "0002-wineopenxr_enable.patch"
             # "cache-committed-size.patch"
           ];
           filter = name: _type: ! (builtins.elem (builtins.baseNameOf name) blacklist);
@@ -141,7 +141,6 @@ in
               "${tkg-patch-dir}/hotfixes/NosTale/nostale_mouse_fix.mypatch"
               "${tkg-patch-dir}/hotfixes/autoconf-opencl-hotfix/opencl-fixup.mypatch"
               "${inputs.self}/patches/hags.mypatch"
-              "${inputs.self}/patches/0002-wineopenxr_enable.patch"
               "${inputs.self}/patches/disable-winemenubuilder.patch"
             ]
             ++ map (f: "${cleanedPatches}/${f}") lug-patches;

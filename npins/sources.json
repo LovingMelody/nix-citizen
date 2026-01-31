@@ -224,9 +224,9 @@
       },
       "branch": "main",
       "submodules": false,
-      "revision": "4584df07a771616e47a8e1ca976680e2c7cf36bf",
-      "url": "https://github.com/starcitizen-lug/patches/archive/4584df07a771616e47a8e1ca976680e2c7cf36bf.tar.gz",
-      "hash": "sha256-ExjPUEzK9EhyGpqE9YxC6McUqBu6DKcLc12kgySeXZU="
+      "revision": "221abe943d3bb0be3d2d5aeb3fdf2f929b8b2269",
+      "url": "https://github.com/starcitizen-lug/patches/archive/221abe943d3bb0be3d2d5aeb3fdf2f929b8b2269.tar.gz",
+      "hash": "sha256-BiDSBHHPaqPGFQIkz/f1P4MUzWKAmtsW/TFu1BNmn6g="
     },
     "proton": {
       "type": "Git",
@@ -237,8 +237,8 @@
       },
       "branch": "bleeding-edge",
       "submodules": false,
-      "revision": "9eb013289c96134f8a358b5e886525977330ec00",
-      "url": "https://github.com/ValveSoftware/Proton/archive/9eb013289c96134f8a358b5e886525977330ec00.tar.gz",
+      "revision": "a3ff6debe7d9f243cd9b38968baf809364002b12",
+      "url": "https://github.com/ValveSoftware/Proton/archive/a3ff6debe7d9f243cd9b38968baf809364002b12.tar.gz",
       "hash": "sha256-wrpdsJyJHU/W3X5LqrrPgVhBUwKXinPDEj1fv8cUPWs="
     },
     "vkd3d-proton": {
@@ -278,9 +278,9 @@
       },
       "branch": "master",
       "submodules": true,
-      "revision": "93f3d8ae9fad50b3ebc45f808bb4749322a0de14",
+      "revision": "648e636256af35e56a69daaddc31f7c9619aa079",
       "url": null,
-      "hash": "sha256-eQtdkr+q7Zr3KHKIXINyGpT2svbJ/7xS0bQyEYGoKZc="
+      "hash": "sha256-DGNjIZ2v7/sSNIrLUaEsMO/Q4NhhMztebTqzJBounhY="
     },
     "wine-staging": {
       "type": "Git",
