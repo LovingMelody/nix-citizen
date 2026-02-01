@@ -169,9 +169,9 @@
       },
       "branch": "master",
       "submodules": true,
-      "revision": "4bbe4879496714763c86c15b7875c3fd9333000c",
+      "revision": "800501671c7c3eeaf632a224b248a96ca2165118",
       "url": null,
-      "hash": "sha256-WoB0MlTA7AhcAH5y+H0r+jrRwvmiTm3lSAURCP2SMFE="
+      "hash": "sha256-Ht0Ps0co2QKAE1tmC2SAI+7cAkoM51BDRmTWthCOQ0U="
     },
     "dxvk-gplasync": {
       "type": "Git",
@@ -237,8 +237,8 @@
       },
       "branch": "bleeding-edge",
       "submodules": false,
-      "revision": "a3ff6debe7d9f243cd9b38968baf809364002b12",
-      "url": "https://github.com/ValveSoftware/Proton/archive/a3ff6debe7d9f243cd9b38968baf809364002b12.tar.gz",
+      "revision": "12fbee059960ac544437897f974aacd2acfc3962",
+      "url": "https://github.com/ValveSoftware/Proton/archive/12fbee059960ac544437897f974aacd2acfc3962.tar.gz",
       "hash": "sha256-wrpdsJyJHU/W3X5LqrrPgVhBUwKXinPDEj1fv8cUPWs="
     },
     "vkd3d-proton": {
@@ -316,9 +316,9 @@
       },
       "branch": "master",
       "submodules": false,
-      "revision": "65ea535d2bcd30f18662d6bf202db953f336c37f",
-      "url": "https://github.com/Frogging-Family/wine-tkg-git/archive/65ea535d2bcd30f18662d6bf202db953f336c37f.tar.gz",
-      "hash": "sha256-sUR1GfSG6ltku0g9//J7JN9fBzFYOpNDNyvNw5C/90c="
+      "revision": "ec2fe1375e4c13446f84c2b2a9aa9ab9551029e7",
+      "url": "https://github.com/Frogging-Family/wine-tkg-git/archive/ec2fe1375e4c13446f84c2b2a9aa9ab9551029e7.tar.gz",
+      "hash": "sha256-lyVa+GoweFjou0cewRY0NZXj4cy5n+w3p+1lrmFM/q4="
     }
   },
   "version": 7
