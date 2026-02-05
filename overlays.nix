@@ -5,7 +5,6 @@
 }: let
   inherit (inputs.nixpkgs.lib) optional;
   # inherit (inputs.nixpkgs.lib) assertOneOf optionalString warn;
-  inherit (inputs.nixpkgs.lib.strings) removePrefix versionOlder;
   pins = import "${self}/npins";
   nix-gaming-pins = import "${inputs.nix-gaming}/npins";
   # mkDeprecated = variant: return: {
@@ -42,76 +41,6 @@
   #     '';
 in {
   flake.overlays = rec {
-    latestFFMPEG = _final: _prev: {};
-    upated-vulkan-sdk = final: prev: let
-      version = removePrefix "vulkan-sdk-" pins.Vulkan-Headers.version;
-      # Safety check, we only want to update the vulkan-sdk if the vulkan-headers version is older than the one we have
-      # The loader & headers versions should always match
-      applicable = (pins.Vulkan-Loader.version == pins.Vulkan-Headers.version) && (versionOlder prev.vulkan-headers.version version);
-      smartApply = pin: pkg:
-        if (applicable && (versionOlder pkg.version (removePrefix "vulkan-sdk-" pin.version)))
-        then
-          if pkg.pname == "vulkan-tools-lunarg"
-          then final.callPackage ./pkgs/vulkan-tools-lunarg {inherit pins;}
-          else
-            pkg.overrideAttrs {
-              version = removePrefix "vulkan-sdk-" pin.version;
-              src = pin;
-              passthru.smartUpdated = true;
-            }
-        else pkg;
-    in {
-      vulkan-headers = smartApply pins.Vulkan-Headers prev.vulkan-headers;
-      vulkan-loader = smartApply pins.Vulkan-Loader prev.vulkan-loader;
-      glslang = smartApply pins.glslang prev.glslang;
-      vulkan-validation-layers = smartApply pins.Vulkan-Validation-Layers prev.vulkan-validation-layers;
-      vulkan-tools = smartApply pins.Vulkan-Tools prev.vulkan-tools;
-      vulkan-tools-lunarg = let
-        pkg = smartApply pins.Vulkan-Tools-LunarG prev.vulkan-tools-lunarg;
-      in
-        if (pkg.passthru ? smartUpdated)
-        then
-          pkg.overrideAttrs {
-            nativeBuildInputs = with final; [
-              cmake
-              python3
-              jq
-              which
-              pkg-config
-              qt6.wrapQtAppsHook
-            ];
-
-            buildInputs = with final; [
-              expat
-              jsoncpp
-              libX11
-              libXdmcp
-              libXrandr
-              libffi
-              libxcb
-              valijson
-              vulkan-headers
-              vulkan-loader
-              vulkan-utility-libraries
-              wayland
-              xcbutilkeysyms
-              xcbutilwm
-              qt6.qtbase
-              qt6.qtwayland
-            ];
-
-            cmakeFlags = [
-              "-DVULKAN_HEADERS_INSTALL_DIR=${final.vulkan-headers}"
-            ];
-          }
-        else pkg;
-      vulkan-extension-layer = smartApply pins.Vulkan-ExtensionLayer prev.vulkan-extension-layer;
-      vulkan-utility-libraries = smartApply pins.Vulkan-Utility-Libraries prev.vulkan-utility-libraries;
-      vulkan-volk = smartApply pins.volk prev.vulkan-volk;
-      spirv-headers = smartApply pins.SPIRV-Headers prev.spirv-headers;
-      spirv-cross = smartApply pins.SPIRV-Cross prev.spirv-cross;
-      spirv-tools = smartApply pins.SPIRV-Tools prev.spirv-tools;
-    };
     patchedXwayland = _final: prev: {
       xwayland = prev.xwayland.overrideAttrs (p: {
         patches =
@@ -193,7 +122,7 @@ in {
 
       wine-astral = final.callPackage ./pkgs/wine-astral {
         inherit (final) lib;
-        inherit pins inputs;
+        inherit inputs;
         wine-mono = final.callPackage "${inputs.nix-gaming}/pkgs/wine-mono" {
           pins = nix-gaming-pins;
         };

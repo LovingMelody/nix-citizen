@@ -1,0 +1,14 @@
+{
+  "url": "https://github.com/ValveSoftware/Proton.git",
+  "rev": "bf7abd0fad1ff972871120eb49830bbcbb81127f",
+  "date": "2026-01-07T11:49:47-06:00",
+  "path": "/nix/store/hl54g2mxi4rkl8f9dm0xi7jalrqhnk6k-Proton-bf7abd0",
+  "sha256": "18x214kvv0gmqrw8z4pspxr2y33gb3bj946vmr506jjya0z7p2rg",
+  "hash": "sha256-L4t7PlBeSgNKrtuQJNdYbwwvcr/6ko94xvWBvScJoqM=",
+  "fetchLFS": false,
+  "fetchSubmodules": false,
+  "deepClone": false,
+  "fetchTags": false,
+  "leaveDotGit": false,
+  "rootDir": ""
+}

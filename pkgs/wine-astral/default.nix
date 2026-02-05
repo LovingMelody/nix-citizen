@@ -5,7 +5,6 @@ in
   {
     lib,
     inputs,
-    pins,
     pkgs,
     pkgsCross,
     callPackage,
@@ -31,9 +30,10 @@ in
     openxr-loader,
     bash,
     runCommand,
+    fetchgit,
   }: let
     sources = (import "${inputs.nixpkgs}/pkgs/applications/emulators/wine/sources.nix" {inherit pkgs;}).unstable;
-    extraSources = builtins.fromJSON (builtins.readFile ./vk-sources.json);
+    astralSources = import ./sources.nix {inherit fetchgit fetchurl;};
     supportFlags = import ./supportFlags.nix;
     nixpkgs-wine = builtins.path {
       path = inputs.nixpkgs;
@@ -88,8 +88,8 @@ in
     (callPackage "${nixpkgs-wine}/pkgs/applications/emulators/wine/base.nix"
       (lib.recursiveUpdate base rec {
         pname = "wine-astral-full";
-        version = (lib.removeSuffix "\n" (lib.removePrefix "Wine version " (builtins.readFile "${src}/VERSION"))) + "-${builtins.substring 0 7 pins.wine.revision}";
-        src = pins.wine;
+        version = (lib.removeSuffix "\n" (lib.removePrefix "Wine version " (builtins.readFile "${src}/VERSION"))) + "-${builtins.substring 0 7 astralSources.wine.rev}";
+        src = astralSources.wine;
         patches = let
           blacklist = [
             "10.2+_eac_fix.patch"
@@ -109,10 +109,10 @@ in
             # "cache-committed-size.patch"
           ];
           filter = name: _type: ! (builtins.elem (builtins.baseNameOf name) blacklist);
-          cleanedPatches = builtins.filterSource filter "${pins.lug-patches}/wine";
+          cleanedPatches = builtins.filterSource filter "${astralSources.lug-patches}/wine";
           lug-patches = builtins.attrNames (builtins.readDir cleanedPatches);
-          tkg-patch-dir = "${pins.wine-tkg-git}/wine-tkg-git/wine-tkg-patches";
-          addStagingPatchSet = patchSet: builtins.attrNames (builtins.readDir (builtins.filterSource (n: _: lib.hasPrefix n ".patch") "${pins.wine-staging}/patches/${patchSet}"));
+          tkg-patch-dir = "${astralSources.wine-tkg-git}/wine-tkg-git/wine-tkg-patches";
+          addStagingPatchSet = patchSet: builtins.attrNames (builtins.readDir (builtins.filterSource (n: _: lib.hasPrefix n ".patch") "${astralSources.wine-staging}/patches/${patchSet}"));
           patches =
             (addStagingPatchSet "crypt32-CMS_Certificates")
             ++ (addStagingPatchSet "loader-KeyboardLayouts")
@@ -148,7 +148,7 @@ in
           patches;
       })).overrideAttrs
     (old: rec {
-      inherit (pins) proton;
+      inherit (astralSources) wineopenxr vk_version;
       passthru = {
         inherit (sources) updateScript;
 
@@ -160,13 +160,13 @@ in
             mkdir -p "$out"
             cp --reflink=auto -av '${old.src}' "$out/wine-source"
             chmod -R +w "$out"
-            cp --reflink=auto -av ${proton}/wineopenxr "$out/wine-source/dlls/wineopenxr"
+            cp --reflink=auto -av ${wineopenxr}/wineopenxr "$out/wine-source/dlls/wineopenxr"
             chmod -R +w "$out"
             echo -e "*.patch\n*.orig\n*~\n.gitignore\nautom4te.cache/*" > $out/wine-source/.gitignore
             ${applyPatches}
             cd $out/wine-source
             mkdir -p tmp
-            XDG_CACHE_HOME="$out/wine-source/tmp" ${lib.getExe python3} ./dlls/winevulkan/make_vulkan --xml ${vk_xml} --video-xml ${vk_video_xml}
+            XDG_CACHE_HOME="$out/wine-source/tmp" ${lib.getExe python3} ./dlls/winevulkan/make_vulkan --xml ${astralSources.vk_xml} --video-xml ${astralSources.vk_video_xml}
             ${lib.getExe perl} -w   ./tools/make_requests
             ${lib.getExe perl} -w  ./tools/make_specfiles
             rm -rf tmp
@@ -174,14 +174,14 @@ in
             ${lib.getExe' autoconf "autoreconf"} -fiv
             echo "wine-astral: Full patch source details can be found at https://github.com/lovingmelody/nix-citizen" > astral-info
             echo "Wine: ${old.version}" >> astral-info
-            echo "TKG Patches: ${pins.wine-tkg-git.revision}" >> astral-info
-            echo "Proton@bleeding-edge: ${pins.proton.revision}" >> astral-info
-            echo "LUG Patches: ${pins.lug-patches.revision}" >> astral-info
+            echo "TKG Patches: ${astralSources.wine-tkg-git.rev}" >> astral-info
+            echo "Proton/wineopenxr: ${astralSources.openxr.rev}" >> astral-info
+            echo "LUG Patches: ${astralSources.lug-patches.rev}" >> astral-info
           '';
       };
       prePatch = ''
         # Copy over wineopenxr to the source root
-        cp --reflink=auto -av ${proton}/wineopenxr ./dlls/wineopenxr
+        cp --reflink=auto -av ${wineopenxr}/wineopenxr ./dlls/wineopenxr
         chmod -R +w .
         ${old.prePatch or ""}
         patchShebangs tools
@@ -191,7 +191,7 @@ in
       '';
       postPatch = ''
         ${old.postPatch or ""}
-        ./dlls/winevulkan/make_vulkan --xml ${vk_xml} --video-xml ${vk_video_xml}
+        ./dlls/winevulkan/make_vulkan --xml ${astralSources.vk_xml} --video-xml ${astralSources.vk_video_xml}
         ./tools/make_requests
         ./tools/make_specfiles
         autoreconf -f
@@ -214,35 +214,6 @@ in
             ++ lib.optional enableAvx2 "-mavx2"
             ++ lib.optional enableFma "-mfma"
           );
-      };
-
-      # We have to call dlls/winevulkan/make_vukan
-      # but this attempts to fetch the XMLs on the web
-      # Which isnt allowed due to sandboxing
-      # To fix this, we fetch the expected version from the script
-      # And provide the expected files as arguments
-      vk_version = let
-        script = builtins.readFile "${old.src}/dlls/winevulkan/make_vulkan";
-
-        lines = builtins.filter builtins.isString (builtins.split "\n" script);
-
-        matches = builtins.filter (m: m != null) (map (
-            line:
-              builtins.match ''^[[:space:]]*VK_XML_VERSION[[:space:]]*=[[:space:]]*"([^"]+)".*'' line
-          )
-          lines);
-      in
-        if matches == []
-        then throw "VK_XML_VERSION not found in dlls/winevulkan/make_vulkan"
-        else builtins.elemAt (builtins.head matches) 0;
-
-      vk_xml = fetchurl {
-        url = "https://raw.githubusercontent.com/KhronosGroup/Vulkan-Docs/v${vk_version}/xml/vk.xml";
-        hash = extraSources.vk_hash;
-      };
-      vk_video_xml = fetchurl {
-        url = "https://raw.githubusercontent.com/KhronosGroup/Vulkan-Docs/v${vk_version}/xml/video.xml";
-        hash = extraSources.video_hash;
       };
 
       nativeBuildInputs =
