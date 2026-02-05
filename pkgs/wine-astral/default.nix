@@ -175,7 +175,7 @@ in
             echo "wine-astral: Full patch source details can be found at https://github.com/lovingmelody/nix-citizen" > astral-info
             echo "Wine: ${old.version}" >> astral-info
             echo "TKG Patches: ${astralSources.wine-tkg-git.rev}" >> astral-info
-            echo "Proton/wineopenxr: ${astralSources.openxr.rev}" >> astral-info
+            echo "Proton/wineopenxr: ${astralSources.wineopenxr.rev}" >> astral-info
             echo "LUG Patches: ${astralSources.lug-patches.rev}" >> astral-info
           '';
       };
