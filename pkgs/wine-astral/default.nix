@@ -81,7 +81,7 @@ in
         if llvmBuild
         then llvmPackages_latest.stdenv
         else overrideCC stdenv (wrapCCMulti gcc15);
-      wineRelease = "unstable";
+      # wineRelease = "unstable";
       mainProgram = "wine";
     };
   in
@@ -181,7 +181,7 @@ in
         # Copy over wineopenxr to the source root
         cp --reflink=auto -av ${wineopenxr}/wineopenxr ./dlls/wineopenxr
         chmod -R +w .
-        ${old.prePatch or ""}
+        ${lib.optionalString ((old.prePatch or null) != null) (old.prePatch or "")}
         patchShebangs tools
         patchShebangs dlls
         # WineTKG patches need this path to exist for patches to apply properly
