@@ -94,7 +94,7 @@ in
           blacklist = [
             "10.2+_eac_fix.patch"
             "winewayland-no-enter-move-if-relative.patch"
-            "hidewineexports.patch"
+            # "hidewineexports.patch"
             "reg_show_wine.patch"
             "reg_hide_wine.patch"
             "printkey_x11-staging.patch"
@@ -114,19 +114,16 @@ in
           tkg-patch-dir = "${astralSources.wine-tkg-git}/wine-tkg-git/wine-tkg-patches";
           addStagingPatchSet = patchSet: builtins.attrNames (builtins.readDir (builtins.filterSource (n: _: lib.hasPrefix n ".patch") "${astralSources.wine-staging}/patches/${patchSet}"));
           patches =
-            (addStagingPatchSet "crypt32-CMS_Certificates")
-            ++ (addStagingPatchSet "loader-KeyboardLayouts")
+            (addStagingPatchSet "loader-KeyboardLayouts")
             ++ (addStagingPatchSet "ntdll-Junction_Points")
             ++ (addStagingPatchSet "ntdll-NtDevicePath")
             ++ (addStagingPatchSet "nvapi-Stub_DLL")
-            ++ (addStagingPatchSet "nvcuda-CUDA_Support")
-            ++ (addStagingPatchSet "nvcuvid-CUDA_Video_Support")
-            ++ (addStagingPatchSet "nvencodeapi-Video_Encoder")
             ++ (addStagingPatchSet "wine.inf-Dummy_CA_Certificate")
             ++ (addStagingPatchSet "winecfg-Libraries")
             ++ (addStagingPatchSet "winecfg-Staging")
             ++ (addStagingPatchSet "winecfg-Unmounted_Devices")
             ++ (addStagingPatchSet "winedevice-Default_Drivers")
+            ++ (addStagingPatchSet "msxml3_embedded_cdata")
             ++ [
               "${tkg-patch-dir}/misc/CSMT-toggle/CSMT-toggle.patch"
               # "${tkg-patch-dir}/proton/LAA/LAA-unix-wow64.patch"
@@ -142,6 +139,7 @@ in
               "${tkg-patch-dir}/hotfixes/autoconf-opencl-hotfix/opencl-fixup.mypatch"
               "${inputs.self}/patches/hags.mypatch"
               "${inputs.self}/patches/disable-winemenubuilder.patch"
+              "${inputs.self}/patches/WineGDK.patch"
             ]
             ++ map (f: "${cleanedPatches}/${f}") lug-patches;
         in
