@@ -84,8 +84,6 @@ in
     (old: rec {
       inherit (astralSources) wineopenxr vk_version;
       srcs = with astralSources; [
-        vk_video_xml
-        vk_xml
         wine
         wine-staging
         wineopenxr
@@ -143,12 +141,6 @@ in
         chmod a+w patches
         for src in $srcs; do
           case "$src" in
-              *-video.xml)
-                  cp "$src" video.xml
-                  ;;
-              *-vk.xml)
-                  cp "$src" vk.xml
-                  ;;
               *-wine-staging-* )
                   cp -r "$src" wine-staging
                   ;;
