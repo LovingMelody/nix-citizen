@@ -1,11 +1,13 @@
 #!/usr/bin/env nix-shell
 #! nix-shell -i bash -p curl jq nix-prefetch-git
 
+# This has to be run after wine()
 vkSources() {
 
   INFO="pkgs/wine-astral/vk.json"
 
-  VERSION="$(nix eval .\#wine-astral.vk_version --raw)"
+  src=$(jq -r .path <'pkgs/wine-astral/wine.json')
+  VERSION=$(sed -nE 's/^[[:space:]]*VK_XML_VERSION[[:space:]]*=[[:space:]]*"([^"]+)".*/\1/p' "$src/dlls/winevulkan/make_vulkan" | head -n1)
 
   LAST_CHECKED_VERSION="$(jq -r .version "$INFO")"
 

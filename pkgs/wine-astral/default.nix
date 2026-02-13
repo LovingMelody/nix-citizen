@@ -28,12 +28,10 @@ in
     llvmPackages_latest,
     openxr-loader,
     bash,
-    runCommand,
     fetchgit,
     astralSources ? pkgs.callPackage ./sources.nix {inherit fetchgit fetchurl;},
   }: let
     sources = (import "${inputs.nixpkgs}/pkgs/applications/emulators/wine/sources.nix" {inherit pkgs;}).unstable;
-    astralSources = import ./sources.nix {inherit fetchgit fetchurl;};
     supportFlags = import ./supportFlags.nix;
     nixpkgs-wine = builtins.path {
       path = inputs.nixpkgs;
@@ -86,106 +84,138 @@ in
     };
   in
     (callPackage "${nixpkgs-wine}/pkgs/applications/emulators/wine/base.nix"
-      (lib.recursiveUpdate base rec {
+      (lib.recursiveUpdate base {
         pname = "wine-astral-full";
-        version = (lib.removeSuffix "\n" (lib.removePrefix "Wine version " (builtins.readFile "${src}/VERSION"))) + "-${builtins.substring 0 7 astralSources.wine.rev}";
-        src = astralSources.wine;
-        patches = let
-          blacklist = [
-            "10.2+_eac_fix.patch"
-            "winewayland-no-enter-move-if-relative.patch"
-            # "hidewineexports.patch"
-            "reg_show_wine.patch"
-            "reg_hide_wine.patch"
-            "printkey_x11-staging.patch"
-            "printkey_wld.patch"
-            "real_path.patch"
-            "9196_process_idle_event_client_side.patch"
-            "revert-egl-default.patch"
-            "winefacewarehacks-minimal.patch"
-            "default-to-wayland.patch"
-            "0001-wineopenxr_add.patch"
-            # "0002-wineopenxr_enable.patch"
-            # "cache-committed-size.patch"
-          ];
-          filter = name: _type: ! (builtins.elem (builtins.baseNameOf name) blacklist);
-          cleanedPatches = builtins.filterSource filter "${astralSources.lug-patches}/wine";
-          lug-patches = builtins.attrNames (builtins.readDir cleanedPatches);
-          tkg-patch-dir = "${astralSources.wine-tkg-git}/wine-tkg-git/wine-tkg-patches";
-          addStagingPatchSet = patchSet: builtins.attrNames (builtins.readDir (builtins.filterSource (n: _: lib.hasPrefix n ".patch") "${astralSources.wine-staging}/patches/${patchSet}"));
-          patches =
-            (addStagingPatchSet "loader-KeyboardLayouts")
-            ++ (addStagingPatchSet "ntdll-Junction_Points")
-            ++ (addStagingPatchSet "ntdll-NtDevicePath")
-            ++ (addStagingPatchSet "nvapi-Stub_DLL")
-            ++ (addStagingPatchSet "wine.inf-Dummy_CA_Certificate")
-            ++ (addStagingPatchSet "winecfg-Libraries")
-            ++ (addStagingPatchSet "winecfg-Staging")
-            ++ (addStagingPatchSet "winecfg-Unmounted_Devices")
-            ++ (addStagingPatchSet "winedevice-Default_Drivers")
-            ++ (addStagingPatchSet "msxml3_embedded_cdata")
-            ++ [
-              "${tkg-patch-dir}/misc/CSMT-toggle/CSMT-toggle.patch"
-              # "${tkg-patch-dir}/proton/LAA/LAA-unix-wow64.patch"
-              "${tkg-patch-dir}/proton/proton-win10-default/proton-win10-default.patch"
-              "${tkg-patch-dir}/proton-tkg-specific/proton_battleye/proton_battleye.patch"
-              "${tkg-patch-dir}/proton-tkg-specific/proton_eac/Revert-ntdll-Get-rid-of-the-wine_nt_to_unix_file_nam.patch"
-              "${tkg-patch-dir}/proton-tkg-specific/proton_eac/proton-eac_bridge.patch"
-              "${tkg-patch-dir}/proton-tkg-specific/proton_eac/wow64_loader_hack.patch"
-              "${tkg-patch-dir}/misc/enable_dynamic_wow64_def/enable_dynamic_wow64_def.patch"
-              "${tkg-patch-dir}/hotfixes/GetMappedFileName/Return_nt_filename_and_resolve_DOS_drive_path.mypatch"
-              "${tkg-patch-dir}/hotfixes/08cccb5/a608ef1.mypatch"
-              "${tkg-patch-dir}/hotfixes/NosTale/nostale_mouse_fix.mypatch"
-              "${tkg-patch-dir}/hotfixes/autoconf-opencl-hotfix/opencl-fixup.mypatch"
-              "${inputs.self}/patches/hags.mypatch"
-              "${inputs.self}/patches/disable-winemenubuilder.patch"
-            ]
-            ++ map (f: "${cleanedPatches}/${f}") lug-patches;
-        in
-          patches;
+        version = (builtins.fromJSON (builtins.readFile ./wine.json)).version + "-${builtins.substring 0 7 astralSources.wine.rev}";
+        src = null; # astralSources.wine;
+        patches = [];
       })).overrideAttrs
     (old: rec {
       inherit (astralSources) wineopenxr vk_version;
-      passthru = {
-        patchedSrc = let
-          applyPatches = builtins.concatStringsSep "\n" (builtins.map (p: ''patch --dir "$out/wine-source" --no-backup-if-mismatch -p1 -i '${p}' '') old.patches);
-        in
-          runCommand "prepare-source" {} ''
-            PATH=${lib.makeBinPath (nativeBuildInputs ++ buildInputs)}:$PATH
-            mkdir -p "$out"
-            cp --reflink=auto -av '${old.src}' "$out/wine-source"
-            chmod -R +w "$out"
-            cp --reflink=auto -av ${wineopenxr}/wineopenxr "$out/wine-source/dlls/wineopenxr"
-            chmod -R +w "$out"
-            echo -e "*.patch\n*.orig\n*~\n.gitignore\nautom4te.cache/*" > $out/wine-source/.gitignore
-            ${applyPatches}
-            cd $out/wine-source
-            mkdir -p tmp
-            XDG_CACHE_HOME="$out/wine-source/tmp" ${lib.getExe python3} ./dlls/winevulkan/make_vulkan --xml ${astralSources.vk_xml} --video-xml ${astralSources.vk_video_xml}
-            ${lib.getExe perl} -w   ./tools/make_requests
-            ${lib.getExe perl} -w  ./tools/make_specfiles
-            rm -rf tmp
-            ${lib.getExe' autoconf "autoreconf"} -f
-            ${lib.getExe' autoconf "autoreconf"} -fiv
-            echo "wine-astral: Full patch source details can be found at https://github.com/lovingmelody/nix-citizen" > astral-info
-            echo "Wine: ${old.version}" >> astral-info
-            echo "TKG Patches: ${astralSources.wine-tkg-git.rev}" >> astral-info
-            echo "Proton/wineopenxr: ${astralSources.wineopenxr.rev}" >> astral-info
-            echo "LUG Patches: ${astralSources.lug-patches.rev}" >> astral-info
-          '';
-      };
+      srcs = with astralSources; [
+        vk_video_xml
+        vk_xml
+        wine
+        wine-staging
+        wineopenxr
+        wine-tkg-git
+        lug-patches
+        ./../../patches/disable-winemenubuilder.mypatch
+        ./../../patches/hags.mypatch
+      ];
+      stagingPatches = [
+        # "loader-KeyboardLayouts"
+        "ntdll-NtDevicePath"
+        "wine.inf-Dummy_CA_Certificate"
+        "winecfg-Libraries"
+        "winecfg-Staging"
+        "winedevice-Default_Drivers"
+      ];
+      lugBlacklist = [
+        "10.2+_eac_fix.patch"
+        "winewayland-no-enter-move-if-relative.patch"
+        # "hidewineexports.patch"
+        "reg_show_wine.patch"
+        "reg_hide_wine.patch"
+        "printkey_x11-staging.patch"
+        "printkey_wld.patch"
+        "real_path.patch"
+        "9196_process_idle_event_client_side.patch"
+        "revert-egl-default.patch"
+        "winefacewarehacks-minimal.patch"
+        "default-to-wayland.patch"
+        "0001-wineopenxr_add.patch"
+        # "0002-wineopenxr_enable.patch"
+        # "cache-committed-size.patch"
+      ];
+      tkgPatches = [
+        "misc/CSMT-toggle/CSMT-toggle.patch"
+        #"proton/LAA/LAA-unix-wow64.patch"
+        "proton/proton-win10-default/proton-win10-default.patch"
+        "proton-tkg-specific/proton_battleye/proton_battleye.patch"
+        "proton-tkg-specific/proton_eac/Revert-ntdll-Get-rid-of-the-wine_nt_to_unix_file_nam.patch"
+        "proton-tkg-specific/proton_eac/proton-eac_bridge.patch"
+        "proton-tkg-specific/proton_eac/wow64_loader_hack.patch"
+        "misc/enable_dynamic_wow64_def/enable_dynamic_wow64_def.patch"
+        "hotfixes/GetMappedFileName/Return_nt_filename_and_resolve_DOS_drive_path.mypatch"
+        "hotfixes/08cccb5/a608ef1.mypatch"
+        "hotfixes/NosTale/nostale_mouse_fix.mypatch"
+        "hotfixes/autoconf-opencl-hotfix/opencl-fixup.mypatch"
+      ];
+      patches = [];
+
+      sourceRoot = "wine";
+      unpackPhase = ''
+        runHook preUnpack
+        mkdir -p wine
+        mkdir -p patches
+        chmod a+w wine
+        chmod a+w patches
+        for src in $srcs; do
+            echo "$src"
+          case "$src" in
+              *-video.xml)
+                  cp "$src" video.xml
+                  ;;
+              *-vk.xml)
+                  cp "$src" vk.xml
+                  ;;
+              *-wine-staging-* )
+                  cp -r "$src" wine-staging
+                  ;;
+              *-wine-tkg-git-* )
+                  cp -r "$src" wine-tkg-git
+                  ;;
+              *-Proton-* )
+                  mkdir -p wine/dlls
+                  chmod a+w wine/dlls
+                  cp -r "$src/wineopenxr" wine/dlls/wineopenxr
+                  ;;
+              *-wine-* )
+                  cp -r "$src"/* wine/
+                  ;;
+              *-patches-* )
+                  cp -r "$src" lug-patches
+                  ;;
+              *.mypatch )
+                  cp $src patches/
+          esac
+        done
+        mkdir -p tmp
+        runHook postUnpack
+      '';
+
       prePatch = ''
         # Copy over wineopenxr to the source root
-        cp --reflink=auto -av ${wineopenxr}/wineopenxr ./dlls/wineopenxr
-        chmod -R +w .
         ${lib.optionalString ((old.prePatch or null) != null) (old.prePatch or "")}
         patchShebangs tools
         patchShebangs dlls
-        # WineTKG patches need this path to exist for patches to apply properly
-        echo -e "*.patch\n*.orig\n*~\n.gitignore\nautom4te.cache/*" > .gitignore
+        patchShebangs ../wine-staging/staging
+        patchShebangs ../wine-staging/patches
+        chmod -R a+w .
+      '';
+
+      patchPhase = ''
+
+        runHook prePatch
+        ./../wine-staging/staging/patchinstall.py DESTDIR=. ${builtins.concatStringsSep " " stagingPatches}
+        ${builtins.concatStringsSep "\n" (builtins.map (p: "patch -p1 -i ../wine-tkg-git/wine-tkg-git/wine-tkg-patches/${p}") tkgPatches)}
+        for patch in ../lug-patches/wine/*; do
+                # Extract the filename without the path
+                filename=$(basename "$patch")
+                # Check if the filename is not in the blacklist
+                ${builtins.concatStringsSep "\n" (builtins.map (p: "[[ $patch =~ '${p}' ]] && continue") lugBlacklist)}
+                patch -p1 -i "$patch"
+        done
+        for patch in ../patches/*; do
+          patch -p1 < "$patch"
+        done
+        runHook postPatch
       '';
       postPatch = ''
+        XDG_CACHE_HOME="$src/../tmp"
         ${old.postPatch or ""}
+        chmod a+w dlls/winevulkan
         ./dlls/winevulkan/make_vulkan --xml ${astralSources.vk_xml} --video-xml ${astralSources.vk_video_xml}
         ./tools/make_requests
         ./tools/make_specfiles
@@ -232,4 +262,5 @@ in
           bash
         ]
         ++ lib.optional stdenv.hostPlatform.isLinux util-linux;
+      passthru = {};
     })

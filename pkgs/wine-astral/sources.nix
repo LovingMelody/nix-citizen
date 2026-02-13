@@ -34,20 +34,7 @@ in rec {
   # Which isnt allowed due to sandboxing
   # To fix this, fetch the expected version from the script
   # And provide the expected files as arguments
-  vk_version = let
-    script = builtins.readFile "${wine}/dlls/winevulkan/make_vulkan";
-
-    lines = builtins.filter builtins.isString (builtins.split "\n" script);
-
-    matches = builtins.filter (m: m != null) (map (
-        line:
-          builtins.match ''^[[:space:]]*VK_XML_VERSION[[:space:]]*=[[:space:]]*"([^"]+)".*'' line
-      )
-      lines);
-  in
-    if matches == []
-    then throw "VK_XML_VERSION not found in dlls/winevulkan/make_vulkan"
-    else builtins.elemAt (builtins.head matches) 0;
+  vk_version = vk.version;
   vk_xml = fetchurl {
     url = "https://raw.githubusercontent.com/KhronosGroup/Vulkan-Docs/v${vk_version}/xml/vk.xml";
     hash = vk.vk_hash;
