@@ -45,15 +45,6 @@ in
     updatedHeaders =
       if (lib.versionAtLeast linuxHeaders.version MIN_KERNEL_VERSION_NTSYNC)
       then linuxHeaders
-      else if (linuxPackages_latest.kernelAtLeast MIN_KERNEL_VERSION_NTSYNC)
-      then
-        pkgs.makeLinuxHeaders {
-          version = "6.17";
-          src = fetchurl {
-            url = "mirror://kernel/linux/kernel/v6.x/linux-6.17.tar.xz";
-            hash = "sha256-m2BxZqHJmdgyYJgSEiL+sICiCjJTl1/N+i3pa6f3V6c=";
-          };
-        }
       else
         throw ''
           Package: `wine-astral`
@@ -100,8 +91,7 @@ in
         wineopenxr
         wine-tkg-git
         lug-patches
-        ./../../patches/disable-winemenubuilder.mypatch
-        ./../../patches/hags.mypatch
+        ./../../patches
       ];
       stagingPatches = [
         # "loader-KeyboardLayouts"
@@ -152,7 +142,6 @@ in
         chmod a+w wine
         chmod a+w patches
         for src in $srcs; do
-            echo "$src"
           case "$src" in
               *-video.xml)
                   cp "$src" video.xml
@@ -177,8 +166,8 @@ in
               *-patches-* )
                   cp -r "$src" lug-patches
                   ;;
-              *.mypatch )
-                  cp $src patches/
+              *-patches )
+                  cp -r "$src" patches
           esac
         done
         mkdir -p tmp
@@ -207,7 +196,7 @@ in
                 ${builtins.concatStringsSep "\n" (builtins.map (p: "[[ $patch =~ '${p}' ]] && continue") lugBlacklist)}
                 patch -p1 -i "$patch"
         done
-        for patch in ../patches/*; do
+        for patch in ../patches/*.mypatch; do
           patch -p1 < "$patch"
         done
         runHook postPatch
