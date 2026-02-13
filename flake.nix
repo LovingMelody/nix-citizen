@@ -81,8 +81,6 @@
             wineprefix-preparer-git
             winetricks-git
             ;
-          wine-astral-src = pkgs.wine-astral.passthru.patchedSrc;
-
           xwayland-patched = pkgs.xwayland.overrideAttrs (p: {
             patches =
               (p.patches or [])
