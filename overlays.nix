@@ -123,9 +123,6 @@ in {
       wine-astral = final.callPackage ./pkgs/wine-astral {
         inherit (final) lib;
         inherit inputs;
-        wine-mono = final.callPackage "${inputs.nix-gaming}/pkgs/wine-mono" {
-          pins = nix-gaming-pins;
-        };
       };
       inherit
         (inputs.nix-gaming.packages.${final.system})

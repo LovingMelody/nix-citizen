@@ -55,15 +55,32 @@ wineTKG() {
 }
 wine() {
   INFO="pkgs/wine-astral/wine.json"
-  nix-prefetch-git --fetch-submodules --no-deepClone --branch-name master --quiet 'https://gitlab.winehq.org/wine/wine.git' >$INFO
+  if output=$(nix-prefetch-git --fetch-submodules --no-deepClone --branch-name master --quiet 'https://gitlab.winehq.org/wine/wine.git'); then
+    src=$(jq -r .path <<<"$output")
+    version=$(cat "$src/VERSION")
+    jq --arg version "${version##"Wine version "}" '.version = $version' <<<"$output" >"$INFO"
+  fi
+
 }
 wineStaging() {
   INFO="pkgs/wine-astral/wine-staging.json"
   nix-prefetch-git --fetch-submodules --no-deepClone --branch-name master --quiet 'https://gitlab.winehq.org/wine/wine-staging.git' >$INFO
 }
-vkSources || echo "[wine-astral][vk]: Failed to update sources"
+wineMono() {
+
+  INFO="pkgs/wine-astral/mono.json"
+  version="$(curl -fsSL "https://api.github.com/repos/wine-mono/wine-mono/releases/latest" | jq -r '.tag_name')"
+
+  if [ "$(jq -r ".version" "$INFO")" != "$version" ]; then
+    if output=$(nix store prefetch-file "https://github.com/wine-mono/wine-mono/releases/download/${version}/${version}-x86.msi" --json); then
+      jq --arg version "$version" '.version = $version' <<<"$output" >"$INFO"
+    fi
+  fi
+}
 openxr || echo "[wine-astral][openxr]: Failed to update source"
 lugPatches || echo "[wine-astral][lug]: Failed to update source"
 wineTKG || echo "[wine-astral][wine-tkg]: Failed to update source"
 wine || echo "[wine-astral][wine]: Failed to update source"
 wineStaging || "[wine-astral][wine staging]: Failed to update source"
+vkSources || echo "[wine-astral][vk]: Failed to update sources"
+wineMono || echo "[wine-astral][mono]: Update failed"

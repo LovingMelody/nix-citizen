@@ -56,4 +56,8 @@ in rec {
     url = "https://raw.githubusercontent.com/KhronosGroup/Vulkan-Docs/v${vk_version}/xml/video.xml";
     hash = vk.video_hash;
   };
+  mono = fetchurl rec {
+    inherit (builtins.fromJSON (builtins.readFile ./mono.json)) version hash;
+    url = "https://github.com/wine-mono/wine-mono/releases/download/${version}/${version}-x86.msi";
+  };
 }

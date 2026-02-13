@@ -11,12 +11,11 @@ in
     moltenvk,
     overrideCC,
     wrapCCMulti,
-    gcc15,
+    gcc_latest,
     stdenv,
     linuxHeaders,
     linuxPackages_latest,
     fetchurl,
-    wine-mono,
     autoconf,
     util-linux,
     hexdump,
@@ -31,6 +30,7 @@ in
     bash,
     runCommand,
     fetchgit,
+    astralSources ? pkgs.callPackage ./sources.nix {inherit fetchgit fetchurl;},
   }: let
     sources = (import "${inputs.nixpkgs}/pkgs/applications/emulators/wine/sources.nix" {inherit pkgs;}).unstable;
     astralSources = import ./sources.nix {inherit fetchgit fetchurl;};
@@ -73,14 +73,14 @@ in
       configureFlags = ["--disable-tests" "--enable-archs=x86_64,i386"];
 
       geckos = with sources; [gecko32 gecko64];
-      mingwGccs = with pkgsCross; [mingw32.buildPackages.gcc15 mingwW64.buildPackages.gcc15];
-      monos = [wine-mono];
+      mingwGccs = with pkgsCross; [mingw32.buildPackages.gcc_latest mingwW64.buildPackages.gcc_latest];
+      monos = [astralSources.mono];
       pkgArches = [pkgs];
       platforms = ["x86_64-linux"];
       stdenv =
         if llvmBuild
         then llvmPackages_latest.stdenv
-        else overrideCC stdenv (wrapCCMulti gcc15);
+        else overrideCC stdenv (wrapCCMulti gcc_latest);
       # wineRelease = "unstable";
       mainProgram = "wine";
     };
@@ -148,8 +148,6 @@ in
     (old: rec {
       inherit (astralSources) wineopenxr vk_version;
       passthru = {
-        inherit (sources) updateScript;
-
         patchedSrc = let
           applyPatches = builtins.concatStringsSep "\n" (builtins.map (p: ''patch --dir "$out/wine-source" --no-backup-if-mismatch -p1 -i '${p}' '') old.patches);
         in
