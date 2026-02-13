@@ -139,7 +139,6 @@ in
               "${tkg-patch-dir}/hotfixes/autoconf-opencl-hotfix/opencl-fixup.mypatch"
               "${inputs.self}/patches/hags.mypatch"
               "${inputs.self}/patches/disable-winemenubuilder.patch"
-              "${inputs.self}/patches/WineGDK.patch"
             ]
             ++ map (f: "${cleanedPatches}/${f}") lug-patches;
         in
