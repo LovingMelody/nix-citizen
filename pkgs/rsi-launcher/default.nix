@@ -92,7 +92,7 @@ in
         if finalAttrs.pname == "star-citizen"
         then "Star Citizen"
         else "RSI Launcher";
-      categories = ["Game"];
+      categories = ["Game" "X-WiVRn-VR"];
       mimeTypes = ["application/x-${finalAttrs.pname}"];
     };
 
