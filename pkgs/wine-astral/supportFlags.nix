@@ -13,7 +13,7 @@
   pulseaudioSupport = true;
   udevSupport = true;
   xineramaSupport = true;
-  sdlSupport = false;
+  sdlSupport = true;
   mingwSupport = true;
   krb5Support = false;
   x11Support = true;
