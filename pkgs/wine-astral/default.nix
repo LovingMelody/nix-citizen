@@ -97,7 +97,7 @@ in
         "wine.inf-Dummy_CA_Certificate"
         "winecfg-Libraries"
         "winecfg-Staging"
-        "winedevice-Default_Drivers"
+        # "winedevice-Default_Drivers"
       ];
       lugBlacklist = [
         "10.2+_eac_fix.patch"
