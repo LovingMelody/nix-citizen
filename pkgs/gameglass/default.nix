@@ -19,13 +19,13 @@ in
       with pkgs; [
         libevdev
         libnotify
-        xorg.libXtst
+        libXtst
         nss_latest
-        xorg.libxcb
+        libxcb
         # Screenshot deps
-        xorg.libXrandr
+        libXrandr
         dbus.lib
-        xorg.xcbutilwm
+        xcbutilwm
       ];
     meta = {
       homepage = "https://gameglass.gg/";
