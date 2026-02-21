@@ -52,7 +52,7 @@ stdenvNoCC.mkDerivation (finalAttrs: {
     install -Dm644 lug-logo.png $out/share/icons/hicolor/256x256/apps/lug-logo.png
     install -Dm644 rsi-launcher.png $out/share/icons/hicolor/256x256/apps/rsi-launcher.png
     install -Dm644 starcitizen.png $out/share/icons/hicolor/256x256/apps/starcitizen.png
-    install -Dm644 lib/* -t $out/share/lug-helper
+    install -Dm644 lib/* -t $out/bin/lib
 
     wrapProgram $out/bin/lug-helper \
       --prefix PATH : ${
