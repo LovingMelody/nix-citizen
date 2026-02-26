@@ -30,9 +30,40 @@ in
     bash,
     fetchgit,
     astralSources ? pkgs.callPackage ./sources.nix {inherit fetchgit fetchurl;},
+    # Support Flags
+    gettextSupport ? true,
+    fontconfigSupport ? true,
+    alsaSupport ? true,
+    openglSupport ? true,
+    vulkanSupport ? true,
+    tlsSupport ? true,
+    cupsSupport ? true,
+    dbusSupport ? true,
+    cairoSupport ? true,
+    cursesSupport ? true,
+    saneSupport ? true,
+    pulseaudioSupport ? true,
+    udevSupport ? true,
+    xineramaSupport ? true,
+    sdlSupport ? true,
+    mingwSupport ? true,
+    krb5Support ? false,
+    x11Support ? true,
+    usbSupport ? true,
+    gtkSupport ? true,
+    gstreamerSupport ? false,
+    openclSupport ? true,
+    odbcSupport ? true,
+    netapiSupport ? true,
+    vaSupport ? true,
+    pcapSupport ? true,
+    v4lSupport ? true,
+    gphoto2Support ? true,
+    embedInstallers ? true,
+    waylandSupport ? true,
+    ffmpegSupport ? true,
   }: let
     sources = (import "${inputs.nixpkgs}/pkgs/applications/emulators/wine/sources.nix" {inherit pkgs;}).unstable;
-    supportFlags = import ./supportFlags.nix;
     nixpkgs-wine = builtins.path {
       path = inputs.nixpkgs;
       name = "source";
@@ -57,7 +88,7 @@ in
         '';
 
     base = {
-      inherit supportFlags moltenvk;
+      inherit moltenvk;
       buildScript = null;
       configureFlags = ["--disable-tests" "--enable-archs=x86_64,i386"];
 
@@ -74,13 +105,47 @@ in
       mainProgram = "wine";
     };
   in
-    (callPackage "${nixpkgs-wine}/pkgs/applications/emulators/wine/base.nix"
+    ((callPackage "${nixpkgs-wine}/pkgs/applications/emulators/wine/base.nix"
       (lib.recursiveUpdate base {
         pname = "wine-astral-full";
         version = (builtins.fromJSON (builtins.readFile ./wine.json)).version + "-${builtins.substring 0 7 astralSources.wine.rev}";
         src = null; # astralSources.wine;
         patches = [];
-      })).overrideAttrs
+      })).override {
+      inherit
+        gettextSupport
+        fontconfigSupport
+        alsaSupport
+        openglSupport
+        vulkanSupport
+        tlsSupport
+        cupsSupport
+        dbusSupport
+        cairoSupport
+        cursesSupport
+        saneSupport
+        pulseaudioSupport
+        udevSupport
+        xineramaSupport
+        sdlSupport
+        mingwSupport
+        krb5Support
+        x11Support
+        usbSupport
+        gtkSupport
+        gstreamerSupport
+        openclSupport
+        odbcSupport
+        netapiSupport
+        vaSupport
+        pcapSupport
+        v4lSupport
+        gphoto2Support
+        embedInstallers
+        waylandSupport
+        ffmpegSupport
+        ;
+    }).overrideAttrs
     (old: rec {
       inherit (astralSources) wineopenxr vk_version;
       srcs = with astralSources; [
