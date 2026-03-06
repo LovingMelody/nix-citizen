@@ -1,15 +1,15 @@
 {
   "url": "https://gitlab.winehq.org/wine/wine.git",
-  "rev": "ec692c965f792f1cd453e0aa35fca8189d1f0b56",
-  "date": "2026-03-05T22:12:58+01:00",
-  "path": "/nix/store/nyn79qwp2fvcz1ws4blg4lvx6991am6r-wine",
-  "sha256": "12habmdg73pk8y8yyvcnfj8kjrak1nfaji7zpbv78iv6x3fi1jig",
-  "hash": "sha256-L8oQ3ehmR3T2uv9EqZwNU2U5kXSWbe+RR/OO81pdCoo=",
+  "rev": "cc893ef9cb17b994bfd1f1a1f7355be55e615623",
+  "date": "2026-03-06T21:41:46+01:00",
+  "path": "/nix/store/3d1gqixdxga3njx6jj3irlnn9afwhmc3-wine",
+  "sha256": "0jr2kqxpfbrnbidr737g1j40704s2bxna6p976wg4kk6l8kwdp1l",
+  "hash": "sha256-NNzGJ6JmTvK4OekaZfsSmoADiAzvjJNbXDYvdzueIks=",
   "fetchLFS": false,
   "fetchSubmodules": true,
   "deepClone": false,
   "fetchTags": false,
   "leaveDotGit": false,
   "rootDir": "",
-  "version": "11.3"
+  "version": "11.4"
 }
