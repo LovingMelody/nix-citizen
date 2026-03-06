@@ -29,9 +29,10 @@
   disableEac ? false,
   extraEnvVars ? {},
   enforceWaylandDrv ? false, # May help with vulkan but causes issues w/ some WMs
-  experiments ? false,
+  # experiments ? false,
   ... # Dont error from extra args for compatibility
 } @ args: let
+  rev = "0";
   extraArgs = builtins.removeAttrs args [
     "lib"
     "makeDesktopItem"
@@ -105,6 +106,8 @@ in
       export WINEARCH="win64"
       mkdir -p "${location}"
       export WINEPREFIX="$(readlink -f "${location}")"
+
+      export MIGRATION_STATE="$WINEPREFIX/.migration-state"
 
       # This is intended to allow keeping a directory for persistence
       # So you can keep the files you want if you recreate the prefix
@@ -208,6 +211,10 @@ in
           fi
         ''
       }
+      if [ ! -f "$MIGRATION_STATE" ]; then
+          echo '# nix-citizen revision tag for future migrations' >  "$MIGRATION_STATE"
+          echo '${rev}' >> "$MIGRATION_STATE"
+      fi
       # Set runtime path for wine & the shell path to be in the wine prefix
       cd "$WINEPREFIX"
 
@@ -231,12 +238,6 @@ in
       done
 
       # Experimental compatibility with lug-helper
-      # Note, this will overwrite the actual sc-launch.sh
-      ${lib.optionalString experiments ''
-        echo "export WINEPREFIX=$WINEPREFIX" > "$WINEPREFIX/sc-launch.sh"
-        echo 'export wine_path=${lib.getBin wine}' >> "$WINEPREFIX/sc-launch.sh"
-        echo "export launch_log=$WINEPREFIX/sc-launch.log" >> "$WINEPREFIX/sc-launch.sh"
-      ''}
 
       ${preCommands}
       ${
