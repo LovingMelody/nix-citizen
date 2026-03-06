@@ -178,6 +178,7 @@ in
         "winefacewarehacks-minimal.patch"
         "default-to-wayland.patch"
         "0001-wineopenxr_add.patch"
+        "append_cmd.patch"
         # "0002-wineopenxr_enable.patch"
         # "cache-committed-size.patch"
       ];
@@ -251,9 +252,11 @@ in
                 filename=$(basename "$patch")
                 # Check if the filename is not in the blacklist
                 ${builtins.concatStringsSep "\n" (builtins.map (p: "[[ $patch =~ '${p}' ]] && continue") lugBlacklist)}
+                echo "Applying '$patch'"
                 patch -p1 -i "$patch"
         done
         for patch in ../patches/*.mypatch; do
+          echo "Applying '$patch'"
           patch -p1 < "$patch"
         done
         runHook postPatch
