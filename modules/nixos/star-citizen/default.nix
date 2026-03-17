@@ -234,16 +234,7 @@
           "vm.max_map_count" = mkOverride 999 16777216;
           "fs.file-max" = mkOverride 999 524288;
         };
-        services.udev.packages = optional cfg.udevRules [
-          (pkgs.writeTextFile {
-            name = "40-starcitizen-joystick-uaccess.rules";
-            destination = "/etc/udev/rules.d/";
-            text = ''
-              # Set the uaccess tag for raw HID access for VKB/Virpil/Thrustmaster devices in Wine
-              KERNEL=="hidraw*", ATTRS{idVendor}=="231d|3344|044f", ATTRS{idProduct}=="*", MODE="0660", TAG+="uaccess"
-            '';
-          })
-        ];
+        services.udev.packages = optional cfg.udevRules pkgs.lug-helper;
         boot = {
           extraModulePackages = with config.boot.kernelPackages; [v4l2loopback];
           kernelModules = ["snd-aloop"] ++ lib.optional cfg.enableNTsync "ntsync";
