@@ -23,6 +23,7 @@ stdenvNoCC.mkDerivation (finalAttrs: {
     tag = "v${finalAttrs.version}";
     hash = "sha256-XdeHKB0VM0beeRvV/asAYhjfPg4ir0e8D9sqbf3Lekk=";
   };
+  patches = [./0001-Impove-udev-hidraw-rule-application.patch];
 
   buildInputs = [
     coreutils
@@ -52,7 +53,8 @@ stdenvNoCC.mkDerivation (finalAttrs: {
     install -Dm644 lug-logo.png $out/share/icons/hicolor/256x256/apps/lug-logo.png
     install -Dm644 rsi-launcher.png $out/share/icons/hicolor/256x256/apps/rsi-launcher.png
     install -Dm644 starcitizen.png $out/share/icons/hicolor/256x256/apps/starcitizen.png
-    install -Dm644 lib/* -t $out/share/lug-helper
+    install -Dm644 lib/*.* -t $out/share/lug-helper
+    install -Dm644 lib/udev/rules.d/*.rules -t $out/lib/udev/rules.d
 
     wrapProgram $out/bin/lug-helper \
       --prefix PATH : ${

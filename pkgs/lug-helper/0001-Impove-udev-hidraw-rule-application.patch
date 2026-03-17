@@ -1,0 +1,47 @@
+From 783f9bdac251fd4a0cf7319b45db243dd5796fc5 Mon Sep 17 00:00:00 2001
+From: Melody Renata <me@lovingmelody.io>
+Date: Tue, 17 Mar 2026 18:10:22 -0400
+Subject: [PATCH] Impove udev hidraw rule application
+
+Add udev rule to lib
+Copy the rule over from lib when the option is selected
+---
+ lib/udev/rules.d/40-starcitizen-joystick-uaccess.rules | 2 ++
+ lug-helper.sh                                          | 5 +++--
+ 2 files changed, 5 insertions(+), 2 deletions(-)
+ create mode 100644 lib/udev/rules.d/40-starcitizen-joystick-uaccess.rules
+
+diff --git a/lib/udev/rules.d/40-starcitizen-joystick-uaccess.rules b/lib/udev/rules.d/40-starcitizen-joystick-uaccess.rules
+new file mode 100644
+index 0000000..206bbc9
+--- /dev/null
++++ b/lib/udev/rules.d/40-starcitizen-joystick-uaccess.rules
+@@ -0,0 +1,2 @@
++# Set the uaccess tag for raw HID access for VKB/Virpil/Thrustmaster devices in Wine
++KERNEL=="hidraw*", ATTRS{idVendor}=="231d|3344|044f", ATTRS{idProduct}=="*", MODE="0660", TAG+="uaccess"
+diff --git a/lug-helper.sh b/lug-helper.sh
+index 80de0f1..34e3a5a 100755
+--- a/lug-helper.sh
++++ b/lug-helper.sh
+@@ -112,7 +112,8 @@ launch_script_name="sc-launch.sh"
+ # Default to files in the Helper directory for a git download
+ rsi_icon="$helper_dir/$rsi_icon_name"
+ sc_icon="$helper_dir/$sc_icon_name"
+-launch_script_template="$helper_dir/lib/$launch_script_name"
++launch_script_template="$helper_dir/lib/$launch_script_name" 
++udev_rules="$helper_dir/lib/udev/rules.d"
+ 
+ # Build our array of search paths, supporting packaged versions of this script
+ # Search XDG_DATA_DIRS and fall back to /usr/share/
+@@ -2204,7 +2205,7 @@ create_joystick_rules() {
+     fi
+ 
+     debug_print continue "Creating /etc/udev/rules.d/40-starcitizen-joystick-uaccess.rules..."
+-    try_exec root 'mkdir -p "/etc/udev/rules.d" && printf "# Set the uaccess tag for raw HID access for VKB/Virpil/Thrustmaster devices in Wine\nKERNEL==\"hidraw*\", ATTRS{idVendor}==\"231d|3344|044f\", ATTRS{idProduct}==\"*\", MODE=\"0660\", TAG+=\"uaccess\"" > /etc/udev/rules.d/40-starcitizen-joystick-uaccess.rules'
++    try_exec root "mkdir -p '/etc/udev/rules.d' && cp '$udev_rules/40-starcitizen-joystick-uaccess.rules /etc/udev/rules.d/40-starcitizen-joystick-uaccess.rules'"
+ 
+     if [ "$?" -eq 1 ]; then
+         message error "Unable to create joystick udev rules! See terminal output for details."
+-- 
+2.53.0
+
