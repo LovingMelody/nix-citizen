@@ -29,6 +29,8 @@
   disableEac ? false,
   extraEnvVars ? {},
   enforceWaylandDrv ? false, # May help with vulkan but causes issues w/ some WMs
+  hidewine ? true,
+  hidetray ? false,
   # experiments ? false,
   ... # Dont error from extra args for compatibility
 } @ args: let
@@ -97,167 +99,181 @@ in
       mimeTypes = ["application/x-${finalAttrs.pname}"];
     };
 
-    src = writeScript "${finalAttrs.pname}" ''
-      #!${lib.getExe bash}
-      set -x
-      export PATH="${lib.makeBinPath finalAttrs.buildInputs}:$PATH"
-      # Winetricks is a pinned version, this isnt needed...
-      export WINETRICKS_LATEST_VERSION_CHECK=disabled
-      export WINEARCH="win64"
-      mkdir -p "${location}"
-      export WINEPREFIX="$(readlink -f "${location}")"
+    src = let
+      HideWineExports =
+        if hidewine
+        then "wine reg add 'HKCU\\Software\\Wine\\AppDefaults\\StarCitizen.exe' /v HideWineExports /d 'Y' /f /reg:64"
+        else "wine reg add 'HKCU\\Software\\Wine\\AppDefaults\\StarCitizen.exe' /v HideWineExports /d 'N' /f /reg:64";
+      HideTrayIcon =
+        if hidetray
+        then "wine reg add 'HKLM\\Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer' /v NoTrayItemsDisplay /t REG_DWORD /d 1 /f"
+        else "wine reg add 'HKLM\\Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer' /v NoTrayItemsDisplay /t REG_DWORD /d 0 /f";
+    in
+      writeScript "${finalAttrs.pname}"
+      ''
+        #!${lib.getExe bash}
+        set -x
+        export PATH="${lib.makeBinPath finalAttrs.buildInputs}:$PATH"
+        # Winetricks is a pinned version, this isnt needed...
+        export WINETRICKS_LATEST_VERSION_CHECK=disabled
+        export WINEARCH="win64"
+        mkdir -p "${location}"
+        export WINEPREFIX="$(readlink -f "${location}")"
 
-      export MIGRATION_STATE="$WINEPREFIX/.migration-state"
+        export MIGRATION_STATE="$WINEPREFIX/.migration-state"
 
-      # This is intended to allow keeping a directory for persistence
-      # So you can keep the files you want if you recreate the prefix
-      # This is mostly for testing but it is planned to fully support this
-      # So recreating the wine prefix will be a later option..
-      if [ -d "$WINEPREFIX/prefix" ]; then
-         export WINEPREFIX="$WINEPREFIX/prefix"
-      fi
-      ${
-        optionalString
-        #this option doesn't work on umu, an umu TOML config file will be needed instead
-        (!useUmu)
-        ''
-          export WINEFSYNC=1
-          export WINEESYNC=1
-          export WINEDLLOVERRIDES="${lib.strings.concatStringsSep ";" wineDllOverrides}"
-          export WINEDEBUG=-all
-
-        ''
-      }
-      # ID for umu, not used for now
-      export GAMEID="umu-starcitizen"
-      export STORE="none"
-
-      ${optionalString enableGlCache ''
-        # NVIDIA
-        export __GL_SHADER_DISK_CACHE=1;
-        export __GL_SHADER_DISK_CACHE_SIZE=${builtins.toString glCacheSize};
-        export __GL_SHADER_DISK_CACHE_PATH="$WINEPREFIX";
-        export __GL_SHADER_DISK_CACHE_SKIP_CLEANUP=1;
-        # MESA (Intel & AMD)
-        export MESA_SHADER_CACHE_DIR="$WINEPREFIX";
-        export MESA_SHADER_CACHE_MAX_SIZE="${builtins.toString (builtins.floor (glCacheSize / 1024 / 1024 / 1024))}G";
-
-      ''}
-      export DXVK_ENABLE_NVAPI=1
-
-      # For whatever reason, your user isnt known if this isnt done...
-      USER="$(whoami)"
-      RSI_LAUNCHER="$WINEPREFIX/drive_c/Program Files/Roberts Space Industries/RSI Launcher/RSI Launcher.exe"
-
-      # Begin extra vars
-      ${toShellVars extraEnvVars}
-      # End extra vars
-
-      if [ "${"\${1:-}"}" = "--remove-eac-dir" ]; then
-         wine cmd /c "echo Deleting: %APPDATA%\EasyAntiCheat & rmdir /s /q \"%APPDATA%\\EasyAntiCheat\""
-      fi
-
-      ${
-        if useUmu
-        then ''
-          export PROTON_VERBS="${concatStringsSep "," protonVerbs}"
-          export PROTONPATH="${protonPath}"
-          if [ ! -f "$RSI_LAUNCHER" ]  || [ "${"\${1:-}"}"  = "--force-install" ]; then umu-run "${lib.getExe rsi-installer}" /S; fi
-        ''
-        else ''
-          # Ensure all tricks are installed
-          ${toShellVars {
-            inherit tricks;
-            tricksInstalled = 1;
-          }}
-
-          wineprefix-preparer
-
-          for trick in "${"\${tricks[@]}"}"; do
-             if ! winetricks list-installed | grep -qw "$trick"; then
-               echo "winetricks: Installing $trick"
-               winetricks -q -f "$trick"
-               tricksInstalled=0
-             fi
-          done
-          if [ "$tricksInstalled" -eq 0 ]; then
-            # Ensure wineserver is restarted after tricks are installed
-            wineserver -k
-          fi
-
-          if [ ! -e "$RSI_LAUNCHER" ] || [ "${"\${1:-}"}"  = "--force-install" ]; then
-            mkdir -p "$WINEPREFIX/drive_c/Program Files/Roberts Space Industries/StarCitizen/"{LIVE,PTU}
-
-            # install launcher using silent install
-            WINEDLLOVERRIDES="dxwebsetup.exe,dotNetFx45_Full_setup.exe,winemenubuilder.exe=d" wine ${lib.getExe rsi-installer} /S
-
-            wineserver -k
-          fi
-        ''
-      }
-      ${lib.optionalString disableEac ''
-        # Anti-cheat
-        export EOS_USE_ANTICHEATCLIENTNULL=1
-      ''}
-      # Enforce wayland driver if not using x11
-      # Vulkan doesnt work without this
-      ${
-        lib.optionalString enforceWaylandDrv ''
-          if [ $XDG_SESSION_TYPE != "x11" ]; then
-            export DISPLAY=
-          fi
-          if [ -z "$DISPLAY" ]; then
-            set -- "$@" "--in-process-gpu"
-          fi
-        ''
-      }
-      if [ ! -f "$MIGRATION_STATE" ]; then
-          echo '# nix-citizen revision tag for future migrations' >  "$MIGRATION_STATE"
-          echo '${rev}' >> "$MIGRATION_STATE"
-      fi
-      # Set runtime path for wine & the shell path to be in the wine prefix
-      cd "$WINEPREFIX"
-
-      if [ "${"\${1:-}"}"  = "--shell" ]; then
-        set +x
-        echo "Entered Shell for star-citizen"
-        exec ${lib.getExe bash};
-      fi
-
-      # Only execute gamemode if it exists on the system
-      if command -v gamemoderun > /dev/null 2>&1; then
-        gamemode="gamemoderun"
-      else
-        gamemode=""
-      fi
-      # dlss fixes
-      for dll in 'cryptbase.dll' 'devobj.dll' 'drvstore.dll'; do
-        if [ ! -e "$WINEPREFIX/drive_c/windows/system32/$dll" ]; then
-          ln -sv "$WINEPREFIX/drive_c/windows/system32/cryptui.dll" "$WINEPREFIX/drive_c/windows/system32/$dll"
+        # This is intended to allow keeping a directory for persistence
+        # So you can keep the files you want if you recreate the prefix
+        # This is mostly for testing but it is planned to fully support this
+        # So recreating the wine prefix will be a later option..
+        if [ -d "$WINEPREFIX/prefix" ]; then
+           export WINEPREFIX="$WINEPREFIX/prefix"
         fi
-      done
+        ${
+          optionalString
+          #this option doesn't work on umu, an umu TOML config file will be needed instead
+          (!useUmu)
+          ''
+            export WINEFSYNC=1
+            export WINEESYNC=1
+            export WINEDLLOVERRIDES="${lib.strings.concatStringsSep ";" wineDllOverrides}"
+            export WINEDEBUG=-all
 
-      # Experimental compatibility with lug-helper
+          ''
+        }
+        # ID for umu, not used for now
+        export GAMEID="umu-starcitizen"
+        export STORE="none"
 
-      ${preCommands}
-      ${
-        if useUmu
-        then ''
-          ${gameScope} $gamemode umu-run "$RSI_LAUNCHER" "$@"
-        ''
-        else ''
-          if [[ -t 1 ]]; then
-              ${gameScope} $gamemode wine ${wineFlags} "$RSI_LAUNCHER" "$@"
-          else
-              export LOG_DIR=$(mktemp -d)
-              echo "Working arround known launcher error by outputting logs to $WINEPREFIX/sc-launch.log"
-              ${gameScope} $gamemode wine ${wineFlags} "$RSI_LAUNCHER" "$@" > "$WINEPREFIX/sc-launch.log" 2>&1
+        ${optionalString enableGlCache ''
+          # NVIDIA
+          export __GL_SHADER_DISK_CACHE=1;
+          export __GL_SHADER_DISK_CACHE_SIZE=${builtins.toString glCacheSize};
+          export __GL_SHADER_DISK_CACHE_PATH="$WINEPREFIX";
+          export __GL_SHADER_DISK_CACHE_SKIP_CLEANUP=1;
+          # MESA (Intel & AMD)
+          export MESA_SHADER_CACHE_DIR="$WINEPREFIX";
+          export MESA_SHADER_CACHE_MAX_SIZE="${builtins.toString (builtins.floor (glCacheSize / 1024 / 1024 / 1024))}G";
+
+        ''}
+        export DXVK_ENABLE_NVAPI=1
+
+        # For whatever reason, your user isnt known if this isnt done...
+        USER="$(whoami)"
+        RSI_LAUNCHER="$WINEPREFIX/drive_c/Program Files/Roberts Space Industries/RSI Launcher/RSI Launcher.exe"
+
+        # Begin extra vars
+        ${toShellVars extraEnvVars}
+        # End extra vars
+
+        if [ "${"\${1:-}"}" = "--remove-eac-dir" ]; then
+           wine cmd /c "echo Deleting: %APPDATA%\EasyAntiCheat & rmdir /s /q \"%APPDATA%\\EasyAntiCheat\""
+        fi
+
+        ${
+          if useUmu
+          then ''
+            export PROTON_VERBS="${concatStringsSep "," protonVerbs}"
+            export PROTONPATH="${protonPath}"
+            if [ ! -f "$RSI_LAUNCHER" ]  || [ "${"\${1:-}"}"  = "--force-install" ]; then umu-run "${lib.getExe rsi-installer}" /S; fi
+          ''
+          else ''
+            # Ensure all tricks are installed
+            ${toShellVars {
+              inherit tricks;
+              tricksInstalled = 1;
+            }}
+
+            wineprefix-preparer
+
+            for trick in "${"\${tricks[@]}"}"; do
+               if ! winetricks list-installed | grep -qw "$trick"; then
+                 echo "winetricks: Installing $trick"
+                 winetricks -q -f "$trick"
+                 tricksInstalled=0
+               fi
+            done
+            if [ "$tricksInstalled" -eq 0 ]; then
+              # Ensure wineserver is restarted after tricks are installed
+              wineserver -k
+            fi
+
+            if [ ! -e "$RSI_LAUNCHER" ] || [ "${"\${1:-}"}"  = "--force-install" ]; then
+              mkdir -p "$WINEPREFIX/drive_c/Program Files/Roberts Space Industries/StarCitizen/"{LIVE,PTU}
+
+              # install launcher using silent install
+              WINEDLLOVERRIDES="dxwebsetup.exe,dotNetFx45_Full_setup.exe,winemenubuilder.exe=d" wine ${lib.getExe rsi-installer} /S
+
+              wineserver -k
+            fi
+          ''
+        }
+        ${lib.optionalString disableEac ''
+          # Anti-cheat
+          export EOS_USE_ANTICHEATCLIENTNULL=1
+        ''}
+        # Enforce wayland driver if not using x11
+        # Vulkan doesnt work without this
+        ${
+          lib.optionalString enforceWaylandDrv ''
+            if [ $XDG_SESSION_TYPE != "x11" ]; then
+              export DISPLAY=
+            fi
+            if [ -z "$DISPLAY" ]; then
+              set -- "$@" "--in-process-gpu"
+            fi
+          ''
+        }
+        if [ ! -f "$MIGRATION_STATE" ]; then
+            echo '# nix-citizen revision tag for future migrations' >  "$MIGRATION_STATE"
+            echo '${rev}' >> "$MIGRATION_STATE"
+        fi
+        # Set runtime path for wine & the shell path to be in the wine prefix
+        cd "$WINEPREFIX"
+
+        if [ "${"\${1:-}"}"  = "--shell" ]; then
+          set +x
+          echo "Entered Shell for star-citizen"
+          exec ${lib.getExe bash};
+        fi
+
+        # Only execute gamemode if it exists on the system
+        if command -v gamemoderun > /dev/null 2>&1; then
+          gamemode="gamemoderun"
+        else
+          gamemode=""
+        fi
+        # dlss fixes
+        for dll in 'cryptbase.dll' 'devobj.dll' 'drvstore.dll'; do
+          if [ ! -e "$WINEPREFIX/drive_c/windows/system32/$dll" ]; then
+            ln -sv "$WINEPREFIX/drive_c/windows/system32/cryptui.dll" "$WINEPREFIX/drive_c/windows/system32/$dll"
           fi
-          wineserver -w
-        ''
-      }
-      ${postCommands}
-    '';
+        done
+
+        # This helps fixes SC bugs when wine is detected
+        ${HideWineExports}
+        # Optionally Hide the tray icon in SC since it doesn't go to tray on wayland
+        ${HideTrayIcon}
+
+        ${preCommands}
+        ${
+          if useUmu
+          then ''
+            ${gameScope} $gamemode umu-run "$RSI_LAUNCHER" "$@"
+          ''
+          else ''
+            if [[ -t 1 ]]; then
+                ${gameScope} $gamemode wine ${wineFlags} "$RSI_LAUNCHER" "$@"
+            else
+                export LOG_DIR=$(mktemp -d)
+                echo "Working arround known launcher error by outputting logs to $WINEPREFIX/sc-launch.log"
+                ${gameScope} $gamemode wine ${wineFlags} "$RSI_LAUNCHER" "$@" > "$WINEPREFIX/sc-launch.log" 2>&1
+            fi
+            wineserver -w
+          ''
+        }
+        ${postCommands}
+      '';
     dontUnpack = true;
     installPhase = ''
       for size in 16 32 48 256; do
