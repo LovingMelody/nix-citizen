@@ -1,13 +1,12 @@
-(
-  import
-  (
-    builtins.fetchTarball {
-      url = "https://github.com/edolstra/flake-compat/archive/refs/tags/v1.1.0.tar.gz";
-      sha256 = "19d2z6xsvpxm184m41qrpi1bplilwipgnzv9jy17fgw421785q1m";
+(import (
+  let
+    lock = builtins.fromJSON (builtins.readFile ./flake.lock);
+    nodeName = lock.nodes.root.inputs.flake-compat;
+  in
+    fetchTarball {
+      url =
+        lock.nodes.${nodeName}.locked.url
+        or "https://github.com/NixOS/flake-compat/archive/${lock.nodes.${nodeName}.locked.rev}.tar.gz";
+      sha256 = lock.nodes.${nodeName}.locked.narHash;
     }
-  )
-  {
-    src = ./.;
-  }
-)
-.defaultNix
+) {src = ./.;}).defaultNix
