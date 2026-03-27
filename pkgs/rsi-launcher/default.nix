@@ -255,6 +255,10 @@ in
         # Optionally Hide the tray icon in SC since it doesn't go to tray on wayland
         ${HideTrayIcon}
 
+        # Restart wineserver
+        wineserver -k
+        wineserver
+
         ${preCommands}
         ${
           if useUmu
