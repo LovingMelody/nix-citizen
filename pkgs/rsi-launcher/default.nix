@@ -187,7 +187,7 @@ in
             wineprefix-preparer
 
             for trick in "${"\${tricks[@]}"}"; do
-               if ! winetricks list-installed | grep -qw "$trick"; then
+               if [ "${"\${1:-}"}" = "--force-install" ] || (! winetricks list-installed | grep -qw "$trick"); then
                  echo "winetricks: Installing $trick"
                  winetricks -q -f "$trick"
                  tricksInstalled=0
@@ -198,7 +198,7 @@ in
               wineserver -k
             fi
 
-            if [ ! -e "$RSI_LAUNCHER" ] || [ "${"\${1:-}"}"  = "--force-install" ]; then
+            if [ ! -e "$RSI_LAUNCHER" ] || [ "${"\${1:-}"}" = "--force-install" ]; then
               mkdir -p "$WINEPREFIX/drive_c/Program Files/Roberts Space Industries/StarCitizen/"{LIVE,PTU}
 
               # install launcher using silent install
