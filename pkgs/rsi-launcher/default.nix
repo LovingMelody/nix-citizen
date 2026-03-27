@@ -15,7 +15,7 @@
   pname ? "rsi-launcher",
   wineFlags ? "",
   location ? "$HOME/Games/${pname}",
-  tricks ? ["powershell" "corefonts" "tahoma"],
+  tricks ? ["powershell" "corefonts" "tahoma" "vcrun2022"],
   useUmu ? false,
   protonPath ? "${proton-ge-bin.steamcompattool}/",
   protonVerbs ? ["waitforexitandrun"],
