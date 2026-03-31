@@ -48,7 +48,9 @@ in {
           ++ optional (!builtins.elem ./patches/ge-xwayland-pointer-warp-fix.patch (p.patches or [])) ./patches/ge-xwayland-pointer-warp-fix.patch;
       });
     };
-    default = final: _prev: {
+    default = final: prev: let
+      compattools = final.callPackage ./pkgs/steamcompattools {inherit (prev) proton-ge-bin;};
+    in {
       cnc-ddraw = final.callPackage "${inputs.nix-gaming}/pkgs/cnc-ddraw" {};
       dxvk-w32 = final.pkgsCross.mingw32.callPackage "${inputs.nix-gaming}/pkgs/dxvk" {
         withSdl2 = true;
@@ -166,6 +168,7 @@ in {
       lug-helper =
         final.callPackage ./pkgs/lug-helper {winetricks = final.winetricks-git;};
       lug-wine-bin = final.callPackage ./pkgs/lug-wine-bin {};
+      inherit (compattools) proton-ge-bin dw-proton-bin;
     };
   };
 }

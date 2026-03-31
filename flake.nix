@@ -84,6 +84,8 @@
             wineprefix-preparer
             wineprefix-preparer-git
             winetricks-git
+            proton-ge-bin
+            dw-proton-bin
             ;
           xwayland-patched = pkgs.xwayland.overrideAttrs (p: {
             patches =

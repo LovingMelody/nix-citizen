@@ -9,6 +9,9 @@ nix-update --flake lug-helper
 # lug-wine-bin
 ./pkgs/lug-wine-bin/update.sh
 
+# Compattools
+./pkgs/steamcompattools/update.sh
+
 npins update
 
 # Update wine-astral sources
