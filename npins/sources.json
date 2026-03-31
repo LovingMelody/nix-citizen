@@ -35,9 +35,9 @@
       },
       "branch": "master",
       "submodules": true,
-      "revision": "8db2e819cef10f6378d7333a4c6f33001f359ba1",
+      "revision": "ffebfcc8a317ed39763e244d01456c758b730aad",
       "url": null,
-      "hash": "sha256-90jzxE7XFtXOmb0FvNvTix3hDDDQ1HFCp0fhcvllZoU="
+      "hash": "sha256-eVTZQBD12IxB+fk0NGOr1XcM3c3p1gl5vwCm4MGSV04="
     },
     "vkd3d-proton": {
       "type": "Git",
@@ -48,9 +48,9 @@
       },
       "branch": "master",
       "submodules": true,
-      "revision": "e808096d5d9532f31f8b35b44fed263ae6c0502d",
+      "revision": "d6c4753b7ec6d81c974e3d155d4121767454df75",
       "url": null,
-      "hash": "sha256-eH0sidfS9itXqFI0noiKTIc3HA8WPXyIdg7Cms+G49M="
+      "hash": "sha256-389w3Ac8agyQMczVzuURc7X3baJpPnzXT9NKveDsRZQ="
     }
   },
   "version": 7
