@@ -1,28 +1,81 @@
 #!/usr/bin/env nix-shell
 #! nix-shell -i bash -p curl jq nix-prefetch-git
-
+set -x
 INFO='pkgs/steamcompattools/sources.json'
 TEMPL='pkgs/steamcompattools/sources.tpl'
-GE_REPO='https://api.github.com/repos/GloriousEggroll/proton-ge-custom/releases'
-GE_VER="$(curl -sL "$GE_REPO" | jq 'map(select(.prerelease == false)) | .[0].tag_name' --raw-output)"
-if [ "$GE_VER" != "$(jq -r '.["proton-ge-bin"].version' <"$INFO")" ]; then
-  GE_URL="https://github.com/GloriousEggroll/proton-ge-custom/releases/download/$GE_VER/$GE_VER.tar.gz"
-  GE_HASH="$(nix store prefetch-file "$GE_URL" --unpack --json | jq -r .hash)"
-else
+ARCH="x86_64"
+get_release() {
+  local name="$1"
+  local repo="$2"
+  local url_template="$3"
+  local arch="$4"
+  local ver url hash
 
-  GE_URL="$(jq -r '.["proton-ge-bin"].url' <"$INFO")"
-  GE_HASH="$(jq -r '.["proton-ge-bin"].hash' <"$INFO")"
-fi
-DW_REPO='https://dawn.wine/api/v1/repos/dawn-winery/dwproton/releases'
-DW_VER="$(curl -sL "$DW_REPO" | jq 'map(select(.prerelease == false)) | .[0].tag_name' --raw-output)"
+  ver="$(curl -sL "$repo" | jq 'map(select(.prerelease == false)) | max_by(.published_at) | .tag_name' --raw-output)"
+  if [ ! -z "${ver}" ] && [ "$ver" != "$(jq -r --arg n "$name" '.[$n].version' <"$INFO")" ]; then
+    url="${url_template//\{version\}/$ver}"
+    url="${url//\{arch\}/$arch}"
+    hash="$(nix store prefetch-file "$url" --unpack --json | jq -r .hash)"
+    updated="true"
+  else
+    url="$(jq -r --arg n "$name" '.[$n].url' <"$INFO")"
+    hash="$(jq -r --arg n "$name" '.[$n].hash' <"$INFO")"
+    updated="false"
+  fi
+  printf '%s %s %s %s\n' "$ver" "$url" "$hash" "$updated"
 
-if [ "$DW_VER" != "$(jq -r '.["dw-proton-bin"].version' <"$INFO")" ]; then
-  DW_URL="https://dawn.wine/dawn-winery/dwproton/releases/download/$DW_VER/$DW_VER-x86_64.tar.xz"
-  DW_HASH="$(nix store prefetch-file "$DW_URL" --unpack --json | jq -r .hash)"
-else
-  DW_URL="$(jq -r '.["dw-proton-bin"].url' <"$INFO")"
-  DW_HASH="$(jq -r '.["dw-proton-bin"].hash' <"$INFO")"
-fi
+}
+
+read -r GE_VER GE_URL GE_HASH _ < <(
+  get_release \
+    "proton-ge-bin" \
+    "https://api.github.com/repos/GloriousEggroll/proton-ge-custom/releases" \
+    "https://github.com/GloriousEggroll/proton-ge-custom/releases/download/{version}/{version}.tar.gz" \
+    "$ARCH"
+)
+
+read -r DW_VER DW_URL DW_HASH _ < <(
+  get_release \
+    "dw-proton-bin" \
+    "https://dawn.wine/api/v1/repos/dawn-winery/dwproton/releases" \
+    "https://dawn.wine/dawn-winery/dwproton/releases/download/{version}/{version}-{arch}.tar.xz" \
+    "$ARCH"
+)
+cachy_url_templ='https://github.com/CachyOS/proton-cachyos/releases/download/{version}/proton-{version}-{arch}.tar.xz'
+
+read -r CACHY_VER CACHY_URL CACHY_HASH _ < <(
+  get_release \
+    "proton-cachyos-bin" \
+    "https://api.github.com/repos/CachyOS/proton-cachyos/releases" \
+    "$cachy_url_templ" \
+    "$ARCH"
+
+)
+cachy_info() {
+  local arch="$1"
+  url="${cachy_url_templ//\{version\}/$CACHY_VER}"
+  url="${url//\{arch\}/$arch}"
+  if [ "$CACHY_VER" != "$(jq -r --arg n "proton-cachyos-$arch-bin" '.[$n].version' <"$INFO")" ]; then
+    hash="$(nix store prefetch-file "$url" --unpack --json | jq -r .hash)"
+  else
+    hash="$(jq -r --arg n "proton-cachyos-$arch-bin" '.[$n].hash' <"$INFO")"
+  fi
+
+  printf '%s %s\n' "$url" "$hash"
+}
+
+read -r CACHY_ARM_URL CACHY_ARM_HASH < <(cachy_info 'arm64')
+read -r CACHY_V3_URL CACHY_V3_HASH < <(cachy_info 'x86_64_v3')
+read -r CACHY_V4_URL CACHY_V4_HASH < <(cachy_info 'x86_64_v4')
+
+read -r EM_VER EM_URL EM_HASH _ < <(
+  get_release \
+    "proton-em-bin" \
+    'https://api.github.com/repos/Etaash-mathamsetty/Proton/releases' \
+    'https://github.com/Etaash-mathamsetty/Proton/releases/download/{version}/proton-{version}.tar.xz' \
+    "$ARCH"
+)
+
 jq -n \
   --arg ge_ver "$GE_VER" \
   --arg ge_url "$GE_URL" \
@@ -30,4 +83,16 @@ jq -n \
   --arg dw_ver "$DW_VER" \
   --arg dw_url "$DW_URL" \
   --arg dw_hash "$DW_HASH" \
+  --arg cachy_ver "$CACHY_VER" \
+  --arg cachy_url "$CACHY_URL" \
+  --arg cachy_hash "$CACHY_HASH" \
+  --arg cachy_arm_url "$CACHY_ARM_URL" \
+  --arg cachy_arm_hash "$CACHY_ARM_HASH" \
+  --arg cachy_v3_url "$CACHY_V3_URL" \
+  --arg cachy_v3_hash "$CACHY_V3_HASH" \
+  --arg cachy_v4_url "$CACHY_V4_URL" \
+  --arg cachy_v4_hash "$CACHY_V4_HASH" \
+  --arg em_ver "$EM_VER" \
+  --arg em_url "$EM_URL" \
+  --arg em_hash "$EM_HASH" \
   "$(cat "$TEMPL")" >"$INFO"

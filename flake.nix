@@ -58,7 +58,7 @@
             allowInsecure = true;
             checkMeta = true;
           };
-          overlays = [self.overlays.default];
+          overlays = [self.overlays.default self.overlays.steamcompattools];
         };
         packages = let
           inherit (inputs.nixpkgs.lib) optional;
@@ -86,6 +86,8 @@
             winetricks-git
             proton-ge-bin
             dw-proton-bin
+            proton-cachyos-bin
+            proton-em-bin
             ;
           xwayland-patched = pkgs.xwayland.overrideAttrs (p: {
             patches =

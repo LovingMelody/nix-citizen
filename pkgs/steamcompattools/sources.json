@@ -10,5 +10,35 @@
     "url": "https://github.com/GloriousEggroll/proton-ge-custom/releases/download/GE-Proton10-34/GE-Proton10-34.tar.gz",
     "hash": "sha256-lzPsYYcrp5NoT3B0WFj3o10Z7tXx7xva1wEP3edeuqM=",
     "steamDisplayName": "GE-Proton"
+  },
+  "proton-cachyos-bin": {
+    "version": "cachyos-10.0-20260330-slr",
+    "url": "https://github.com/CachyOS/proton-cachyos/releases/download/cachyos-10.0-20260330-slr/proton-cachyos-10.0-20260330-slr-x86_64.tar.xz",
+    "hash": "sha256-N8KTbHjNdFvDH2WAVF+NaEVEiJaEuNGg1Yf0HDVMVk0=",
+    "steamDisplayName": "Proton-CachyOS"
+  },
+  "proton-cachyos-arm64-bin": {
+    "version": "cachyos-10.0-20260330-slr",
+    "url": "https://github.com/CachyOS/proton-cachyos/releases/download/cachyos-10.0-20260330-slr/proton-cachyos-10.0-20260330-slr-arm64.tar.xz",
+    "hash": "sha256-SD5ldOyChCxj4OcJa0HfnhN1czosznfxZdLIgMh2pcY=",
+    "steamDisplayName": "Proton-CachyOS"
+  },
+  "proton-cachyos-x86_64_v3-bin": {
+    "version": "cachyos-10.0-20260330-slr",
+    "url": "https://github.com/CachyOS/proton-cachyos/releases/download/cachyos-10.0-20260330-slr/proton-cachyos-10.0-20260330-slr-x86_64_v3.tar.xz",
+    "hash": "sha256-amEjRjrmWDKJE8AiJdf8KSm3ulSQcKQLleAoTeu5xpk=",
+    "steamDisplayName": "Proton-CachyOS"
+  },
+  "proton-cachyos-x86_64_v4-bin": {
+    "version": "cachyos-10.0-20260330-slr",
+    "url": "https://github.com/CachyOS/proton-cachyos/releases/download/cachyos-10.0-20260330-slr/proton-cachyos-10.0-20260330-slr-x86_64_v4.tar.xz",
+    "hash": "sha256-zTLj81Foi5NetN7GljZIM9quLZnUoBh8129Dsz0MDu4=",
+    "steamDisplayName": "Proton-CachyOS"
+  },
+  "proton-em-bin": {
+    "version": "EM-10.0-36-HDRTEST",
+    "url": "https://github.com/Etaash-mathamsetty/Proton/releases/download/EM-10.0-36-HDRTEST/proton-EM-10.0-36-HDRTEST.tar.xz",
+    "hash": "sha256-+jGzguNPS9zuVOwF5njBG983s3USAVWroIbvie3/Hds=",
+    "steamDisplayName": "Proton-EM"
   }
 }
