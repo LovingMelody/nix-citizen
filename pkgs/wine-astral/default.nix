@@ -23,8 +23,11 @@ in
     python3,
     gitMinimal,
     llvmBuild ? true,
-    enableAvx2 ? stdenv.hostPlatform.avx2Support,
-    enableFma ? stdenv.hostPlatform.fmaSupport,
+    enableAvx ? stdenv.targetPlatform.avxSupport,
+    enableAvx2 ? stdenv.targetPlatform.avx2Support,
+    enableAvx512 ? stdenv.targetPlatform.avx512Support,
+    enableFma ? stdenv.targetPlatform.fmaSupport,
+    enableAes ? stdenv.targetPlatform.aesSupport,
     llvmPackages_latest,
     openxr-loader,
     bash,
@@ -93,7 +96,14 @@ in
       configureFlags = ["--disable-tests" "--enable-archs=x86_64,i386"];
 
       geckos = with sources; [gecko32 gecko64];
-      mingwGccs = with pkgsCross; [mingw32.buildPackages.gcc_latest mingwW64.buildPackages.gcc_latest];
+      mingwGccs = let
+        mingw32 =
+          pkgsCross.mingw32.buildPackages.gcc_latest;
+        mingwW64 = pkgsCross.mingwW64.buildPackages.gcc_latest;
+      in [
+        mingw32
+        mingwW64
+      ];
       monos = [astralSources.mono];
       pkgArches = [pkgs];
       platforms = ["x86_64-linux"];
@@ -275,8 +285,10 @@ in
 
       #  NOTE: Star Citizen requires a minimum of x86-64-v3 due to AVX requirements.
       # We can build wine-astral with support since its intended for Star Citizen.
+
       env = {
         XDG_CACHE_HOME = "$src/build-cache";
+
         NIX_CFLAGS_COMPILE =
           builtins.concatStringsSep " "
           (
@@ -284,10 +296,18 @@ in
               "-Wno-error=implicit-function-declaration"
               "-Wno-error=incompatible-pointer-types"
               "-Wno-error=int-conversion"
+              "-O3"
+              "-funroll-loops"
             ]
-            ++ lib.optional (! enableAvx2) "-mavx"
-            ++ lib.optional enableAvx2 "-mavx2"
-            ++ lib.optional enableFma "-mfma"
+            # We keep this disabled until Wine PE can be compiled with clang
+            # ++ lib.optional llvmBuild "-fvectorize"
+            ++ lib.optionals stdenv.hostPlatform.isx86_64 (
+              lib.optional enableAvx512 "-mavx512f"
+              ++ lib.optional enableAvx2 "-mavx2"
+              ++ lib.optional enableAvx "-mavx"
+              ++ lib.optional enableFma "-mfma"
+              ++ lib.optional enableAes "-maes"
+            )
           );
       };
 
