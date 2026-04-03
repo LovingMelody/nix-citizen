@@ -158,6 +158,14 @@ in
         ''}
         export DXVK_ENABLE_NVAPI=1
 
+        # Set NVIDIA_WINE_DLL_DIR is used to setup DLSS
+        # If the environment variable is not set, dxvk-nvapi may not locate the required deps
+        # This is just a simple check if the environment variable is not set and to set it if it's in the
+        # usual NixOS path. This shouldn't be needed on other distros so the paths are not checked.
+        if [ ! -v "$NVIDIA_WINE_DLL_DIR" ] && [ ! -d "$NVIDIA_WINE_DLL_DIR" ] && [ -d /run/opengl-driver/lib/nvidia/wine ]; then
+          export NVIDIA_WINE_DLL_DIR='/run/opengl-driver/lib/nvidia/wine'
+        fi
+
         # For whatever reason, your user isnt known if this isnt done...
         USER="$(whoami)"
         RSI_LAUNCHER="$WINEPREFIX/drive_c/Program Files/Roberts Space Industries/RSI Launcher/RSI Launcher.exe"
