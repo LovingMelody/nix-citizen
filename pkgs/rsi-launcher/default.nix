@@ -193,6 +193,14 @@ in
             }}
 
             wineprefix-preparer
+            # DLSS
+            echo 'Copying nvidia wine dlls to prefix'
+            if [ -d "$NVIDIA_WINE_DLL_DIR" ]; then
+              for dll in $NVIDIA_WINE_DLL_DIR/*.dll; do
+               [ -f "$dll" ] && install -v -D -m644 "$WINEPREFIX/drive_c/windows/system32/" "$dll"
+              done
+            fi
+
 
             for trick in "${"\${tricks[@]}"}"; do
                if [ "${"\${1:-}"}" = "--force-install" ] || (! winetricks list-installed | grep -qw "$trick"); then
