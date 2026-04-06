@@ -184,7 +184,6 @@ in
       ];
       tkgPatches = [
         "misc/CSMT-toggle/CSMT-toggle.patch"
-        #"proton/LAA/LAA-unix-wow64.patch"
         "proton/proton-win10-default/proton-win10-default.patch"
         "proton-tkg-specific/proton_battleye/proton_battleye.patch"
         "proton-tkg-specific/proton_eac/Revert-ntdll-Get-rid-of-the-wine_nt_to_unix_file_nam.patch"
@@ -241,6 +240,8 @@ in
         patchShebangs ../wine-staging/patches
         chmod -R a+w .
       '';
+      # Patch Order:
+      # Staging -> TKG -> lug -> custom patches
 
       patchPhase = ''
 
