@@ -1,9 +1,9 @@
 #!/usr/bin/env nix-shell
-#! nix-shell -i bash -p curl yq-go jq
+#! nix-shell -i bash -p curl jaq
 
 INFO="pkgs/gameglass/sources.json"
 
-VERSION="$(curl -s https://download.gameglass.gg/hub/latest-linux.yml | yq -r '.version')"
+VERSION="$(curl -s https://download.gameglass.gg/hub/latest-linux.yml | jaq --from yaml -r '.version')"
 
 url="https://download.gameglass.gg/hub/GameGlass.AppImage"
 # If it's the same as current, skip other steps
@@ -11,11 +11,11 @@ if [ "$VERSION" == "$(nix eval .\#gameglass.version --raw)" ]; then
   exit 0
 fi
 
-HASH="$(nix store prefetch-file "$url" --name "GameGlass.AppImage" --json | jq -r .hash)"
+HASH="$(nix store prefetch-file "$url" --name "GameGlass.AppImage" --json | jaq -r .hash)"
 
-# echo "{\"version\": \"$VERSION\", \"hash\": \"$SRI_HASH\" }" | jq >./pkgs/gameglass/sources.json
+# echo "{\"version\": \"$VERSION\", \"hash\": \"$SRI_HASH\" }" | jaq >./pkgs/gameglass/sources.json
 
-jq -n \
+jaq -n \
   --arg version "$VERSION" \
   --arg url "$url" \
   --arg hash "$HASH" \

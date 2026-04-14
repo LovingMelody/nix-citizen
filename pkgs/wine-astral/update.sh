@@ -1,15 +1,15 @@
 #!/usr/bin/env nix-shell
-#! nix-shell -i bash -p curl jq nix-prefetch-git
+#! nix-shell -i bash -p curl jaq nix-prefetch-git
 
 # This has to be run after wine()
 vkSources() {
 
   INFO="pkgs/wine-astral/vk.json"
 
-  src=$(jq -r .path <'pkgs/wine-astral/wine.json')
+  src=$(jaq -r .path <'pkgs/wine-astral/wine.json')
   VERSION=$(sed -nE 's/^[[:space:]]*VK_XML_VERSION[[:space:]]*=[[:space:]]*"([^"]+)".*/\1/p' "$src/dlls/winevulkan/make_vulkan" | head -n1)
 
-  LAST_CHECKED_VERSION="$(jq -r .version "$INFO")"
+  LAST_CHECKED_VERSION="$(jaq -r .version "$INFO")"
 
   # If it's the same as current, skip other steps
   if [ "$VERSION" == "$LAST_CHECKED_VERSION" ]; then
@@ -19,10 +19,10 @@ vkSources() {
   url="https://raw.githubusercontent.com/KhronosGroup/Vulkan-Docs/v$VERSION/xml/vk.xml"
   url2="https://raw.githubusercontent.com/KhronosGroup/Vulkan-Docs/v$VERSION/xml/video.xml"
 
-  HASH="$(nix store prefetch-file "$url" --json | jq -r .hash)"
-  HASH2="$(nix store prefetch-file "$url2" --json | jq -r .hash)"
+  HASH="$(nix store prefetch-file "$url" --json | jaq -r .hash)"
+  HASH2="$(nix store prefetch-file "$url2" --json | jaq -r .hash)"
 
-  jq -n \
+  jaq -n \
     --arg version "$VERSION" \
     --arg vk_hash "$HASH" \
     --arg video_hash "$HASH2" \
@@ -37,9 +37,9 @@ openxr() {
   URL="https://api.github.com/repos/ValveSoftware/Proton/commits?sha=bleeding-edge&path=wineopenxr&per_page=1"
 
   # Fetch data and extract the SHA hash
-  LATEST_REV=$(curl -s "$URL" | jq -r '.[0].sha')
+  LATEST_REV=$(curl -s "$URL" | jaq -r '.[0].sha')
 
-  if [ "$LATEST_REV" != "null" ] && [ "$LATEST_REV" != "$(jq -r '.rev' "$INFO")" ]; then
+  if [ "$LATEST_REV" != "null" ] && [ "$LATEST_REV" != "$(jaq -r '.rev' "$INFO")" ]; then
     nix-prefetch-git --rev "$LATEST_REV" --sparse-checkout wineopenxr --quiet 'https://github.com/ValveSoftware/Proton.git' >$INFO
   else
     [ "$LATEST_REV" != "null" ] || echo "[wine-astral][openxr]: Error: Could not retrieve hash. Verify the path and branch names."
@@ -58,9 +58,9 @@ wineTKG() {
 wine() {
   INFO="pkgs/wine-astral/wine.json"
   if output=$(nix-prefetch-git --fetch-submodules --no-deepClone --branch-name master --quiet 'https://gitlab.winehq.org/wine/wine.git'); then
-    src=$(jq -r .path <<<"$output")
+    src=$(jaq -r .path <<<"$output")
     version=$(cat "$src/VERSION")
-    jq --arg version "${version##"Wine version "}" '.version = $version' <<<"$output" >"$INFO"
+    jaq --arg version "${version##"Wine version "}" '.version = $version' <<<"$output" >"$INFO"
   fi
 
 }
@@ -71,11 +71,11 @@ wineStaging() {
 wineMono() {
 
   INFO="pkgs/wine-astral/mono.json"
-  version="$(curl -fsSL "https://api.github.com/repos/wine-mono/wine-mono/releases/latest" | jq -r '.tag_name')"
+  version="$(curl -fsSL "https://api.github.com/repos/wine-mono/wine-mono/releases/latest" | jaq -r '.tag_name')"
 
-  if [ "$(jq -r ".version" "$INFO")" != "$version" ]; then
+  if [ "$(jaq -r ".version" "$INFO")" != "$version" ]; then
     if output=$(nix store prefetch-file "https://github.com/wine-mono/wine-mono/releases/download/${version}/${version}-x86.msi" --json); then
-      jq --arg version "$version" '.version = $version' <<<"$output" >"$INFO"
+      jaq --arg version "$version" '.version = $version' <<<"$output" >"$INFO"
     fi
   fi
 }

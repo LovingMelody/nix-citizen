@@ -1,5 +1,5 @@
 #!/usr/bin/env nix-shell
-#! nix-shell -i bash -p curl jq nix-prefetch-git
+#! nix-shell -i bash -p curl jaq nix-prefetch-git
 set -x
 INFO='pkgs/steamcompattools/sources.json'
 TEMPL='pkgs/steamcompattools/sources.tpl'
@@ -11,15 +11,15 @@ get_release() {
   local arch="$4"
   local ver url hash
 
-  ver="$(curl -sL "$repo" | jq 'map(select(.prerelease == false)) | max_by(.published_at) | .tag_name' --raw-output)"
-  if [ ! -z "${ver}" ] && [ "$ver" != "$(jq -r --arg n "$name" '.[$n].version' <"$INFO")" ]; then
+  ver="$(curl -sL "$repo" | jaq 'map(select(.prerelease == false)) | max_by(.published_at) | .tag_name' --raw-output)"
+  if [ ! -z "${ver}" ] && [ "$ver" != "$(jaq -r --arg n "$name" '.[$n].version' <"$INFO")" ]; then
     url="${url_template//\{version\}/$ver}"
     url="${url//\{arch\}/$arch}"
-    hash="$(nix store prefetch-file "$url" --unpack --json | jq -r .hash)"
+    hash="$(nix store prefetch-file "$url" --unpack --json | jaq -r .hash)"
     updated="true"
   else
-    url="$(jq -r --arg n "$name" '.[$n].url' <"$INFO")"
-    hash="$(jq -r --arg n "$name" '.[$n].hash' <"$INFO")"
+    url="$(jaq -r --arg n "$name" '.[$n].url' <"$INFO")"
+    hash="$(jaq -r --arg n "$name" '.[$n].hash' <"$INFO")"
     updated="false"
   fi
   printf '%s %s %s %s\n' "$ver" "$url" "$hash" "$updated"
@@ -55,10 +55,10 @@ cachy_info() {
   local arch="$1"
   url="${cachy_url_templ//\{version\}/$CACHY_VER}"
   url="${url//\{arch\}/$arch}"
-  if [ "$CACHY_VER" != "$(jq -r --arg n "proton-cachyos-$arch-bin" '.[$n].version' <"$INFO")" ]; then
-    hash="$(nix store prefetch-file "$url" --unpack --json | jq -r .hash)"
+  if [ "$CACHY_VER" != "$(jaq -r --arg n "proton-cachyos-$arch-bin" '.[$n].version' <"$INFO")" ]; then
+    hash="$(nix store prefetch-file "$url" --unpack --json | jaq -r .hash)"
   else
-    hash="$(jq -r --arg n "proton-cachyos-$arch-bin" '.[$n].hash' <"$INFO")"
+    hash="$(jaq -r --arg n "proton-cachyos-$arch-bin" '.[$n].hash' <"$INFO")"
   fi
 
   printf '%s %s\n' "$url" "$hash"
@@ -76,7 +76,7 @@ read -r EM_VER EM_URL EM_HASH _ < <(
     "$ARCH"
 )
 
-jq -n \
+jaq -n \
   --arg ge_ver "$GE_VER" \
   --arg ge_url "$GE_URL" \
   --arg ge_hash "$GE_HASH" \
