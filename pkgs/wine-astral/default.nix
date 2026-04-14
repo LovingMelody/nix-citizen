@@ -187,7 +187,7 @@ in
         "proton/proton-win10-default/proton-win10-default.patch"
         "proton-tkg-specific/proton_battleye/proton_battleye.patch"
         "proton-tkg-specific/proton_eac/Revert-ntdll-Get-rid-of-the-wine_nt_to_unix_file_nam.patch"
-        "proton-tkg-specific/proton_eac/proton-eac_bridge.patch"
+        # "proton-tkg-specific/proton_eac/proton-eac_bridge.patch"
         "proton-tkg-specific/proton_eac/wow64_loader_hack.patch"
         "misc/enable_dynamic_wow64_def/enable_dynamic_wow64_def.patch"
         "hotfixes/GetMappedFileName/Return_nt_filename_and_resolve_DOS_drive_path.mypatch"
@@ -247,18 +247,18 @@ in
 
         runHook prePatch
         ./../wine-staging/staging/patchinstall.py DESTDIR=. ${builtins.concatStringsSep " " stagingPatches}
-        ${builtins.concatStringsSep "\n" (builtins.map (p: "patch -p1 -i ../wine-tkg-git/wine-tkg-git/wine-tkg-patches/${p}") tkgPatches)}
+        ${builtins.concatStringsSep "\n" (builtins.map (p: "patch -p1 -i ../wine-tkg-git/wine-tkg-git/wine-tkg-patches/${p} || { echo 'FAILED: ${p}' >&2; exit 1; } ") tkgPatches)}
         for patch in ../lug-patches/wine/*; do
                 # Extract the filename without the path
                 filename=$(basename "$patch")
                 # Check if the filename is not in the blacklist
                 ${builtins.concatStringsSep "\n" (builtins.map (p: "[[ $patch =~ '${p}' ]] && continue") lugBlacklist)}
                 echo "Applying '$patch'"
-                patch -p1 -i "$patch"
+                patch -p1 -i "$patch" || { echo "FAILED: $patch" >&2; exit 1; }
         done
         for patch in ../patches/*.mypatch; do
           echo "Applying '$patch'"
-          patch -p1 < "$patch"
+          patch -p1 < "$patch" || { echo "FAILED: $patch" >&2; exit 1; }
         done
         runHook postPatch
       '';
