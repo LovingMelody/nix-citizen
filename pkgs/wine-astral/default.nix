@@ -187,7 +187,7 @@ in
         "proton/proton-win10-default/proton-win10-default.patch"
         "proton-tkg-specific/proton_battleye/proton_battleye.patch"
         "proton-tkg-specific/proton_eac/Revert-ntdll-Get-rid-of-the-wine_nt_to_unix_file_nam.patch"
-        # "proton-tkg-specific/proton_eac/proton-eac_bridge.patch"
+        "proton-tkg-specific/proton_eac/proton-eac_bridge.patch"
         "proton-tkg-specific/proton_eac/wow64_loader_hack.patch"
         "misc/enable_dynamic_wow64_def/enable_dynamic_wow64_def.patch"
         "hotfixes/GetMappedFileName/Return_nt_filename_and_resolve_DOS_drive_path.mypatch"
