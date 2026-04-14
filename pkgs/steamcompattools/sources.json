@@ -36,9 +36,9 @@
     "steamDisplayName": "Proton-CachyOS"
   },
   "proton-em-bin": {
-    "version": "EM-10.0-36-HDRTEST",
-    "url": "https://github.com/Etaash-mathamsetty/Proton/releases/download/EM-10.0-36-HDRTEST/proton-EM-10.0-36-HDRTEST.tar.xz",
-    "hash": "sha256-+jGzguNPS9zuVOwF5njBG983s3USAVWroIbvie3/Hds=",
+    "version": "EM-10.0-37-HDR",
+    "url": "https://github.com/Etaash-mathamsetty/Proton/releases/download/EM-10.0-37-HDR/proton-EM-10.0-37-HDR.tar.xz",
+    "hash": "sha256-yap/7G6TeJ9vMtc5H/iWu8w3sM8mI6762G+K2JzSlgk=",
     "steamDisplayName": "Proton-EM"
   }
 }
