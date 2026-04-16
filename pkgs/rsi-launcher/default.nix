@@ -225,9 +225,7 @@ in
         ${
           lib.optionalString enforceWaylandDrv ''
             if [ $XDG_SESSION_TYPE != "x11" ]; then
-              export DISPLAY=
-            fi
-            if [ -z "$DISPLAY" ]; then
+              WINEDLLOVERRIDES="${"\${WINEDLLOVERRIDES};winex11.drv=d"}"
               set -- "$@" "--in-process-gpu"
             fi
           ''
