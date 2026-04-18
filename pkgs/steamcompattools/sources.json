@@ -1,8 +1,8 @@
 {
   "dw-proton-bin": {
-    "version": "dwproton-10.0-23",
-    "url": "https://dawn.wine/dawn-winery/dwproton/releases/download/dwproton-10.0-23/dwproton-10.0-23-x86_64.tar.xz",
-    "hash": "sha256-XqXXxsTekvTUNsykpWu4vbZ4Mi+2tMR57zngaOt+3gQ=",
+    "version": "dwproton-10.0-24",
+    "url": "https://dawn.wine/dawn-winery/dwproton/releases/download/dwproton-10.0-24/dwproton-10.0-24-x86_64.tar.xz",
+    "hash": "sha256-3mfJGi2pUwPgWNZCvGD1SNHghS2HThX5Y7TrnJaEYvw=",
     "steamDisplayName": "DW-Proton"
   },
   "proton-ge-bin": {
