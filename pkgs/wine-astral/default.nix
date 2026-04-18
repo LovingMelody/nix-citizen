@@ -275,21 +275,24 @@ in
 
       #  NOTE: Star Citizen requires a minimum of x86-64-v3 due to AVX requirements.
       # We can build wine-astral with support since its intended for Star Citizen.
-      env = {
-        XDG_CACHE_HOME = "$src/build-cache";
-        NIX_CFLAGS_COMPILE =
-          builtins.concatStringsSep " "
-          (
-            [
-              "-Wno-error=implicit-function-declaration"
-              "-Wno-error=incompatible-pointer-types"
-              "-Wno-error=int-conversion"
-            ]
-            ++ lib.optional (! enableAvx2) "-mavx"
-            ++ lib.optional enableAvx2 "-mavx2"
-            ++ lib.optional enableFma "-mfma"
-          );
-      };
+      env =
+        (old.env or {})
+        // {
+          XDG_CACHE_HOME = "$src/build-cache";
+          NIX_CFLAGS_COMPILE =
+            builtins.concatStringsSep " "
+            (
+              [
+                "-Wno-error=implicit-function-declaration"
+                "-Wno-error=incompatible-pointer-types"
+                "-Wno-error=int-conversion"
+              ]
+              ++ lib.optional (! enableAvx2) "-mavx"
+              ++ lib.optional enableAvx2 "-mavx2"
+              ++ lib.optional enableFma "-mfma"
+            );
+          NIX_LDFLAGS = "${old.env.NIX_LDFLAGS or ""} -flto=thin";
+        };
 
       nativeBuildInputs =
         (old.nativeBuildInputs or [])
