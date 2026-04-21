@@ -40,6 +40,16 @@
       patchXwayland = mkEnableOption ''
         Enable xwayland overlay with a patch intended to help fix cursor issues
       '';
+      launchCommand = mkOption {
+        type = lib.types.str;
+        default = "%command%";
+        description = "Edit the launch command for the launch script. `%command%` is replaced by the base launch command";
+      };
+      wine = mkOption {
+        type = lib.types.package;
+        default = smartPackage "wine-astral";
+        description = "Wine runner to use if umu.enable is set to false";
+      };
       gamescope = {
         enable = mkEnableOption "Enable Gamescope";
         args = mkOption {
@@ -85,7 +95,7 @@
             preCommands = ''
               ${cfg.preCommands}
             '';
-            inherit (cfg) postCommands location;
+            inherit (cfg) postCommands location wine launchCommand;
           });
       };
       umu = {
