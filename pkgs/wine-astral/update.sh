@@ -34,7 +34,8 @@ openxr() {
 
   # GitHub API URL
   # We limit to 1 result to get the most recent commit
-  URL="https://api.github.com/repos/ValveSoftware/Proton/commits?sha=bleeding-edge&path=wineopenxr&per_page=1"
+  BRANCH="proton_11.0" # bleeding-edge
+  URL="https://api.github.com/repos/ValveSoftware/Proton/commits?sha=$BRANCH&path=wineopenxr&per_page=1"
 
   # Fetch data and extract the SHA hash
   LATEST_REV=$(curl -s "$URL" | jaq -r '.[0].sha')
