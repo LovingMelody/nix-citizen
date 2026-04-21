@@ -31,6 +31,7 @@
   enforceWaylandDrv ? false, # May help with vulkan but causes issues w/ some WMs
   hidewine ? true,
   hidetray ? false,
+  launchCommand ? "%command%",
   # experiments ? false,
   ... # Dont error from extra args for compatibility
 } @ args: let
@@ -74,6 +75,19 @@
   # Latest version can be found: https://install.robertsspaceindustries.com/rel/2/latest.yml
 
   gameScope = lib.strings.optionalString gameScopeEnable "${builtins.baseNameOf (lib.getExe gamescope)} ${concatStringsSep " " gameScopeArgs} --";
+  cmd =
+    if launchCommand == "%command%"
+    then
+      if useUmu
+      then ''${gameScope} $gamemode umu-run "$RSI_LAUNCHER" "$@"''
+      else ''${gameScope} $gamemode wine ${wineFlags} "$RSI_LAUNCHER" "$@"''
+    else
+      lib.replaceString "%command%" (
+        if useUmu
+        then ''umu-run "$RSI_LAUNCHER" "$@"''
+        else ''wine ${wineFlags} "$RSI_LAUNCHER" "$@"''
+      )
+      launchCommand;
 in
   stdenvNoCC.mkDerivation (finalAttrs: {
     inherit (info) version;
@@ -269,15 +283,14 @@ in
         ${
           if useUmu
           then ''
-            ${gameScope} $gamemode umu-run "$RSI_LAUNCHER" "$@"
+            ${cmd}
           ''
           else ''
             if [[ -t 1 ]]; then
-                ${gameScope} $gamemode wine ${wineFlags} "$RSI_LAUNCHER" "$@"
+               ${cmd}
             else
-                export LOG_DIR=$(mktemp -d)
                 echo "Working arround known launcher error by outputting logs to $WINEPREFIX/sc-launch.log"
-                ${gameScope} $gamemode wine ${wineFlags} "$RSI_LAUNCHER" "$@" > "$WINEPREFIX/sc-launch.log" 2>&1
+                ${cmd} > "$WINEPREFIX/sc-launch.log" 2>&1
             fi
             wineserver -w
           ''
