@@ -135,6 +135,8 @@ in
         export WINEPREFIX="$(readlink -f "${location}")"
 
         export MIGRATION_STATE="$WINEPREFIX/.migration-state"
+        export _CURRENT_SCRIPT_HASH=$(realpath "$0" | cut -d/ -f4 | cut -d- -f1)
+        setup_is_current() { [ -f "$MIGRATION_STATE" ] && [ "$(tail -n 1 "$MIGRATION_STATE")" = "$_CURRENT_SCRIPT_HASH" ]; }
 
         # This is intended to allow keeping a directory for persistence
         # So you can keep the files you want if you recreate the prefix
@@ -200,24 +202,39 @@ in
             if [ ! -f "$RSI_LAUNCHER" ]  || [ "${"\${1:-}"}"  = "--force-install" ]; then umu-run "${lib.getExe rsi-installer}" /S; fi
           ''
           else ''
-            # Ensure all tricks are installed
-            ${toShellVars {
+            if [ "${"\${1:-}"}" = "--force-install" ] || ( ! setup_is_current ); then
+                # Ensure all tricks are installed
+                ${toShellVars {
               inherit tricks;
               tricksInstalled = 1;
             }}
 
-            wineprefix-preparer
+                wineprefix-preparer
 
-            for trick in "${"\${tricks[@]}"}"; do
-               if [ "${"\${1:-}"}" = "--force-install" ] || (! winetricks list-installed | grep -qw "$trick"); then
-                 echo "winetricks: Installing $trick"
-                 winetricks -q -f "$trick"
-                 tricksInstalled=0
-               fi
-            done
-            if [ "$tricksInstalled" -eq 0 ]; then
-              # Ensure wineserver is restarted after tricks are installed
-              wineserver -k
+                for trick in "${"\${tricks[@]}"}"; do
+                   if [ "${"\${1:-}"}" = "--force-install" ] || (! winetricks list-installed | grep -qw "$trick"); then
+                     echo "winetricks: Installing $trick"
+                     winetricks -q -f "$trick"
+                     tricksInstalled=0
+                   fi
+                done
+
+                # dlss fixes
+                for dll in 'cryptbase.dll' 'devobj.dll' 'drvstore.dll'; do
+                  if [ ! -e "$WINEPREFIX/drive_c/windows/system32/$dll" ]; then
+                    ln -sv "$WINEPREFIX/drive_c/windows/system32/cryptui.dll" "$WINEPREFIX/drive_c/windows/system32/$dll"
+                  fi
+                done
+
+                # This helps fixes SC bugs when wine is detected
+                ${HideWineExports}
+                # Optionally Hide the tray icon in SC since it doesn't go to tray on wayland
+                ${HideTrayIcon}
+                if [ "$tricksInstalled" -eq 0 ]; then
+                  # Ensure wineserver is restarted after tricks are installed
+                  wineserver -k
+                fi
+
             fi
 
             if [ ! -e "$RSI_LAUNCHER" ] || [ "${"\${1:-}"}" = "--force-install" ]; then
@@ -244,10 +261,9 @@ in
             fi
           ''
         }
-        if [ ! -f "$MIGRATION_STATE" ]; then
-            echo '# nix-citizen revision tag for future migrations' >  "$MIGRATION_STATE"
-            echo '${rev}' >> "$MIGRATION_STATE"
-        fi
+        echo '# nix-citizen revision tag for future migrations' >  "$MIGRATION_STATE"
+        echo '${rev}' >> "$MIGRATION_STATE"
+        echo -n "$_CURRENT_SCRIPT_HASH" >> "$MIGRATION_STATE"
         # Set runtime path for wine & the shell path to be in the wine prefix
         cd "$WINEPREFIX"
 
@@ -259,16 +275,10 @@ in
 
         # Only execute gamemode if it exists on the system
         if command -v gamemoderun > /dev/null 2>&1; then
-          gamemode="gamemoderun"
+            gamemode="gamemoderun"
         else
-          gamemode=""
+            gamemode=""
         fi
-        # dlss fixes
-        for dll in 'cryptbase.dll' 'devobj.dll' 'drvstore.dll'; do
-          if [ ! -e "$WINEPREFIX/drive_c/windows/system32/$dll" ]; then
-            ln -sv "$WINEPREFIX/drive_c/windows/system32/cryptui.dll" "$WINEPREFIX/drive_c/windows/system32/$dll"
-          fi
-        done
 
         # This helps fixes SC bugs when wine is detected
         ${HideWineExports}
