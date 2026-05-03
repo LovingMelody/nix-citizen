@@ -20,7 +20,7 @@
       };
       meta = o.meta // meta;
     });
-  v4 = stdenv.targetPlatform.isx86_64 && stdenv.targetPlatform.avx512Support;
+  # v4 = stdenv.targetPlatform.isx86_64 && stdenv.targetPlatform.avx512Support;
   v3 = stdenv.targetPlatform.isx86_64 && stdenv.targetPlatform.avxSupport;
   # v2 = stdenv.targetPlatform.isx86_64 && stdenv.targetPlatform.sse4_2Support;
   arm = stdenv.isAarch64;
@@ -39,8 +39,6 @@ in
         (
           if arm
           then sources.proton-cachyos-amd64-bin
-          else if v4
-          then sources.proton-cachyos-x86_64_v4-bin
           else if v3
           then sources.proton-cachyos-x86_64_v3-bin
           else sources.proton-cachyos-bin

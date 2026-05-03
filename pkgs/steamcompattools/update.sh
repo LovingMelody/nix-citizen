@@ -66,7 +66,6 @@ cachy_info() {
 
 read -r CACHY_ARM_URL CACHY_ARM_HASH < <(cachy_info 'arm64')
 read -r CACHY_V3_URL CACHY_V3_HASH < <(cachy_info 'x86_64_v3')
-read -r CACHY_V4_URL CACHY_V4_HASH < <(cachy_info 'x86_64_v4')
 
 read -r EM_VER EM_URL EM_HASH _ < <(
   get_release \
@@ -90,8 +89,6 @@ jaq -n \
   --arg cachy_arm_hash "$CACHY_ARM_HASH" \
   --arg cachy_v3_url "$CACHY_V3_URL" \
   --arg cachy_v3_hash "$CACHY_V3_HASH" \
-  --arg cachy_v4_url "$CACHY_V4_URL" \
-  --arg cachy_v4_hash "$CACHY_V4_HASH" \
   --arg em_ver "$EM_VER" \
   --arg em_url "$EM_URL" \
   --arg em_hash "$EM_HASH" \
