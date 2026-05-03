@@ -9,9 +9,9 @@
       },
       "branch": "master",
       "submodules": true,
-      "revision": "ec9111c07d58b74b63e00169f690a835547358c0",
+      "revision": "d1b0151cb40288de31d5af4a2e84173c3889afa2",
       "url": null,
-      "hash": "sha256-4KBfCHkJhZCNmxA2hRfiFwJPAu9fbccsMCLUWAYDH0U="
+      "hash": "sha256-Z6PUJBVXa6G6zWgnVJ67kXFz9z8/vyudhVBcCiTfd9s="
     },
     "dxvk-gplasync": {
       "type": "Git",
@@ -35,9 +35,9 @@
       },
       "branch": "master",
       "submodules": true,
-      "revision": "efb17dd43557d497af1f314a677cbf4807d657f5",
+      "revision": "42ed4947825ff0f4f5f64fe11ebfbb0fc6cb4a3e",
       "url": null,
-      "hash": "sha256-t89/gWAVnAvPpTFkQIW/bxXVX+ultGlLQCzbeMZfQ2E="
+      "hash": "sha256-S/bNzag424KY+DPjKK4UKpp/ZIGrQULJA4rAbX3xvyE="
     },
     "vkd3d-proton": {
       "type": "Git",
