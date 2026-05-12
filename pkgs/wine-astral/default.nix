@@ -179,6 +179,7 @@ in
         "default-to-wayland.patch"
         "0001-wineopenxr_add.patch"
         "append_cmd.patch"
+        "wineland_pointer_warping.patch"
         # "0002-wineopenxr_enable.patch"
         # "cache-committed-size.patch"
       ];
