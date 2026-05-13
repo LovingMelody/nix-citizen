@@ -180,6 +180,8 @@ in
         # usual NixOS path. This shouldn't be needed on other distros so the paths are not checked.
         if [ ! -v "$NVIDIA_WINE_DLL_DIR" ] && [ ! -d "$NVIDIA_WINE_DLL_DIR" ] && [ -d /run/opengl-driver/lib/nvidia/wine ]; then
           export NVIDIA_WINE_DLL_DIR='/run/opengl-driver/lib/nvidia/wine'
+          # Also set experimental DXVK-NVAPI var if its present. This is just a way to ensure the system is using NVIDIA
+          export DXVK_NVAPI_D3D12_NV_SHADER_EXTN=1
         fi
 
         # For whatever reason, your user isnt known if this isnt done...
