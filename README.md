@@ -138,6 +138,41 @@ wine reg add "HKCU\\Software\\Wine\\MediaFoundation" /v DisableGstByteStreamHand
 The [LUG wiki](https://wiki.starcitizen-lug.org) contains many other useful
 troubleshooting steps & tips
 
+## Performance Tuning
+
+### NOTE: this section invalidates several packages from nixpkgs cache such as firefox and chrome
+
+nixpkgs supports specifying some CPU features to help your system have more
+optimized binaries. You can find a list of architectures nixpkgs supports and
+what features in
+[nixpkgs#lib.systems.architectures](https://github.com/NixOS/nixpkgs/blob/master/lib/systems/architectures.nix).
+To find your current CPU arch you can use the following command:
+
+```bash
+nix run nixpkgs#gcc -- -march=native -Q --help=target | grep -- '-march=' | cut -f3
+```
+
+The snippet below is a simple way to set these features:
+
+```nix
+# CPU architecture aware builds:
+nixpkgs.hostPlatform = let
+  # Replace with your CPU arch.
+  arch = "x86-64-v3";
+in
+  builtins.mapAttrs
+  (_name: function: function arch)
+  lib.systems.architectures.predicates;
+```
+
+Nix also doesn't build packages with cuda or RoCM support by default.
+Documentation for how to enable this can be found here:
+
+- CUDA:
+  [https://wiki.nixos.org/wiki/CUDA#Enabling_CUDA_In_Packages](https://wiki.nixos.org/wiki/CUDA#Enabling_CUDA_In_Packages)
+- ROCM:
+  [https://wiki.nixos.org/wiki/AMD_GPU#Enabling_ROCm_&_HIP_For_Packages](https://wiki.nixos.org/wiki/AMD_GPU#Enabling_ROCm_&_HIP_For_Packages)
+
 ## Credits
 
 - [starcitizen-lug/lug-helper](https://github.com/starcitizen-lug/lug-helper) -
