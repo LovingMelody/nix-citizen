@@ -1,8 +1,8 @@
 {
-  "url": "https://github.com//starcitizen-lug/patches",
+  "url": "https://github.com/ngh246/lug-patches",
   "rev": "4fe20d481e57e5ffeedf3b5749c1a08e9f4fa231",
   "date": "2026-05-08T00:09:17-05:00",
-  "path": "/nix/store/ln12gmay3q71mxdsid1174k4fhdvmcj0-patches",
+  "path": "/nix/store/difvcnswn1r4sgcf957ijfd96kfh0nlz-lug-patches",
   "sha256": "0xghdjrrbjf09ihqwh3g9rzxqf2k90yypa2arrvib3196rwy91s4",
   "hash": "sha256-RIfkeTYpjBV3zkqo6z1IUzjcf05vQI5hTMDJlbNs8HU=",
   "fetchLFS": false,
