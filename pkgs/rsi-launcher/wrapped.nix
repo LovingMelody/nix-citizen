@@ -37,6 +37,7 @@ in
     inherit (rsi-launcher) version meta;
     passthru = {
       inherit (rsi-launcher.passthru) extraArgs;
+      unwrapped = rsi-launcher;
     };
 
     extraPkgs = pkgs:

@@ -1,6 +1,6 @@
 {self, ...}: rec {
-  flake.nixosModules.default = flake.nixosModules.StarCitizen;
-  flake.nixosModules.StarCitizen = {
+  default = StarCitizen;
+  StarCitizen = {
     config,
     lib,
     pkgs,

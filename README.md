@@ -166,6 +166,10 @@ in
 ```
 
 Nix also doesn't build packages with cuda or RoCM support by default.
+
+NOTE: This is more relevant for programs like OBS-Studio and EasyEffects than
+StarCitizen
+
 Documentation for how to enable this can be found here:
 
 - CUDA:

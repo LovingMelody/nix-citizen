@@ -39,139 +39,131 @@
   #         - warn
   #         - throw
   #     '';
-in {
-  flake.overlays = rec {
-    patchedXwayland = _final: prev: {
-      xwayland = prev.xwayland.overrideAttrs (p: {
-        patches =
-          (p.patches or [])
-          ++ optional (!builtins.elem ./patches/ge-xwayland-pointer-warp-fix.patch (p.patches or [])) ./patches/ge-xwayland-pointer-warp-fix.patch;
-      });
+in rec {
+  patchedXwayland = _final: prev: {
+    xwayland = prev.xwayland.overrideAttrs (p: {
+      patches =
+        (p.patches or [])
+        ++ optional (!builtins.elem ./patches/ge-xwayland-pointer-warp-fix.patch (p.patches or [])) ./patches/ge-xwayland-pointer-warp-fix.patch;
+    });
+  };
+  default = final: _prev: {
+    cnc-ddraw = final.callPackage "${inputs.nix-gaming}/pkgs/cnc-ddraw" {};
+    dxvk-w32 = final.pkgsCross.mingw32.callPackage "${inputs.nix-gaming}/pkgs/dxvk" {
+      withSdl2 = true;
+      withGlfw = true;
+      pins = nix-gaming-pins;
     };
-    default = final: _prev: {
-      cnc-ddraw = final.callPackage "${inputs.nix-gaming}/pkgs/cnc-ddraw" {};
-      dxvk-w32 = final.pkgsCross.mingw32.callPackage "${inputs.nix-gaming}/pkgs/dxvk" {
-        withSdl2 = true;
-        withGlfw = true;
-        pins = nix-gaming-pins;
-      };
-      dxvk-w64 = final.pkgsCross.mingwW64.callPackage "${inputs.nix-gaming}/pkgs/dxvk" {
-        withSdl2 = true;
-        withGlfw = true;
-        pins = nix-gaming-pins;
-      };
+    dxvk-w64 = final.pkgsCross.mingwW64.callPackage "${inputs.nix-gaming}/pkgs/dxvk" {
+      withSdl2 = true;
+      withGlfw = true;
+      pins = nix-gaming-pins;
+    };
 
-      dxvk-nvapi-w32 = final.pkgsCross.mingw32.callPackage "${inputs.nix-gaming}/pkgs/dxvk-nvapi" {pins = nix-gaming-pins;};
-      dxvk-nvapi-w64 = final.pkgsCross.mingwW64.callPackage "${inputs.nix-gaming}/pkgs/dxvk-nvapi" {pins = nix-gaming-pins;};
-      dxvk-nvapi-vkreflex-layer = final.callPackage "${inputs.nix-gaming}/pkgs/dxvk-nvapi/vkreflex-layer.nix" {pins = nix-gaming-pins;};
-      dxvk-nvapi-vkreflex-layer-git = final.dxvk-nvapi-vkreflex-layer.overrideAttrs {
+    dxvk-nvapi-w32 = final.pkgsCross.mingw32.callPackage "${inputs.nix-gaming}/pkgs/dxvk-nvapi" {pins = nix-gaming-pins;};
+    dxvk-nvapi-w64 = final.pkgsCross.mingwW64.callPackage "${inputs.nix-gaming}/pkgs/dxvk-nvapi" {pins = nix-gaming-pins;};
+    dxvk-nvapi-vkreflex-layer = final.callPackage "${inputs.nix-gaming}/pkgs/dxvk-nvapi/vkreflex-layer.nix" {pins = nix-gaming-pins;};
+    dxvk-nvapi-vkreflex-layer-git = final.dxvk-nvapi-vkreflex-layer.overrideAttrs {
+      src = pins.dxvk-nvapi;
+      version = "git+${pins.dxvk-nvapi.revision}";
+    };
+    d7vk-w32 = final.pkgsCross.mingw32.callPackage "${inputs.nix-gaming}/pkgs/d7vk" {pins = nix-gaming-pins;};
+    d7vk-w64 = final.pkgsCross.mingwW64.callPackage "${inputs.nix-gaming}/pkgs/d7vk" {pins = nix-gaming-pins;};
+
+    vkd3d-proton-w32 = final.pkgsCross.mingw32.callPackage "${inputs.nix-gaming}/pkgs/vkd3d-proton" {
+      pins = nix-gaming-pins;
+      wine64 = final.wine-astral;
+    };
+    vkd3d-proton-w64 = final.pkgsCross.mingwW64.callPackage "${inputs.nix-gaming}/pkgs/vkd3d-proton" {
+      pins = nix-gaming-pins;
+      wine64 = final.wine-astral;
+    };
+
+    winetricks-git = final.callPackage "${inputs.nix-gaming}/pkgs/winetricks-git" {pins = nix-gaming-pins;};
+    wineprefix-preparer = final.callPackage "${inputs.nix-gaming}/pkgs/wineprefix-preparer" {};
+
+    wineprefix-preparer-git = final.wineprefix-preparer.override {
+      dxvk-w64 = final.dxvk-w64.overrideAttrs {
+        pname = "dxvk";
+        src = pins.dxvk;
+        version = "git+${pins.dxvk.revision}";
+        patches = [];
+      };
+      dxvk-w32 = final.dxvk-w32.overrideAttrs {
+        pname = "dxvk";
+        src = pins.dxvk;
+        version = "git+${pins.dxvk.revision}";
+        patches = [];
+      };
+      dxvk-nvapi-w64 = final.dxvk-nvapi-w64.overrideAttrs {
         src = pins.dxvk-nvapi;
         version = "git+${pins.dxvk-nvapi.revision}";
       };
-      d7vk-w32 = final.pkgsCross.mingw32.callPackage "${inputs.nix-gaming}/pkgs/d7vk" {pins = nix-gaming-pins;};
-      d7vk-w64 = final.pkgsCross.mingwW64.callPackage "${inputs.nix-gaming}/pkgs/d7vk" {pins = nix-gaming-pins;};
-
-      vkd3d-proton-w32 = final.pkgsCross.mingw32.callPackage "${inputs.nix-gaming}/pkgs/vkd3d-proton" {
-        pins = nix-gaming-pins;
-        wine64 = final.wine-astral;
+      dxvk-nvapi-w32 = final.dxvk-nvapi-w32.overrideAttrs {
+        src = pins.dxvk-nvapi;
+        version = "git+${pins.dxvk-nvapi.revision}";
       };
-      vkd3d-proton-w64 = final.pkgsCross.mingwW64.callPackage "${inputs.nix-gaming}/pkgs/vkd3d-proton" {
-        pins = nix-gaming-pins;
-        wine64 = final.wine-astral;
+      vkd3d-proton-w64 = final.vkd3d-proton-w64.overrideAttrs {
+        src = pins.vkd3d-proton;
+        version = "git+${pins.vkd3d-proton.revision}";
       };
-
-      winetricks-git = final.callPackage "${inputs.nix-gaming}/pkgs/winetricks-git" {pins = nix-gaming-pins;};
-      wineprefix-preparer = final.callPackage "${inputs.nix-gaming}/pkgs/wineprefix-preparer" {};
-
-      wineprefix-preparer-git = final.wineprefix-preparer.override {
-        dxvk-w64 = final.dxvk-w64.overrideAttrs {
-          pname = "dxvk-gplasync";
-          src = pins.dxvk;
-          version = "git+${pins.dxvk.revision}";
-          patches = [
-            "${pins.dxvk-gplasync}/patches/dxvk-gplasync-master.patch"
-            "${pins.dxvk-gplasync}/patches/global-dxvk.conf.patch"
-          ];
-        };
-        dxvk-w32 = final.dxvk-w32.overrideAttrs {
-          pname = "dxvk-async";
-          src = pins.dxvk;
-          version = "git+${pins.dxvk.revision}";
-          patches = [
-            "${pins.dxvk-gplasync}/patches/dxvk-gplasync-master.patch"
-            "${pins.dxvk-gplasync}/patches/global-dxvk.conf.patch"
-          ];
-        };
-        dxvk-nvapi-w64 = final.dxvk-nvapi-w64.overrideAttrs {
-          src = pins.dxvk-nvapi;
-          version = "git+${pins.dxvk-nvapi.revision}";
-        };
-        dxvk-nvapi-w32 = final.dxvk-nvapi-w32.overrideAttrs {
-          src = pins.dxvk-nvapi;
-          version = "git+${pins.dxvk-nvapi.revision}";
-        };
-        vkd3d-proton-w64 = final.vkd3d-proton-w64.overrideAttrs {
-          src = pins.vkd3d-proton;
-          version = "git+${pins.vkd3d-proton.revision}";
-        };
-        vkd3d-proton-w32 = final.vkd3d-proton-w32.overrideAttrs {
-          src = pins.vkd3d-proton;
-          version = "git+${pins.vkd3d-proton.revision}";
-        };
+      vkd3d-proton-w32 = final.vkd3d-proton-w32.overrideAttrs {
+        src = pins.vkd3d-proton;
+        version = "git+${pins.vkd3d-proton.revision}";
       };
-
-      wine-astral = final.callPackage ./pkgs/wine-astral {
-        inherit (final) lib;
-        inherit inputs;
-      };
-      inherit
-        (inputs.nix-gaming.packages.${final.stdenv.hostPlatform.system})
-        wine-tkg
-        wine-cachyos
-        ;
-      rsi-installer = final.callPackage ./pkgs/rsi-launcher/installer.nix {};
-      rsi-launcher-unwrapped = final.callPackage ./pkgs/rsi-launcher {
-        wine = final.wine-astral;
-        winetricks = final.winetricks-git;
-      };
-      rsi-launcher-unwrapped-git = final.rsi-launcher-unwrapped.override {
-        wineprefix-preparer = final.wineprefix-preparer-git;
-        wine = final.wine-astral;
-      };
-      rsi-launcher = final.callPackage ./pkgs/rsi-launcher/wrapped.nix {
-        wine = final.wine-astral;
-        winetricks = final.winetricks-git;
-      };
-      rsi-launcher-git = final.rsi-launcher.override {
-        rsi-launcher-unwrapped = final.rsi-launcher-unwrapped-git;
-        dxvk-nvapi-vkreflex-layer = final.dxvk-nvapi-vkreflex-layer-git;
-        wine = final.wine-astral;
-      };
-      rsi-launcher-umu = final.rsi-launcher-unwrapped.override {useUmu = true;};
-
-      star-citizen-unwrapped = final.rsi-launcher-unwrapped.override {pname = "star-citizen";};
-      star-citizen-unwrapped-git = final.rsi-launcher-unwrapped-git.override {
-        pname = "star-citizen";
-        wineprefix-preparer = final.wineprefix-preparer-git;
-      };
-      star-citizen = (final.rsi-launcher.override {rsi-launcher-unwrapped = final.star-citizen-unwrapped;}).override {pname = "star-citizen";};
-      star-citizen-git = final.star-citizen.override {
-        rsi-launcher-unwrapped = final.star-citizen-unwrapped-git;
-        dxvk-nvapi-vkreflex-layer = final.dxvk-nvapi-vkreflex-layer-git;
-      };
-      star-citizen-umu = final.star-citizen-unwrapped.override {useUmu = true;};
-
-      gameglass = final.callPackage ./pkgs/gameglass {};
-      star-citizen-helper = final.callPackage ./pkgs/star-citizen-helper {};
-      lug-helper =
-        final.callPackage ./pkgs/lug-helper {winetricks = final.winetricks-git;};
-      lug-wine-bin = final.callPackage ./pkgs/lug-wine-bin {};
     };
 
-    steamcompattools = final: prev: let
-      compattools = final.callPackage ./pkgs/steamcompattools {inherit (prev) proton-ge-bin;};
-    in {
-      inherit (compattools) proton-ge-bin dw-proton-bin proton-cachyos-bin proton-em-bin;
+    wine-astral = final.callPackage ./pkgs/wine-astral {
+      inherit (final) lib;
+      inherit inputs;
     };
+    inherit
+      (inputs.nix-gaming.packages.${final.stdenv.hostPlatform.system})
+      wine-tkg
+      wine-cachyos
+      ;
+    rsi-installer = final.callPackage ./pkgs/rsi-launcher/installer.nix {};
+    rsi-launcher-unwrapped = final.callPackage ./pkgs/rsi-launcher {
+      wine = final.wine-astral;
+      winetricks = final.winetricks-git;
+    };
+    rsi-launcher-unwrapped-git = final.rsi-launcher-unwrapped.override {
+      wineprefix-preparer = final.wineprefix-preparer-git;
+      wine = final.wine-astral;
+    };
+    rsi-launcher = final.callPackage ./pkgs/rsi-launcher/wrapped.nix {
+      wine = final.wine-astral;
+      winetricks = final.winetricks-git;
+    };
+    rsi-launcher-git = final.rsi-launcher.override {
+      rsi-launcher-unwrapped = final.rsi-launcher-unwrapped-git;
+      dxvk-nvapi-vkreflex-layer = final.dxvk-nvapi-vkreflex-layer-git;
+      wine = final.wine-astral;
+    };
+    rsi-launcher-umu = final.rsi-launcher-unwrapped.override {useUmu = true;};
+
+    star-citizen-unwrapped = final.rsi-launcher-unwrapped.override {pname = "star-citizen";};
+    star-citizen-unwrapped-git = final.rsi-launcher-unwrapped-git.override {
+      pname = "star-citizen";
+      wineprefix-preparer = final.wineprefix-preparer-git;
+    };
+    star-citizen = (final.rsi-launcher.override {rsi-launcher-unwrapped = final.star-citizen-unwrapped;}).override {pname = "star-citizen";};
+    star-citizen-git = final.star-citizen.override {
+      rsi-launcher-unwrapped = final.star-citizen-unwrapped-git;
+      dxvk-nvapi-vkreflex-layer = final.dxvk-nvapi-vkreflex-layer-git;
+    };
+    star-citizen-umu = final.star-citizen-unwrapped.override {useUmu = true;};
+
+    gameglass = final.callPackage ./pkgs/gameglass {};
+    star-citizen-helper = final.callPackage ./pkgs/star-citizen-helper {};
+    lug-helper =
+      final.callPackage ./pkgs/lug-helper {winetricks = final.winetricks-git;};
+    lug-wine-bin = final.callPackage ./pkgs/lug-wine-bin {};
+  };
+
+  steamcompattools = final: prev: let
+    compattools = final.callPackage ./pkgs/steamcompattools {inherit (prev) proton-ge-bin;};
+  in {
+    inherit (compattools) proton-ge-bin dw-proton-bin proton-cachyos-bin proton-em-bin;
   };
 }

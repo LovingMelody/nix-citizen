@@ -7,124 +7,112 @@
       url = "github:fufexan/nix-gaming";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    nix-github-actions = {
-      url = "github:nix-community/nix-github-actions";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
     treefmt-nix = {
       url = "github:numtide/treefmt-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    flake-parts = {
-      url = "github:hercules-ci/flake-parts";
-      inputs.nixpkgs-lib.follows = "nixpkgs";
-    };
-    systems.url = "github:nix-systems/default";
     flake-compat = {
       url = "github:NixOS/flake-compat";
       flake = false;
     };
+    glitzy = {
+      url = "github:getchoo/glitzy";
+      flake = false;
+    };
   };
 
-  outputs = inputs @ {
-    flake-parts,
-    self,
-    ...
-  }:
-    flake-parts.lib.mkFlake {inherit inputs;} {
-      imports = [
-        ./modules
-        ./overlays.nix
-        inputs.treefmt-nix.flakeModule
-      ];
-      systems = ["x86_64-linux"];
-      flake = {
-        githubActions = inputs.nix-github-actions.lib.mkGithubMatrix {
-          checks =
-            (inputs.nixpkgs.lib.getAttrs ["x86_64-linux"] self.checks)
-            // (inputs.nixpkgs.lib.getAttrs ["x86_64-linux"] self.packages);
-        };
-      };
-      perSystem = {
-        config,
-        system,
-        pkgs,
-        ...
-      }: {
-        _module.args.pkgs = import inputs.nixpkgs {
+  outputs = inputs @ {self, ...}: let
+    system = "x86_64-linux";
+    pkgConfig = arch:
+      if (arch == "x86-64-v3" || (arch != null && (inputs.nixpkgs.lib.systems.architectures.hasInferior arch "x86-64-v3")))
+      then
+        import inputs.nixpkgs {
+          # inherit system;
+          config = {
+            allowUnfree = true;
+            allowInsecure = true;
+            checkMeta = true;
+          };
+          overlays = [
+            self.overlays.default
+            self.overlays.steamcompattools
+          ];
+          localSystem =
+            {
+              inherit system;
+            }
+            // (builtins.mapAttrs
+              (_name: function: function arch)
+              inputs.nixpkgs.lib.systems.architectures.predicates);
+        }
+      else
+        import inputs.nixpkgs {
           inherit system;
           config = {
             allowUnfree = true;
             allowInsecure = true;
             checkMeta = true;
           };
-          overlays = [self.overlays.default self.overlays.steamcompattools];
+          overlays = [
+            self.overlays.default
+            self.overlays.steamcompattools
+          ];
         };
-        packages = let
-          inherit (inputs.nixpkgs.lib) optional;
-        in {
-          inherit
-            (pkgs)
-            gameglass
-            lug-helper
-            lug-wine-bin
-            rsi-launcher
-            rsi-launcher-git
-            rsi-launcher-umu
-            rsi-launcher-unwrapped
-            rsi-launcher-unwrapped-git
-            star-citizen
-            star-citizen-git
-            star-citizen-umu
-            star-citizen-unwrapped
-            star-citizen-unwrapped-git
-            umu-launcher
-            wine-astral
-            wine-tkg
-            wineprefix-preparer
-            wineprefix-preparer-git
-            winetricks-git
-            proton-ge-bin
-            dw-proton-bin
-            proton-cachyos-bin
-            proton-em-bin
-            ;
-          xwayland-patched = pkgs.xwayland.overrideAttrs (p: {
-            patches =
-              (p.patches or [])
-              ++ optional (!builtins.elem ./patches/ge-xwayland-pointer-warp-fix.patch (p.patches or [])) ./patches/ge-xwayland-pointer-warp-fix.patch;
-          });
-        };
-        treefmt = {
-          # Project root
-          projectRootFile = "flake.nix";
-          # Terraform formatter
-          programs = {
-            yamlfmt.enable = true;
-            # nixfmt.enable = true;
-            alejandra.enable = true;
-            deno.enable = true;
-            deadnix = {
-              enable = true;
-              # Can break callPackage if this is set to false
-              no-lambda-pattern-names = true;
-            };
-            statix.enable = true;
-            rustfmt.enable = true;
-            black.enable = true;
-            isort.enable = true;
-            shfmt.enable = true;
-            beautysh.enable = true;
-          };
-          settings.formatter = {
-            deadnix.excludes = ["npins/default.nix"];
-            deno.excludes = ["npins/default.nix"];
-            statix.excludes = ["npins/default.nix"];
-            yamlfmt.excludes = ["npins/sources.json"];
-          };
-        };
+
+    treefmtEval = pkgs: inputs.treefmt-nix.lib.evalModule pkgs ./treefmt.nix;
+  in {
+    overlays = import ./overlays.nix {inherit self inputs;};
+    modules = import ./modules/nixos/star-citizen/default.nix {inherit self;};
+    packages = let
+      pkgSet = pkgs: {
+        inherit
+          (pkgs)
+          stdenv
+          gameglass
+          lug-helper
+          lug-wine-bin
+          rsi-launcher
+          rsi-launcher-git
+          rsi-launcher-umu
+          rsi-launcher-unwrapped
+          rsi-launcher-unwrapped-git
+          star-citizen
+          star-citizen-git
+          star-citizen-umu
+          star-citizen-unwrapped
+          star-citizen-unwrapped-git
+          umu-launcher
+          wine-astral
+          wine-tkg
+          wineprefix-preparer
+          wineprefix-preparer-git
+          winetricks-git
+          proton-ge-bin
+          dw-proton-bin
+          proton-cachyos-bin
+          proton-em-bin
+          ;
+        xwayland-patched = pkgs.xwayland.overrideAttrs (p: {
+          patches =
+            (p.patches or [])
+            ++ pkgs.lib.optional (!builtins.elem ./patches/ge-xwayland-pointer-warp-fix.patch (p.patches or [])) ./patches/ge-xwayland-pointer-warp-fix.patch;
+        });
+      };
+    in {
+      x86_64-linux = pkgSet (pkgConfig null);
+      x86_64-linux-v3 = pkgSet (pkgConfig "x86-64-v3");
+    };
+
+    formatter = {
+      x86_64-linux = (treefmtEval (pkgConfig null)).config.build.wrapper;
+      x86_64-linux-v3 = (treefmtEval (pkgConfig "x86-64-v3")).config.build.wrapper;
+
+      checks.${system} = {
+        x86_64-linux = (treefmtEval (pkgConfig null)).config.build.check self;
+        x86_64-linux-v3 = (treefmtEval (pkgConfig "x86-64-v3")).config.check self;
       };
     };
+  };
   nixConfig = {
     allowInsecure = true;
     extra-substituters = ["https://nix-citizen.cachix.org"];
