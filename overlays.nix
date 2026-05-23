@@ -155,7 +155,6 @@ in rec {
     star-citizen-umu = final.star-citizen-unwrapped.override {useUmu = true;};
 
     gameglass = final.callPackage ./pkgs/gameglass {};
-    star-citizen-helper = final.callPackage ./pkgs/star-citizen-helper {};
     lug-helper =
       final.callPackage ./pkgs/lug-helper {winetricks = final.winetricks-git;};
     lug-wine-bin = final.callPackage ./pkgs/lug-wine-bin {};
