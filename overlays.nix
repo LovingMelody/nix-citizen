@@ -50,13 +50,9 @@ in rec {
   default = final: _prev: {
     cnc-ddraw = final.callPackage "${inputs.nix-gaming}/pkgs/cnc-ddraw" {};
     dxvk-w32 = final.pkgsCross.mingw32.callPackage "${inputs.nix-gaming}/pkgs/dxvk" {
-      withSdl2 = true;
-      withGlfw = true;
       pins = nix-gaming-pins;
     };
     dxvk-w64 = final.pkgsCross.mingwW64.callPackage "${inputs.nix-gaming}/pkgs/dxvk" {
-      withSdl2 = true;
-      withGlfw = true;
       pins = nix-gaming-pins;
     };
 
