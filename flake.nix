@@ -15,10 +15,6 @@
       url = "github:NixOS/flake-compat";
       flake = false;
     };
-    glitzy = {
-      url = "github:getchoo/glitzy";
-      flake = false;
-    };
   };
 
   outputs = inputs @ {self, ...}: let
@@ -62,7 +58,7 @@
     treefmtEval = pkgs: inputs.treefmt-nix.lib.evalModule pkgs ./treefmt.nix;
   in {
     overlays = import ./overlays.nix {inherit self inputs;};
-    modules = import ./modules/nixos/star-citizen/default.nix {inherit self;};
+    nixosModules = import ./modules/nixos/star-citizen/default.nix {inherit self;};
     packages = let
       pkgSet = pkgs: {
         inherit

@@ -95,22 +95,6 @@
         "type": "github"
       }
     },
-    "glitzy": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1778904896,
-        "narHash": "sha256-JrmoNhvO/B+PXkmGy8uH/RLOgLZacmz8QaKRgwYJBlE=",
-        "owner": "getchoo",
-        "repo": "glitzy",
-        "rev": "8bdc13e14991e572d25bd64af06dfad4c0f3c8bc",
-        "type": "github"
-      },
-      "original": {
-        "owner": "getchoo",
-        "repo": "glitzy",
-        "type": "github"
-      }
-    },
     "nix-gaming": {
       "inputs": {
         "flake-parts": "flake-parts",
@@ -167,7 +151,6 @@
     "root": {
       "inputs": {
         "flake-compat": "flake-compat",
-        "glitzy": "glitzy",
         "nix-gaming": "nix-gaming",
         "nixpkgs": "nixpkgs",
         "treefmt-nix": "treefmt-nix"
