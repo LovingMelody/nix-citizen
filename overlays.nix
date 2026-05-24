@@ -121,6 +121,7 @@ in rec {
     };
     rsi-launcher-git = final.rsi-launcher.override {
       rsi-launcher-unwrapped = final.rsi-launcher-unwrapped-git;
+      wineprefix-preparer = final.wineprefix-preparer-git;
       dxvk-nvapi-vkreflex-layer = final.dxvk-nvapi-vkreflex-layer-git;
       wine = final.wine-astral;
     };
@@ -135,6 +136,7 @@ in rec {
     star-citizen-git = final.star-citizen.override {
       rsi-launcher-unwrapped = final.star-citizen-unwrapped-git;
       dxvk-nvapi-vkreflex-layer = final.dxvk-nvapi-vkreflex-layer-git;
+      wineprefix-preparer = final.wineprefix-preparer-git;
     };
     star-citizen-umu = final.star-citizen-unwrapped.override {useUmu = true;};
 
