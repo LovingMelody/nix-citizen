@@ -79,18 +79,6 @@ in rec {
     wineprefix-preparer = final.callPackage "${inputs.nix-gaming}/pkgs/wineprefix-preparer" {};
 
     wineprefix-preparer-git = final.wineprefix-preparer.override {
-      dxvk-w64 = final.dxvk-w64.overrideAttrs {
-        pname = "dxvk";
-        src = pins.dxvk;
-        version = "git+${pins.dxvk.revision}";
-        patches = [];
-      };
-      dxvk-w32 = final.dxvk-w32.overrideAttrs {
-        pname = "dxvk";
-        src = pins.dxvk;
-        version = "git+${pins.dxvk.revision}";
-        patches = [];
-      };
       dxvk-nvapi-w64 = final.dxvk-nvapi-w64.overrideAttrs {
         src = pins.dxvk-nvapi;
         version = "git+${pins.dxvk-nvapi.revision}";
