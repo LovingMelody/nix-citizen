@@ -90,7 +90,7 @@ in
     base = {
       inherit moltenvk;
       buildScript = null;
-      configureFlags = ["--disable-tests" "--enable-win64"];
+      configureFlags = ["--disable-tests" "--enable-archs=x86_64,i386"];
 
       geckos = with sources; [gecko32 gecko64];
       mingwGccs = with pkgsCross; [mingw32.buildPackages.gcc_latest mingwW64.buildPackages.gcc_latest];
