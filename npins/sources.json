@@ -9,9 +9,9 @@
       },
       "branch": "master",
       "submodules": true,
-      "revision": "02bcc98cc45ffc83a318dc2380548ffb6dae3ecf",
+      "revision": "053c1ccf993d02b7fb7e12109c02cb8562fb951c",
       "url": null,
-      "hash": "sha256-Ph6Je4VoNm7xcxsVc+26kGXwKQKx0E3KF1csYEQK57Q="
+      "hash": "sha256-wRdyErUeOyt7i7wXij+57KRIk8EZT/5cXWAH/pMPTTQ="
     },
     "dxvk-gplasync": {
       "type": "Git",
@@ -48,9 +48,9 @@
       },
       "branch": "master",
       "submodules": true,
-      "revision": "84a46a2360326ccf5091fa9220c88fe13d67488d",
+      "revision": "492fda4658ccdb9e5c24c16cbadcf3d906c8e732",
       "url": null,
-      "hash": "sha256-xgq9582u6LlUdGr1jcjuTbD2Lea4feU13hYIV1GaQ0g="
+      "hash": "sha256-j9dAETVbE3z3OMZnYnWy7tzTDi1+HLwVFb/mv1fxIf8="
     }
   },
   "version": 7
