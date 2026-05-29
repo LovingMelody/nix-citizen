@@ -65,6 +65,12 @@ in rec {
           + ''
             sed -i "/'-flto=auto',/d" meson.build
           '';
+        buildInputs =
+          (old.buildInputs or [])
+          ++ [
+            final.vulkan-headers
+            final.spirv-headers
+          ];
       });
     dxvk-w64 =
       (final.pkgsCross.mingwW64.callPackage "${inputs.nix-gaming}/pkgs/dxvk" {
@@ -81,6 +87,12 @@ in rec {
           + ''
             sed -i "/'-flto=auto',/d" meson.build
           '';
+        buildInputs =
+          (old.buildInputs or [])
+          ++ [
+            final.vulkan-headers
+            final.spirv-headers
+          ];
       });
 
     dxvk-nvapi-w32 = final.pkgsCross.mingw32.callPackage "${inputs.nix-gaming}/pkgs/dxvk-nvapi" {pins = nix-gaming-pins;};
