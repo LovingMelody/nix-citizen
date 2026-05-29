@@ -118,7 +118,7 @@
       };
       preCommands = mkOption {
         default = "";
-        type = types.str;
+        type = types.lines;
         description = "Additional commands to be run before rsi-launcher is run";
         example = ''
           export DXVK_HUD=compiler
@@ -127,7 +127,7 @@
       };
       postCommands = mkOption {
         default = "";
-        type = types.str;
+        type = types.lines;
         description = "Additional commands to be run after rsi-launcher is run";
       };
       setLimits = mkOption {
