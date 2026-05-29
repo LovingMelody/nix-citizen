@@ -49,12 +49,39 @@ in rec {
   };
   default = final: _prev: {
     cnc-ddraw = final.callPackage "${inputs.nix-gaming}/pkgs/cnc-ddraw" {};
-    dxvk-w32 = final.pkgsCross.mingw32.callPackage "${inputs.nix-gaming}/pkgs/dxvk" {
-      pins = nix-gaming-pins;
-    };
-    dxvk-w64 = final.pkgsCross.mingwW64.callPackage "${inputs.nix-gaming}/pkgs/dxvk" {
-      pins = nix-gaming-pins;
-    };
+    low-latency-layer = final.callPackage "${inputs.nix-gaming}/pkgs/low-latency-layer" {inherit pins;};
+    dxvk-w32 =
+      (final.pkgsCross.mingw32.callPackage "${inputs.nix-gaming}/pkgs/dxvk" {
+        pins = nix-gaming-pins;
+        withAsync = false;
+      }).overrideAttrs (old: let
+        src = nix-gaming-pins.dxvk-gplasync-lowlatency;
+      in {
+        pname = "${old.pname}-gplasync-lowlatency";
+        version = final.lib.removePrefix src.release_prefix src.version;
+        inherit src;
+        postPatch =
+          old.postPatch
+          + ''
+            sed -i "/'-flto=auto',/d" meson.build
+          '';
+      });
+    dxvk-w64 =
+      (final.pkgsCross.mingwW64.callPackage "${inputs.nix-gaming}/pkgs/dxvk" {
+        pins = nix-gaming-pins;
+        withAsync = false;
+      }).overrideAttrs (old: let
+        src = nix-gaming-pins.dxvk-gplasync-lowlatency;
+      in {
+        pname = "${old.pname}-gplasync-lowlatency";
+        version = final.lib.removePrefix src.release_prefix src.version;
+        inherit src;
+        postPatch =
+          old.postPatch
+          + ''
+            sed -i "/'-flto=auto',/d" meson.build
+          '';
+      });
 
     dxvk-nvapi-w32 = final.pkgsCross.mingw32.callPackage "${inputs.nix-gaming}/pkgs/dxvk-nvapi" {pins = nix-gaming-pins;};
     dxvk-nvapi-w64 = final.pkgsCross.mingwW64.callPackage "${inputs.nix-gaming}/pkgs/dxvk-nvapi" {pins = nix-gaming-pins;};
@@ -76,7 +103,9 @@ in rec {
     };
 
     winetricks-git = final.callPackage "${inputs.nix-gaming}/pkgs/winetricks-git" {pins = nix-gaming-pins;};
-    wineprefix-preparer = final.callPackage "${inputs.nix-gaming}/pkgs/wineprefix-preparer" {};
+    wineprefix-preparer =
+      final.callPackage "${inputs.nix-gaming}/pkgs/wineprefix-preparer" {
+      };
 
     wineprefix-preparer-git = final.wineprefix-preparer.override {
       dxvk-nvapi-w64 = final.dxvk-nvapi-w64.overrideAttrs {

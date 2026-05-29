@@ -10,6 +10,7 @@
   wine,
   wineprefix-preparer,
   dxvk-nvapi-vkreflex-layer,
+  low-latency-layer,
   includeGamemode ? false,
   gamemode,
   gameScopeEnable ? false,
@@ -27,7 +28,7 @@
     "mangohud"
     "includeMangoHud"
     "includeGamemode"
-
+    "low-latency-layer"
     "dxvk-nvapi-vkreflex-layer"
   ];
   rsi-launcher = rsi-launcher-unwrapped.override baseArgs;
@@ -46,7 +47,7 @@ in
       ++ lib.optional gameScopeEnable gamescope
       ++ extraPkgs pkgs;
     extraLibraries = pkgs:
-      [dxvk-nvapi-vkreflex-layer]
+      [dxvk-nvapi-vkreflex-layer low-latency-layer]
       ++ lib.optional includeGamemode gamemode
       ++ lib.optional gameScopeEnable gamescope
       ++ lib.optional includeMangoHud mangohud

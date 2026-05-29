@@ -26,6 +26,22 @@
       "url": null,
       "hash": "sha256-VzHryAzu9rR0CB5e0gwK26EUF0XFLxT/Vug9u0/UGJk="
     },
+    "dxvk-gplasync-lowlatency": {
+      "type": "GitRelease",
+      "repository": {
+        "type": "GitHub",
+        "owner": "Digger1955",
+        "repo": "dxvk-gplasync-lowlatency"
+      },
+      "pre_releases": true,
+      "version_upper_bound": null,
+      "release_prefix": "DXVK-GPLALL-",
+      "submodules": false,
+      "version": "DXVK-GPLALL-2.7.1-4",
+      "revision": "83df10afe5b340c3876dacecfd79383ea368c58d",
+      "url": "https://api.github.com/repos/Digger1955/dxvk-gplasync-lowlatency/tarball/refs/tags/DXVK-GPLALL-2.7.1-4",
+      "hash": "sha256-LnpZ1TOK2RE9hMR4PbCpR2KpUKuVHSeP8mMQ2723mVo="
+    },
     "dxvk-nvapi": {
       "type": "Git",
       "repository": {
@@ -38,6 +54,22 @@
       "revision": "f9fdf268e888d17ae9875a4f01908164ff05f740",
       "url": null,
       "hash": "sha256-VXDh8xWKYYD7fLRJgsAzjGxeqH91coo6x3rQEzLF4HY="
+    },
+    "low_latency_layer": {
+      "type": "GitRelease",
+      "repository": {
+        "type": "GitHub",
+        "owner": "Korthos-Software",
+        "repo": "low_latency_layer"
+      },
+      "pre_releases": false,
+      "version_upper_bound": null,
+      "release_prefix": null,
+      "submodules": false,
+      "version": "v0.2.0",
+      "revision": "4e7fe12b797d89be07919acf3d2df5cda3f4d89f",
+      "url": "https://api.github.com/repos/Korthos-Software/low_latency_layer/tarball/refs/tags/v0.2.0",
+      "hash": "sha256-mnGAH0m19wOkWEowpcPRHXQSc6HGYW+CFYxjPF2onk4="
     },
     "vkd3d-proton": {
       "type": "Git",
