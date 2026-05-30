@@ -165,7 +165,7 @@ in
         # "winedevice-Default_Drivers"
       ];
       lugBlacklist = [
-        "10.2+_eac_fix.patch"
+        # "10.2+_eac_fix.patch"
         "winewayland-no-enter-move-if-relative.patch"
         # "hidewineexports.patch"
         "reg_show_wine.patch"
@@ -186,10 +186,10 @@ in
       tkgPatches = [
         "misc/CSMT-toggle/CSMT-toggle.patch"
         "proton/proton-win10-default/proton-win10-default.patch"
-        "proton-tkg-specific/proton_battleye/proton_battleye.patch"
-        "proton-tkg-specific/proton_eac/Revert-ntdll-Get-rid-of-the-wine_nt_to_unix_file_nam.patch"
-        "proton-tkg-specific/proton_eac/proton-eac_bridge.patch"
-        "proton-tkg-specific/proton_eac/wow64_loader_hack.patch"
+        # "proton-tkg-specific/proton_battleye/proton_battleye.patch"
+        # "proton-tkg-specific/proton_eac/Revert-ntdll-Get-rid-of-the-wine_nt_to_unix_file_nam.patch"
+        # "proton-tkg-specific/proton_eac/proton-eac_bridge.patch"
+        # "proton-tkg-specific/proton_eac/wow64_loader_hack.patch"
         "misc/enable_dynamic_wow64_def/enable_dynamic_wow64_def.patch"
         "hotfixes/GetMappedFileName/Return_nt_filename_and_resolve_DOS_drive_path.mypatch"
         "hotfixes/08cccb5/a608ef1.mypatch"

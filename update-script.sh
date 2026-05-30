@@ -33,16 +33,16 @@ if [ "${1:-}" = "--cache" ] || [ "${1:-}" = "--cache-only" ]; then
     .#proton-ge-bin \
     .#dw-proton-bin \
     .#proton-cachyos-bin \
-    .#proton-em-bin | cachix push nix-citizen
-  nix build --print-out-paths --no-link --keep-going --refresh \
-    .#packages.x86_64-linux-v3.rsi-launcher \
-    .#packages.x86_64-linux-v3.rsi-launcher-git \
-    .#packages.x86_64-linux-v3.lug-helper \
-    .#packages.x86_64-linux-v3.gameglass \
-    .#packages.x86_64-linux-v3.rsi-launcher-umu \
-    .#packages.x86_64-linux-v3.lug-wine-bin \
-    .#packages.x86_64-linux-v3.proton-ge-bin \
-    .#packages.x86_64-linux-v3.dw-proton-bin \
-    .#packages.x86_64-linux-v3.proton-cachyos-bin \
-    .#packages.x86_64-linux-v3.proton-em-bin | cachix push nix-citizen
+    .#proton-em-bin | cachix push nix-citizen &&
+    nix build --print-out-paths --no-link --keep-going --refresh \
+      .#packages.x86_64-linux-v3.rsi-launcher \
+      .#packages.x86_64-linux-v3.rsi-launcher-git \
+      .#packages.x86_64-linux-v3.lug-helper \
+      .#packages.x86_64-linux-v3.gameglass \
+      .#packages.x86_64-linux-v3.rsi-launcher-umu \
+      .#packages.x86_64-linux-v3.lug-wine-bin \
+      .#packages.x86_64-linux-v3.proton-ge-bin \
+      .#packages.x86_64-linux-v3.dw-proton-bin \
+      .#packages.x86_64-linux-v3.proton-cachyos-bin \
+      .#packages.x86_64-linux-v3.proton-em-bin | cachix push nix-citizen
 fi
