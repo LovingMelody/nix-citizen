@@ -127,6 +127,11 @@ in
       ''
         #!${lib.getExe bash}
         set -x
+        # RSI Launcher is an Electron app with the run_as_node fuse enabled;
+        # if ELECTRON_RUN_AS_NODE leaks in from an Electron-based host
+        # (e.g. a VSCode integrated terminal), the launcher starts as a plain
+        # Node.js runtime and exits silently with no window. Never propagate it.
+        unset ELECTRON_RUN_AS_NODE
         export PATH="${lib.makeBinPath finalAttrs.buildInputs}:$PATH"
         # Winetricks is a pinned version, this isnt needed...
         export WINETRICKS_LATEST_VERSION_CHECK=disabled
