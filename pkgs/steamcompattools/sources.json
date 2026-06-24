@@ -6,9 +6,9 @@
     "steamDisplayName": "DW-Proton"
   },
   "proton-ge-bin": {
-    "version": "GE-Proton10-34",
-    "url": "https://github.com/GloriousEggroll/proton-ge-custom/releases/download/GE-Proton10-34/GE-Proton10-34.tar.gz",
-    "hash": "sha256-lzPsYYcrp5NoT3B0WFj3o10Z7tXx7xva1wEP3edeuqM=",
+    "version": "GE-Proton11-1",
+    "url": "https://github.com/GloriousEggroll/proton-ge-custom/releases/download/GE-Proton11-1/GE-Proton11-1.tar.gz",
+    "hash": "sha256-I7SSvzQQ/NqdvwjpJ9IFFtAaTS+rgHUyXx0us1vIOnw=",
     "steamDisplayName": "GE-Proton"
   },
   "proton-cachyos-bin": {
