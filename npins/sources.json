@@ -9,9 +9,9 @@
       },
       "branch": "master",
       "submodules": true,
-      "revision": "8c3eaf980d7ff934f1e4834568220a0b09cdbad8",
+      "revision": "97fe0c66f89d3c8977578e1b500907306d4af536",
       "url": null,
-      "hash": "sha256-1tm7SM2EcxDRHrYr9KEQEho4FIc5l81Y4bfgFPs/X/U="
+      "hash": "sha256-RTioXBXmRE2LJ3Hqa/NndmX5Fu/Mi34V7wUUEoIh70o="
     },
     "dxvk-gplasync": {
       "type": "Git",
