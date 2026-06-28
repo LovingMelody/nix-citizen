@@ -105,12 +105,11 @@
     formatter = {
       x86_64-linux = (treefmtEval (pkgConfig null)).config.build.wrapper;
       x86_64-linux-v3 = (treefmtEval (pkgConfig "x86-64-v3")).config.build.wrapper;
-
-      checks.${system} = {
-        x86_64-linux = (treefmtEval (pkgConfig null)).config.build.check self;
-        x86_64-linux-v3 = (treefmtEval (pkgConfig "x86-64-v3")).config.check self;
-      };
     };
+    # checks = {
+    #   x86_64-linux = (treefmtEval (pkgConfig null)).config.build.check self;
+    #   x86_64-linux-v3 = (treefmtEval (pkgConfig "x86-64-v3")).config.check self;
+    # };
   };
   nixConfig = {
     allowInsecure = true;

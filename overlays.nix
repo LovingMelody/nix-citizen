@@ -6,7 +6,7 @@
   inherit (inputs.nixpkgs.lib) optional;
   # inherit (inputs.nixpkgs.lib) assertOneOf optionalString warn;
   pins = import "${self}/npins";
-  nix-gaming-pins = import "${inputs.nix-gaming}/npins";
+  shortRev = s: builtins.substring 0 7 s;
   # mkDeprecated = variant: return: {
   #   target,
   #   name,
@@ -47,95 +47,45 @@ in rec {
         ++ optional (!builtins.elem ./patches/ge-xwayland-pointer-warp-fix.patch (p.patches or [])) ./patches/ge-xwayland-pointer-warp-fix.patch;
     });
   };
-  default = final: _prev: {
-    cnc-ddraw = final.callPackage "${inputs.nix-gaming}/pkgs/cnc-ddraw" {};
-    low-latency-layer = final.callPackage "${inputs.nix-gaming}/pkgs/low-latency-layer" {inherit pins;};
-    dxvk-w32 =
-      (final.pkgsCross.mingw32.callPackage "${inputs.nix-gaming}/pkgs/dxvk" {
-        pins = nix-gaming-pins;
-        withAsync = false;
-      }).overrideAttrs (old: let
-        src = nix-gaming-pins.dxvk-gplasync-lowlatency;
-      in {
-        pname = "${old.pname}-gplasync-lowlatency";
-        version = final.lib.removePrefix src.release_prefix src.version;
-        inherit src;
-        postPatch =
-          old.postPatch
-          + ''
-            sed -i "/'-flto=auto',/d" meson.build
-          '';
-        buildInputs =
-          (old.buildInputs or [])
-          ++ [
-            final.vulkan-headers
-            final.spirv-headers
-          ];
-      });
-    dxvk-w64 =
-      (final.pkgsCross.mingwW64.callPackage "${inputs.nix-gaming}/pkgs/dxvk" {
-        pins = nix-gaming-pins;
-        withAsync = false;
-      }).overrideAttrs (old: let
-        src = nix-gaming-pins.dxvk-gplasync-lowlatency;
-      in {
-        pname = "${old.pname}-gplasync-lowlatency";
-        version = final.lib.removePrefix src.release_prefix src.version;
-        inherit src;
-        postPatch =
-          old.postPatch
-          + ''
-            sed -i "/'-flto=auto',/d" meson.build
-          '';
-        buildInputs =
-          (old.buildInputs or [])
-          ++ [
-            final.vulkan-headers
-            final.spirv-headers
-          ];
-      });
+  _nix-citizen = final: prev: {
+    low-latency-layer = prev.low-latency-layer.override {inherit pins;};
 
-    dxvk-nvapi-w32 = final.pkgsCross.mingw32.callPackage "${inputs.nix-gaming}/pkgs/dxvk-nvapi" {pins = nix-gaming-pins;};
-    dxvk-nvapi-w64 = final.pkgsCross.mingwW64.callPackage "${inputs.nix-gaming}/pkgs/dxvk-nvapi" {pins = nix-gaming-pins;};
-    dxvk-nvapi-vkreflex-layer = final.callPackage "${inputs.nix-gaming}/pkgs/dxvk-nvapi/vkreflex-layer.nix" {pins = nix-gaming-pins;};
     dxvk-nvapi-vkreflex-layer-git = final.dxvk-nvapi-vkreflex-layer.overrideAttrs {
       src = pins.dxvk-nvapi;
-      version = "git+${pins.dxvk-nvapi.revision}";
-    };
-    d7vk-w32 = final.pkgsCross.mingw32.callPackage "${inputs.nix-gaming}/pkgs/d7vk" {pins = nix-gaming-pins;};
-    d7vk-w64 = final.pkgsCross.mingwW64.callPackage "${inputs.nix-gaming}/pkgs/d7vk" {pins = nix-gaming-pins;};
-
-    vkd3d-proton-w32 = final.pkgsCross.mingw32.callPackage "${inputs.nix-gaming}/pkgs/vkd3d-proton" {
-      pins = nix-gaming-pins;
-      wine64 = final.wine-astral;
-    };
-    vkd3d-proton-w64 = final.pkgsCross.mingwW64.callPackage "${inputs.nix-gaming}/pkgs/vkd3d-proton" {
-      pins = nix-gaming-pins;
-      wine64 = final.wine-astral;
+      version = prev.dxvk-nvapi-vkreflex-layer.version + "+${pins.dxvk-nvapi.revision}";
     };
 
-    winetricks-git = final.callPackage "${inputs.nix-gaming}/pkgs/winetricks-git" {pins = nix-gaming-pins;};
-    wineprefix-preparer =
-      final.callPackage "${inputs.nix-gaming}/pkgs/wineprefix-preparer" {
-      };
+    vkd3d-proton-w32 = prev.vkd3d-proton-w32.override {wine64 = final.wine-astral;};
+    vkd3d-proton-w64 = prev.vkd3d-proton-w64.override {wine64 = final.wine-astral;};
+    vkd3d-proton-w32-git =
+      (final.vkd3d-proton-w32.override {
+        wine64 = final.wine-astral;
+      }).overrideAttrs (o: {
+        src = pins.vkd3d-proton;
+        version = o.version + "+${shortRev pins.vkd3d-proton.revision}";
+      });
+    vkd3d-proton-w64-git =
+      (final.vkd3d-proton-w64.override {
+        wine64 = final.wine-astral;
+      }).overrideAttrs (o: {
+        src = pins.vkd3d-proton;
+        version = o.version + "+${shortRev pins.vkd3d-proton.revision}";
+      });
+
+    dxvk-nvapi-w32-git = final.dxvk-nvapi-w32.overrideAttrs (o: {
+      version = o.version + "${shortRev pins.dxvk-nvapi.revision}";
+      src = pins.dxvk-nvapi;
+    });
+    dxvk-nvapi-w64-git = final.dxvk-nvapi-w64.overrideAttrs (o: {
+      version = o.version + "${shortRev pins.dxvk-nvapi.revision}";
+      src = pins.dxvk-nvapi;
+    });
 
     wineprefix-preparer-git = final.wineprefix-preparer.override {
-      dxvk-nvapi-w64 = final.dxvk-nvapi-w64.overrideAttrs {
-        src = pins.dxvk-nvapi;
-        version = "git+${pins.dxvk-nvapi.revision}";
-      };
-      dxvk-nvapi-w32 = final.dxvk-nvapi-w32.overrideAttrs {
-        src = pins.dxvk-nvapi;
-        version = "git+${pins.dxvk-nvapi.revision}";
-      };
-      vkd3d-proton-w64 = final.vkd3d-proton-w64.overrideAttrs {
-        src = pins.vkd3d-proton;
-        version = "git+${pins.vkd3d-proton.revision}";
-      };
-      vkd3d-proton-w32 = final.vkd3d-proton-w32.overrideAttrs {
-        src = pins.vkd3d-proton;
-        version = "git+${pins.vkd3d-proton.revision}";
-      };
+      dxvk-nvapi-w64 = final.dxvk-nvapi-w64-git;
+      dxvk-nvapi-w32 = final.dxvk-nvapi-w32-git;
+      vkd3d-proton-w64 = final.vkd3d-proton-w64-git;
+      vkd3d-proton-w32 = final.vkd3d-proton-w32-git;
     };
 
     wine-astral = final.callPackage ./pkgs/wine-astral {
@@ -192,4 +142,10 @@ in rec {
   in {
     inherit (compattools) proton-ge-bin dw-proton-bin proton-cachyos-bin proton-em-bin;
   };
+
+  default = inputs.nixpkgs.lib.composeManyExtensions [
+    inputs.nix-gaming.overlays.default
+    _nix-citizen
+    steamcompattools
+  ];
 }
