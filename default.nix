@@ -7,7 +7,7 @@ let
   };
 
   flake = import flake-compat {
-      src = ./.;
-    };
+    src = ./.;
+  };
 in
   flake.defaultNix
