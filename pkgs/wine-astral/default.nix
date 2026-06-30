@@ -194,7 +194,6 @@ in
         "hotfixes/GetMappedFileName/Return_nt_filename_and_resolve_DOS_drive_path.mypatch"
         "hotfixes/08cccb5/a608ef1.mypatch"
         "hotfixes/NosTale/nostale_mouse_fix.mypatch"
-        "hotfixes/autoconf-opencl-hotfix/opencl-fixup.mypatch"
       ];
       patches = [];
 
