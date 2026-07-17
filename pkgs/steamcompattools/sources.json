@@ -1,8 +1,8 @@
 {
   "dw-proton-bin": {
-    "version": "dwproton-11.0-5",
-    "url": "https://dawn.wine/dawn-winery/dwproton/releases/download/dwproton-11.0-5/dwproton-11.0-5-x86_64.tar.xz",
-    "hash": "sha256-2x4xotJ2aJYbg+G2TDPqyU7uuoc/hZQon9CA6SFGin0=",
+    "version": "dwproton-11.0-7",
+    "url": "https://dawn.wine/dawn-winery/dwproton/releases/download/dwproton-11.0-7/dwproton-11.0-7-x86_64.tar.xz",
+    "hash": "sha256-M8wcC7pKFs0Qena5NN9ylq2TykRfPK7JiHnzP6DkZv0=",
     "steamDisplayName": "DW-Proton"
   },
   "proton-ge-bin": {
@@ -12,21 +12,21 @@
     "steamDisplayName": "GE-Proton"
   },
   "proton-cachyos-bin": {
-    "version": "cachyos-11.0-20260602-slr",
-    "url": "https://github.com/CachyOS/proton-cachyos/releases/download/cachyos-11.0-20260602-slr/proton-cachyos-11.0-20260602-slr-x86_64.tar.xz",
-    "hash": "sha256-PRGifq6wCKNv5DJiaAZ/6/iWfA6CVu++YZAkX5Ww97U=",
+    "version": "cachyos-11.0-20260702-slr",
+    "url": "https://github.com/CachyOS/proton-cachyos/releases/download/cachyos-11.0-20260702-slr/proton-cachyos-11.0-20260702-slr-x86_64.tar.xz",
+    "hash": "sha256-ZyyhEf6NcW7MzswWAlMdE4Ok8KnBOmB81yvu8ZwVxl4=",
     "steamDisplayName": "Proton-CachyOS"
   },
   "proton-cachyos-arm64-bin": {
-    "version": "cachyos-11.0-20260602-slr",
-    "url": "https://github.com/CachyOS/proton-cachyos/releases/download/cachyos-11.0-20260602-slr/proton-cachyos-11.0-20260602-slr-arm64.tar.xz",
-    "hash": "sha256-R2Lwr+rAjqi3GLvFAY+E4tn0Ers8IlRDsUQ6NimYcuk=",
+    "version": "cachyos-11.0-20260702-slr",
+    "url": "https://github.com/CachyOS/proton-cachyos/releases/download/cachyos-11.0-20260702-slr/proton-cachyos-11.0-20260702-slr-arm64.tar.xz",
+    "hash": "sha256-NgoWTok8N41B4vh4bj0VOiAQzJiTFrkbpr4DnoTFRoY=",
     "steamDisplayName": "Proton-CachyOS"
   },
   "proton-cachyos-x86_64_v3-bin": {
-    "version": "cachyos-11.0-20260602-slr",
-    "url": "https://github.com/CachyOS/proton-cachyos/releases/download/cachyos-11.0-20260602-slr/proton-cachyos-11.0-20260602-slr-x86_64_v3.tar.xz",
-    "hash": "sha256-SVJSIqd7SEjtl2FcsCHOUgYYSDMn3cedA2GTGUNmDQM=",
+    "version": "cachyos-11.0-20260702-slr",
+    "url": "https://github.com/CachyOS/proton-cachyos/releases/download/cachyos-11.0-20260702-slr/proton-cachyos-11.0-20260702-slr-x86_64_v3.tar.xz",
+    "hash": "sha256-pbx/WDgpa55WDr1exD4rrNWsRoVkqHIUjzX1PJObxG8=",
     "steamDisplayName": "Proton-CachyOS"
   },
   "proton-em-bin": {
