@@ -181,6 +181,7 @@ in
         "append_cmd.patch"
         "append_cmd_override.patch"
         "wineland_pointer_warping.patch"
+        "winewayland-fullscreen-idle-inhibit.patch"
         # "0002-wineopenxr_enable.patch"
         # "cache-committed-size.patch"
       ];
