@@ -13,8 +13,9 @@
     pname,
     meta ? {},
   }:
-    (proton-ge-bin.override {inherit steamDisplayName;}).overrideAttrs (o: {
-      inherit version pname;
+    proton-ge-bin.overrideAttrs (o: {
+      inherit version pname steamDisplayName;
+
       src = fetchzip {
         inherit url hash;
       };
