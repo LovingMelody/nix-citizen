@@ -2,7 +2,7 @@
   description = "Nix Flake to simplify running Star Citizen";
 
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+    nixpkgs.url = "https://channels.nixos.org/nixos-unstable/nixexprs.tar.zst";
     nix-gaming = {
       url = "github:fufexan/nix-gaming";
       inputs = {
