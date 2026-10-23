@@ -176,6 +176,7 @@ in
         "winefacewarehacks-minimal.patch"
         "default-to-wayland.patch"
         "0001-wineopenxr_add.patch"
+        "0002-wineopenxr_enable.patch"
         "append_cmd.patch"
         "append_cmd_override.patch"
         "wineland_pointer_warping.patch"
