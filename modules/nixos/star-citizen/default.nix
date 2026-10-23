@@ -246,7 +246,7 @@
         };
         services.udev.packages = optional cfg.udevRules pkgs.lug-helper;
         boot = {
-          extraModulePackages = with config.boot.kernelPackages; [v4l2loopback];
+          # extraModulePackages = with config.boot.kernelPackages; [v4l2loopback];
           kernelModules = ["snd-aloop"] ++ lib.optional cfg.enableNTsync "ntsync";
         };
         security.pam = mkIf cfg.setLimits {
