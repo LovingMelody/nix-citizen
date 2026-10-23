@@ -16,12 +16,12 @@
 }:
 stdenvNoCC.mkDerivation (finalAttrs: {
   pname = "lug-helper";
-  version = "4.16";
+  version = "4.17";
   src = fetchFromGitHub {
     owner = "starcitizen-lug";
     repo = "lug-helper";
     tag = "v${finalAttrs.version}";
-    hash = "sha256-lu9HvYdje4HbANXGzdcBTx7/W5xAWzsB7J81vftmLLU=";
+    hash = "sha256-v/w3bnih3zh5LcKNUCLKDlPKc18qgY2JvEhMYeDupD8=";
   };
   patches = [./0001-Impove-udev-hidraw-rule-application.patch];
 
