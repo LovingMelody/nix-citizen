@@ -17,7 +17,7 @@
       types
       ;
 
-    flake-packages = self.packages.${pkgs.stdenv.hostPlatform};
+    flake-packages = self.packages.${pkgs.stdenv.hostPlatform.system};
     legacy = config.nix-citizen.starCitizen;
     cfg = config.programs.rsi-launcher;
 
@@ -25,8 +25,8 @@
       if (builtins.hasAttr pname pkgs)
       then pkgs.${pname}
       else
-        builtins.trace
-        "Warning: pkgs does not include ${pname} (missing overlay?) using nix-citizen's package"
+        lib.warnIf cfg.includeOverlay
+        "pkgs does not include ${pname} despite includeOverlay being enabled; using nix-citizen's package"
         flake-packages.${pname};
 
     optionSet = {
