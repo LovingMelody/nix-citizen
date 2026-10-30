@@ -134,6 +134,10 @@ in
         # Winetricks is a pinned version, this isnt needed...
         export WINETRICKS_LATEST_VERSION_CHECK=disabled
         export WINEARCH="win64"
+        # systemd sets these for every unit it starts and children inherit them.
+        # With them set (e.g. SC launched as its own unit via app2unit), PU joins
+        # can fail with 70003 "Authentication timed out". SC doesn't need them.
+        unset MEMORY_PRESSURE_WATCH MEMORY_PRESSURE_WRITE
         mkdir -p "${location}"
         export WINEPREFIX="$(readlink -f "${location}")"
 
