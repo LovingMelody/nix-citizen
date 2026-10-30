@@ -164,6 +164,11 @@ in
         export GAMEID="umu-starcitizen"
         export STORE="none"
 
+        # Disable potential 70003 error
+        unset MEMORY_PRESSURE_WATCH
+        unset MEMORY_PRESSURE_WRITE
+
+
         ${optionalString enableGlCache ''
           # NVIDIA
           export __GL_SHADER_DISK_CACHE=1;
