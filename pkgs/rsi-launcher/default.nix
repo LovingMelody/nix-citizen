@@ -31,7 +31,7 @@
   # May help with vulkan but causes issues w/ some WMs
   # Set this by default as there are cursor issues with this false
   enforceWaylandDrv ? true,
-  hidewine ? true,
+  hidewine ? false,
   # Hide tray by default if wayland is enforced for now.
   hidetray ? enforceWaylandDrv,
   launchCommand ? "%command%",
