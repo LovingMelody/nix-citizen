@@ -165,7 +165,7 @@ in
       lugBlacklist = [
         # "10.2+_eac_fix.patch"
         "winewayland-no-enter-move-if-relative.patch"
-        # "hidewineexports.patch"
+        "hidewineexports.patch"
         "reg_show_wine.patch"
         "reg_hide_wine.patch"
         "printkey_x11-staging.patch"
@@ -180,6 +180,7 @@ in
         "append_cmd.patch"
         "append_cmd_override.patch"
         "wineland_pointer_warping.patch"
+        "current-thread-for-writing-minidump.patch"
         # "winewayland-fullscreen-idle-inhibit.patch"
         # "0002-wineopenxr_enable.patch"
         # "cache-committed-size.patch"
