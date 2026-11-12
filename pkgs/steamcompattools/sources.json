@@ -1,14 +1,14 @@
 {
   "dw-proton-bin": {
-    "version": "dwproton-11.0-15",
-    "url": "https://dawn.wine/dawn-winery/dwproton/releases/download/dwproton-11.0-15/dwproton-11.0-15-x86_64.tar.xz",
-    "hash": "sha256-vF5O5sR1/zr1+06SraznN4u8eRtp47bVYxj0ntCZIwQ=",
+    "version": "dwproton-11.0-16",
+    "url": "https://dawn.wine/dawn-winery/dwproton/releases/download/dwproton-11.0-16/dwproton-11.0-16-x86_64.tar.xz",
+    "hash": "sha256-fNAT/PRoWE5WcjGmoZYjPXx+wF0rlKuUXWQk0+P7s7U=",
     "steamDisplayName": "DW-Proton"
   },
   "proton-ge-bin": {
-    "version": "GE-Proton11-11",
-    "url": "https://github.com/GloriousEggroll/proton-ge-custom/releases/download/GE-Proton11-11/GE-Proton11-11-x86_64.tar.gz",
-    "hash": "sha256-3tVgf83IkteFtVo/bHd4yG1xCtPeuW8FXaTrHOLjvKQ=",
+    "version": "GE-Proton11-12",
+    "url": "https://github.com/GloriousEggroll/proton-ge-custom/releases/download/GE-Proton11-12/GE-Proton11-12-x86_64.tar.gz",
+    "hash": "sha256-i20g9lDz7bR0SXWmvHZHztN4m8AHkcD0/OVGSC4ZzI8=",
     "steamDisplayName": "GE-Proton"
   },
   "proton-cachyos-bin": {
