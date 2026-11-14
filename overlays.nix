@@ -99,22 +99,22 @@ in rec {
       ;
     rsi-installer = final.callPackage ./pkgs/rsi-launcher/installer.nix {};
     rsi-launcher-unwrapped = final.callPackage ./pkgs/rsi-launcher {
-      wine = final.wine-astral;
+      wine = final.lug-wine-bin;
       winetricks = final.winetricks-git;
     };
     rsi-launcher-unwrapped-git = final.rsi-launcher-unwrapped.override {
       wineprefix-preparer = final.wineprefix-preparer-git;
-      wine = final.wine-astral;
+      wine = final.lug-wine-bin;
     };
     rsi-launcher = final.callPackage ./pkgs/rsi-launcher/wrapped.nix {
-      wine = final.wine-astral;
+      wine = final.lug-wine-bin;
       winetricks = final.winetricks-git;
     };
     rsi-launcher-git = final.rsi-launcher.override {
       rsi-launcher-unwrapped = final.rsi-launcher-unwrapped-git;
       wineprefix-preparer = final.wineprefix-preparer-git;
       dxvk-nvapi-vkreflex-layer = final.dxvk-nvapi-vkreflex-layer-git;
-      wine = final.wine-astral;
+      wine = final.lug-wine-bin;
     };
     rsi-launcher-umu = final.rsi-launcher-unwrapped.override {useUmu = true;};
 
