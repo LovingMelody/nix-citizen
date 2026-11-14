@@ -28,11 +28,5 @@
     "url": $cachy_v3_url,
     "hash": $cachy_v3_hash,
     "steamDisplayName": "Proton-CachyOS"
-  },
-  "proton-em-bin": {
-    "version": $em_ver,
-    "url": $em_url,
-    "hash": $em_hash,
-    "steamDisplayName": "Proton-EM"
   }
 }

@@ -1,8 +1,8 @@
 {
   "dw-proton-bin": {
-    "version": "dwproton-11.0-16",
-    "url": "https://dawn.wine/dawn-winery/dwproton/releases/download/dwproton-11.0-16/dwproton-11.0-16-x86_64.tar.xz",
-    "hash": "sha256-fNAT/PRoWE5WcjGmoZYjPXx+wF0rlKuUXWQk0+P7s7U=",
+    "version": "dwproton-11.0-17",
+    "url": "https://dawn.wine/dawn-winery/dwproton/releases/download/dwproton-11.0-17/dwproton-11.0-17-x86_64.tar.xz",
+    "hash": "sha256-58pd22pNMz+lyp7xYn/nxE6Kere4gh3OiHUwuGsoXfk=",
     "steamDisplayName": "DW-Proton"
   },
   "proton-ge-bin": {
@@ -28,11 +28,5 @@
     "url": "https://github.com/CachyOS/proton-cachyos/releases/download/cachyos-11.0-20261015-slr/proton-cachyos-11.0-20261015-slr-x86_64_v3.tar.xz",
     "hash": "sha256-USZ7wVV069xmGJdtyg6b/pdv7qqLkUkSZEyHiiVIs1o=",
     "steamDisplayName": "Proton-CachyOS"
-  },
-  "proton-em-bin": {
-    "version": "EM-10.0-37-HDR",
-    "url": "https://github.com/Etaash-mathamsetty/Proton/releases/download/EM-10.0-37-HDR/proton-EM-10.0-37-HDR.tar.xz",
-    "hash": "sha256-yap/7G6TeJ9vMtc5H/iWu8w3sM8mI6762G+K2JzSlgk=",
-    "steamDisplayName": "Proton-EM"
   }
 }
