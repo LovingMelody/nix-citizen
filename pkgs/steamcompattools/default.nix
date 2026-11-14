@@ -52,8 +52,4 @@ in
       pname = "proton-cachyos-bin";
       meta.platforms = ["x86_64-linux" "aarch64-linux"];
     };
-    proton-em-bin = mkCompatTool {
-      inherit (sources.proton-em-bin) version url hash steamDisplayName;
-      pname = "proton-em-bin";
-    };
   }

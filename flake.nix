@@ -89,7 +89,6 @@
           proton-ge-bin
           dw-proton-bin
           proton-cachyos-bin
-          proton-em-bin
           ;
         xwayland-patched = pkgs.xwayland.overrideAttrs (p: {
           patches =
