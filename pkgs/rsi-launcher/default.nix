@@ -31,7 +31,7 @@
   # May help with vulkan but causes issues w/ some WMs
   # Set this by default as there are cursor issues with this false
   enforceWaylandDrv ? true,
-  hidewine ? true,
+  hidewine ? false,
   # Hide tray by default if wayland is enforced for now.
   hidetray ? enforceWaylandDrv,
   launchCommand ? "%command%",
@@ -167,6 +167,11 @@ in
         # ID for umu, not used for now
         export GAMEID="umu-starcitizen"
         export STORE="none"
+
+        # Disable potential 70003 error
+        unset MEMORY_PRESSURE_WATCH
+        unset MEMORY_PRESSURE_WRITE
+
 
         ${optionalString enableGlCache ''
           # NVIDIA
