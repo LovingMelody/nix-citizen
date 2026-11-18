@@ -7,7 +7,7 @@
         "narHash": "sha256-Eg9b/rq/ECYwNwEXs5i9wHyhxNI0JrYx2srdI2uZMaQ=",
         "rev": "382052b74656a369c5408822af3f2501e9b1af81",
         "type": "tarball",
-        "url": "https://git.lix.systems/api/v1/repos/lix-project/flake-compat/archive/382052b74656a369c5408822af3f2501e9b1af81.tar.gz?rev=382052b74656a369c5408822af3f2501e9b1af81"
+        "url": "https://git.lix.systems/api/v1/repos/lix-project/flake-compat/archive/382052b74656a369c5408822af3f2501e9b1af81.tar.gz"
       },
       "original": {
         "type": "tarball",
@@ -69,11 +69,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1794375173,
-        "narHash": "sha256-x97M5XOV+IDcm7K9Bv6a7OUePyEVCjPeLpr3iD3BJD8=",
+        "lastModified": 1794808030,
+        "narHash": "sha256-VFQXKm0nVF2AjRaxO9op6FAel7iTbYL+uuUegrFv2aE=",
         "owner": "fufexan",
         "repo": "nix-gaming",
-        "rev": "3d460ece2fde6ba86a7f9deacc9a65e40f9ed19e",
+        "rev": "15d35729116985000ee5c3b2488bb800e4af50b2",
         "type": "github"
       },
       "original": {
@@ -84,11 +84,11 @@
     },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1794386569,
-        "narHash": "sha256-W60urNAgQVS8bhNWH0bQsYoiagds8m38oTDUjEOM9FE=",
-        "rev": "d4f25a3e562008648d45bcf2d70bcc7422cad84e",
+        "lastModified": 1794537146,
+        "narHash": "sha256-bTKSclXJAmo9qdxPedTBHUGr8awPr4BrbOoOutJsYIc=",
+        "rev": "d5cc6833999746cffdfe0598f7bc801a57b887a9",
         "type": "tarball",
-        "url": "https://releases.nixos.org/nixos/unstable/nixos-26.11pre1117658.d4f25a3e5620/nixexprs.tar.zst?lastModified=1794386569&rev=d4f25a3e562008648d45bcf2d70bcc7422cad84e"
+        "url": "https://releases.nixos.org/nixos/unstable/nixos-26.11pre1119549.d5cc68339997/nixexprs.tar.zst"
       },
       "original": {
         "type": "tarball",
