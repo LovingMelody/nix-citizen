@@ -9,9 +9,9 @@
       },
       "branch": "master",
       "submodules": true,
-      "revision": "13f2afc3458871cf752b75a07132688ad1e81ee1",
+      "revision": "f6924e4081dd0512ea12e9789633dd3b32b6da30",
       "url": null,
-      "hash": "sha256-RO3zsXH9LGp+1nuga5f1KCL4rxcEzxmVCd0FHQGKbdo="
+      "hash": "sha256-3V2nW/JFoBSNiscA1LTCwA1kRL4Uv7Z6108HZGwExDg="
     },
     "dxvk-gplasync": {
       "type": "Git",
@@ -51,9 +51,9 @@
       },
       "branch": "master",
       "submodules": true,
-      "revision": "9c0f214cb66b543ed6604ef04c29fde98832dc77",
+      "revision": "e6642d051706479ef82e19f91f3bf7c741dd3447",
       "url": null,
-      "hash": "sha256-iKdvv4oMgyGHAy/Cxakiq2FlkOAeXxz0bmvPSuIzrhA="
+      "hash": "sha256-qtv66KIvGsIHYK1Zq8fP92s4vnhw3cJQA4LIFKcUTuw="
     },
     "low_latency_layer": {
       "type": "GitRelease",
@@ -80,9 +80,9 @@
       },
       "branch": "master",
       "submodules": true,
-      "revision": "2576c0b4adfae4a76d4c89d8cf5ec4f5ca795cff",
+      "revision": "30b0eb9bc12dc9f40e1a33a2be8c87cf0846447b",
       "url": null,
-      "hash": "sha256-5FcoPRd9EB9q4FAYgCPirZFwlRBbV2XpOlHQQN8CUV8="
+      "hash": "sha256-fi6883vshl/+DqmMEoBH0VGVp+ytiOyBCYRGqKMQ9VA="
     }
   },
   "version": 8
