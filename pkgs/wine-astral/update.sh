@@ -4,81 +4,81 @@
 # This has to be run after wine()
 vkSources() {
 
-  INFO="pkgs/wine-astral/vk.json"
+	INFO="pkgs/wine-astral/vk.json"
 
-  src=$(jaq -r .path <'pkgs/wine-astral/wine.json')
-  VERSION=$(sed -nE 's/^[[:space:]]*VK_XML_VERSION[[:space:]]*=[[:space:]]*"([^"]+)".*/\1/p' "$src/dlls/winevulkan/make_vulkan" | head -n1)
+	src=$(jaq -r .path <'pkgs/wine-astral/wine.json')
+	VERSION=$(sed -nE 's/^[[:space:]]*VK_XML_VERSION[[:space:]]*=[[:space:]]*"([^"]+)".*/\1/p' "$src/dlls/winevulkan/make_vulkan" | head -n1)
 
-  LAST_CHECKED_VERSION="$(jaq -r .version "$INFO")"
+	LAST_CHECKED_VERSION="$(jaq -r .version "$INFO")"
 
-  # If it's the same as current, skip other steps
-  if [ "$VERSION" == "$LAST_CHECKED_VERSION" ]; then
-    return
-  fi
+	# If it's the same as current, skip other steps
+	if [ "$VERSION" == "$LAST_CHECKED_VERSION" ]; then
+		return
+	fi
 
-  url="https://raw.githubusercontent.com/KhronosGroup/Vulkan-Docs/v$VERSION/xml/vk.xml"
-  url2="https://raw.githubusercontent.com/KhronosGroup/Vulkan-Docs/v$VERSION/xml/video.xml"
+	url="https://raw.githubusercontent.com/KhronosGroup/Vulkan-Docs/v$VERSION/xml/vk.xml"
+	url2="https://raw.githubusercontent.com/KhronosGroup/Vulkan-Docs/v$VERSION/xml/video.xml"
 
-  HASH="$(nix store prefetch-file "$url" --json | jaq -r .hash)"
-  HASH2="$(nix store prefetch-file "$url2" --json | jaq -r .hash)"
+	HASH="$(nix store prefetch-file "$url" --json | jaq -r .hash)"
+	HASH2="$(nix store prefetch-file "$url2" --json | jaq -r .hash)"
 
-  jaq -n \
-    --arg version "$VERSION" \
-    --arg vk_hash "$HASH" \
-    --arg video_hash "$HASH2" \
-    '{version: $version, vk_hash: $vk_hash, video_hash: $video_hash}' >"$INFO"
+	jaq -n \
+		--arg version "$VERSION" \
+		--arg vk_hash "$HASH" \
+		--arg video_hash "$HASH2" \
+		'{version: $version, vk_hash: $vk_hash, video_hash: $video_hash}' >"$INFO"
 }
 
 openxr() {
-  INFO="pkgs/wine-astral/openxr.json"
+	INFO="pkgs/wine-astral/openxr.json"
 
-  # GitHub API URL
-  # We limit to 1 result to get the most recent commit
-  BRANCH='bleeding-edge' # 'proton_11.0'
-  URL="https://api.github.com/repos/ValveSoftware/Proton/commits?sha=$BRANCH&path=wineopenxr&per_page=1"
+	# GitHub API URL
+	# We limit to 1 result to get the most recent commit
+	BRANCH='bleeding-edge' # 'proton_11.0'
+	URL="https://api.github.com/repos/ValveSoftware/Proton/commits?sha=$BRANCH&path=wineopenxr&per_page=1"
 
-  # Fetch data and extract the SHA hash
-  LATEST_REV=$(curl -s "$URL" | jaq -r '.[0].sha')
+	# Fetch data and extract the SHA hash
+	LATEST_REV=$(curl -s "$URL" | jaq -r '.[0].sha')
 
-  if [ "$LATEST_REV" != "null" ] && [ "$LATEST_REV" != "$(jaq -r '.rev' "$INFO")" ]; then
-    nix-prefetch-git --rev "$LATEST_REV" --sparse-checkout wineopenxr --quiet 'https://github.com/ValveSoftware/Proton.git' >$INFO
-  else
-    [ "$LATEST_REV" != "null" ] || echo "[wine-astral][openxr]: Error: Could not retrieve hash. Verify the path and branch names."
-  fi
+	if [ "$LATEST_REV" != "null" ] && [ "$LATEST_REV" != "$(jaq -r '.rev' "$INFO")" ]; then
+		nix-prefetch-git --rev "$LATEST_REV" --sparse-checkout wineopenxr --quiet 'https://github.com/ValveSoftware/Proton.git' >$INFO
+	else
+		[ "$LATEST_REV" != "null" ] || echo "[wine-astral][openxr]: Error: Could not retrieve hash. Verify the path and branch names."
+	fi
 }
 
 lugPatches() {
-  INFO="pkgs/wine-astral/lug-patches.json"
-  nix-prefetch-git --no-deepClone --branch-name main --quiet 'https://github.com//starcitizen-lug/patches' >$INFO
+	INFO="pkgs/wine-astral/lug-patches.json"
+	nix-prefetch-git --no-deepClone --branch-name main --quiet 'https://github.com//starcitizen-lug/patches' >$INFO
 }
 
 wineTKG() {
-  INFO="pkgs/wine-astral/wine-tkg-git.json"
-  nix-prefetch-git --no-deepClone --branch-name master --quiet 'https://github.com/Frogging-Family/wine-tkg-git.git' >$INFO
+	INFO="pkgs/wine-astral/wine-tkg-git.json"
+	nix-prefetch-git --no-deepClone --branch-name master --quiet 'https://github.com/Frogging-Family/wine-tkg-git.git' >$INFO
 }
 wine() {
-  INFO="pkgs/wine-astral/wine.json"
-  if output=$(nix-prefetch-git --fetch-submodules --no-deepClone --branch-name master --quiet 'https://gitlab.winehq.org/wine/wine.git'); then
-    src=$(jaq -r .path <<<"$output")
-    version=$(cat "$src/VERSION")
-    jaq --arg version "${version##"Wine version "}" '.version = $version' <<<"$output" >"$INFO"
-  fi
+	INFO="pkgs/wine-astral/wine.json"
+	if output=$(nix-prefetch-git --fetch-submodules --no-deepClone --branch-name master --quiet 'https://gitlab.winehq.org/wine/wine.git'); then
+		src=$(jaq -r .path <<<"$output")
+		version=$(cat "$src/VERSION")
+		jaq --arg version "${version##"Wine version "}" '.version = $version' <<<"$output" >"$INFO"
+	fi
 
 }
 wineStaging() {
-  INFO="pkgs/wine-astral/wine-staging.json"
-  nix-prefetch-git --fetch-submodules --no-deepClone --branch-name master --quiet 'https://gitlab.winehq.org/wine/wine-staging.git' >$INFO
+	INFO="pkgs/wine-astral/wine-staging.json"
+	nix-prefetch-git --fetch-submodules --no-deepClone --branch-name master --quiet 'https://gitlab.winehq.org/wine/wine-staging.git' >$INFO
 }
 wineMono() {
 
-  INFO="pkgs/wine-astral/mono.json"
-  version="$(curl -fsSL "https://api.github.com/repos/wine-mono/wine-mono/releases/latest" | jaq -r '.tag_name')"
+	INFO="pkgs/wine-astral/mono.json"
+	version="$(curl -fsSL "https://api.github.com/repos/wine-mono/wine-mono/releases/latest" | jaq -r '.tag_name')"
 
-  if [ "$(jaq -r ".version" "$INFO")" != "$version" ]; then
-    if output=$(nix store prefetch-file "https://github.com/wine-mono/wine-mono/releases/download/${version}/${version}-x86.msi" --json); then
-      jaq --arg version "$version" '.version = $version' <<<"$output" >"$INFO"
-    fi
-  fi
+	if [ "$(jaq -r ".version" "$INFO")" != "$version" ]; then
+		if output=$(nix store prefetch-file "https://github.com/wine-mono/wine-mono/releases/download/${version}/${version}-x86.msi" --json); then
+			jaq --arg version "$version" '.version = $version' <<<"$output" >"$INFO"
+		fi
+	fi
 }
 openxr || echo "[wine-astral][openxr]: Failed to update source"
 lugPatches || echo "[wine-astral][lug]: Failed to update source"

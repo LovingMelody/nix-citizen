@@ -9,12 +9,12 @@ staging_url="https://github.com/starcitizen-lug/lug-wine/releases/download/$vers
 base_hash="$(nix store prefetch-file "$base_url" --unpack --json | jaq -r .hash)"
 staging_hash="$( (nix store prefetch-file "$staging_url" --unpack --json | jaq -r .hash) || echo "null")"
 if [ "$staging_hash" == "null" ]; then
-  staging_url="null"
+	staging_url="null"
 fi
 jaq -n \
-  --arg version "$version" \
-  --arg staging_url "$staging_url" \
-  --arg staging_hash "$staging_hash" \
-  --arg base_url "$base_url" \
-  --arg base_hash "$base_hash" \
-  '{version: $version, staging_url: $staging_url, staging_hash: $staging_hash, base_url: $base_url, base_hash: $base_hash}' >"$INFO"
+	--arg version "$version" \
+	--arg staging_url "$staging_url" \
+	--arg staging_hash "$staging_hash" \
+	--arg base_url "$base_url" \
+	--arg base_hash "$base_hash" \
+	'{version: $version, staging_url: $staging_url, staging_hash: $staging_hash, base_url: $base_url, base_hash: $base_hash}' >"$INFO"
