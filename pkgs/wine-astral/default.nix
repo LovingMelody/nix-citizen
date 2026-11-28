@@ -91,7 +91,10 @@ in
       configureFlags = ["--disable-tests" "--enable-archs=x86_64,i386"];
 
       geckos = with sources; [gecko32 gecko64];
-      mingwGccs = with pkgsCross; [mingw32.buildPackages.gcc_latest mingwW64.buildPackages.gcc_latest];
+      mingwGccs = [
+        (pkgsCross.mingw-msvcrt-i686 or pkgsCross.mingw32).buildPackages.gcc_latest
+        (pkgsCross.mingw-msvcrt-x86_64 or pkgsCross.mingwW64).buildPackages.gcc_latest
+      ];
       monos = [astralSources.mono];
       pkgArches = [pkgs];
       platforms = ["x86_64-linux"];
